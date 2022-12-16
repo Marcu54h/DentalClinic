@@ -1,6 +1,6 @@
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
+using Microsoft.EntityFrameworkCore;
 using Radzen;
+using WebDataSource;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +12,10 @@ builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<TooltipService>();
 builder.Services.AddScoped<ContextMenuService>();
+
+builder.Services.AddDbContext<ClinicContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DentalClinic") ??
+        throw new InvalidOperationException("Connection string 'DentalClinic' not found.")));
 
 var app = builder.Build();
 
