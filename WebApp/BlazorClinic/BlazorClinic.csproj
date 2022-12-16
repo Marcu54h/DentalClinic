@@ -1,11 +1,24 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TypeScriptTarget>ES2021</TypeScriptTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Configuration" Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TypeScriptTarget>ES2021</TypeScriptTarget>
+  </PropertyGroup>
+
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <BaseOutputPath>..\..\..\Build\WebApp</BaseOutputPath>
     <BaseIntermediateOutputPath>..\..\..\Build\WebApp</BaseIntermediateOutputPath>
+    <TypeScriptJSXEmit>react</TypeScriptJSXEmit>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Radzen.Blazor" Version="4.4.6" />
+  </ItemGroup>
 
 </Project>
