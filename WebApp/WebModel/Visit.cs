@@ -6,6 +6,7 @@ namespace WebModel
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }
+
         public int EmployeeId { get; set; }
         public int PatientId { get; set; }
         public int OfficeId { get; set; }
@@ -19,6 +20,12 @@ namespace WebModel
         public virtual ICollection<Treatment> Treatments { get; set; } = new List<Treatment>();
 
         public virtual ICollection<Tooth> Teeth { get; set; } = new List<Tooth>();
+
+        [NotMapped]
+        public DateTime EndDate => Date.AddHours(1);
+
+        [NotMapped]
+        public string Label => "Wizyta";
 
         [NotMapped]
         public bool filled

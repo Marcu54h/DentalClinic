@@ -1,50 +1,15 @@
 ﻿@page "/schedule"
+
+@using WebModel
+
 @inject DialogService dialogService
 
 <h2>Detnal SPA - Terminarz</h2>
 
 <RadzenScheduler style="height: 768px;"
-                 TextProperty="Text" SelectedIndex="2" Data=@Appointments
-                 TItem="A" StartProperty="Start" EndProperty="End">
+                 TextProperty="Label" SelectedIndex="2" Data=@VisitEnum
+                 TItem="Visit" StartProperty="Date" EndProperty="EndDate">
     <RadzenDayView TimeFormat="HH:mm"/>
     <RadzenWeekView TimeFormat="HH:mm"/>
     <RadzenMonthView />
 </RadzenScheduler>
-
-@code {
-    Dictionary<DateTime, string> events = new Dictionary<DateTime, string>();
-
-    class A
-    {
-        public DateTime Start;
-        public DateTime End;
-        public string Text = string.Empty;
-    }
-
-    IList<A> Appointments = new List<A>
-    {
-        new A { Start = DateTime.Today.AddDays(-2), End = DateTime.Today.AddDays(-2), Text = "Birthday" },
-        new A { Start = DateTime.Today.AddDays(-11), End = DateTime.Today.AddDays(-10), Text = "Day off" },
-        new A { Start = DateTime.Today.AddDays(-10), End = DateTime.Today.AddDays(-8), Text = "Work from home" },
-        new A { Start = DateTime.Today.AddHours(10), End = DateTime.Today.AddHours(12), Text = "Online meeting" },
-        new A { Start = DateTime.Today.AddHours(10), End = DateTime.Today.AddHours(13), Text = "Skype call" },
-        new A { Start = DateTime.Today.AddHours(14), End = DateTime.Today.AddHours(14).AddMinutes(30), Text = "Dentist A" },
-        new A { Start = DateTime.Today.AddDays(1), End = DateTime.Today.AddDays(12), Text = "Vacation" },
-    };
-
-    void OnSlotRender(SchedulerSlotRenderEventArgs args)
-    {
-
-        // Highlight today in month view
-        if (args.View.Text == "Miesiąć" && args.Start.Date == DateTime.Today)
-        {
-            args.Attributes["style"] = "background: rgba(255,220,40,.2);";
-        }
-
-        // Highlight working hours (9-18)
-        if ((args.View.Text == "Tydzień" || args.View.Text == "Dzień") && args.Start.Hour > 8 && args.Start.Hour < 19)
-        {
-            args.Attributes["style"] = "background: rgba(255,220,40,.2);";
-        }
-    }
-}
