@@ -5,10 +5,11 @@ namespace WebModel
     public class Employee
     {
         public int Id { get; set; }
-        public string PWZNumer { get; set; } = string.Empty;
+        public string? PWZNumer { get; set; } = string.Empty;
         public DateTime AddDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         public string FavoriteColor { get; set; } = string.Empty;
+        public int PersonId { get; set; }
         public Person Person { get; set; } = Person.Empty;
         public ICollection<Contract> Contracts { get; set; } = new List<Contract>();
         public ICollection<Patient> Patients { get; set; } = new List<Patient>();

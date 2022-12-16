@@ -14,7 +14,9 @@ namespace WebModel
         public int? EmployeeId { get; set; }
 
         public PriceList PriceList { get; set; } = PriceList.Empty;
+        [NotMapped]
         public Person Person { get; set; } = Person.Empty;
+        public int Person_Id { get; set; }
         public Employee Employee { get; set; } = Employee.Empty;
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
         public ICollection<Visit> Visits { get; set; } = new List<Visit>();

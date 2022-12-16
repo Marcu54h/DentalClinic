@@ -30,9 +30,14 @@ namespace WebDataSource
         
         protected override void OnModelCreating(ModelBuilder mb)
         {
-            mb.Entity<Employee>().HasOne(e => e.Person);
+            mb.Entity<User>().Property(u => u.EmployeeId).HasColumnName("Employee_Id");
+            mb.Entity<Employee>().Property(e => e.PersonId).HasColumnName("Person_Id");
+
             mb.Entity<Employee>().HasOne(e => e.User);
-            mb.Entity<Patient>().HasOne(p => p.Person);
+
+            mb.Entity<Visit>().HasOne(v => v.Patient);
+            mb.Entity<Visit>().HasOne(v => v.Employee);
+
 
             mb.Entity<Patient>().HasOne(p => p.Employee);
             mb.Entity<Patient>().HasOne(p => p.PriceList);

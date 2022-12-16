@@ -7,25 +7,21 @@ namespace WebModel
         public int Id { get; set; }
         public DateTime Date { get; set; }
 
-        public int EmployeeId { get; set; }
-        public int PatientId { get; set; }
-        public int OfficeId { get; set; }
+        public Employee Employee { get; set; } = Employee.Empty;
 
-        public virtual Employee Employee { get; set; } = Employee.Empty;
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+        public Patient Patient { get; set; } = Patient.Empty;
+        public Office Office { get; set; } = Office.Empty;
 
-        public virtual ICollection<Comment> Comments { get; set; } = new List<Comment>();
-        public virtual Patient Patient { get; set; } = Patient.Empty;
-        public virtual Office Office { get; set; } = Office.Empty;
+        public ICollection<Treatment> Treatments { get; set; } = new List<Treatment>();
 
-        public virtual ICollection<Treatment> Treatments { get; set; } = new List<Treatment>();
-
-        public virtual ICollection<Tooth> Teeth { get; set; } = new List<Tooth>();
+        public ICollection<Tooth> Teeth { get; set; } = new List<Tooth>();
 
         [NotMapped]
         public DateTime EndDate => Date.AddHours(1);
 
         [NotMapped]
-        public string Label => "Wizyta";
+        public string Label => Date.ToString("HH:mm") + " - " + Employee.Person.ToString();
 
         [NotMapped]
         public bool filled

@@ -23,13 +23,27 @@ namespace BlazorClinic.Pages
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
+            var visitsWithProps = context.Visits
+                                         .Include(v => v.Employee)
+                                         .ThenInclude(e => e.Person)
+                                         .AsNoTracking();
+
             if (context is null)
             {
                 logger.LogError("Visits component - ClinicContext is null!");
                 return;
             }
 
-            VisitEnum = await context.Visits.ToListAsync();
+            if (visitsWithProps is not null) 
+            {
+                VisitEnum = await visitsWithProps.ToListAsync();
+            }
+            else
+            {
+                logger.LogInformation("context.Visits returns no visits data.");
+            }
+
+            
         }
 
         void OnCellContextMenu(DataGridCellMouseEventArgs<Visit> args)

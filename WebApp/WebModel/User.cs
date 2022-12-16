@@ -11,7 +11,8 @@ namespace WebModel
         public bool Enabled { get; set; }
         public bool Locked { get; set; }
 
-        //public Employee Employee { get; set; } = Employee.Empty;
+        public Employee Employee { get; set; } = Employee.Empty;
+        public int EmployeeId { get; set; }
 
         [NotMapped]
         public static User Empty { get; private set; } = new User();
