@@ -1,0 +1,184 @@
+﻿<UserControl x:Class="DentalClinic.Wpf.ScheduleWeekControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:local="clr-namespace:DentalClinic.Wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <local:BooleanToVisibilityConverter x:Key="boolToVisibilityConverter"/>
+        <local:MonthDayToBrushConverter x:Key="monthDayToBrushConverter"/>
+        <local:DateToIScheduleDayConverter x:Key="dateToIScheduleDayConv"/>
+        <local:IntToVisibilityConverter x:Key="intToVisibilityConv"/>
+    </UserControl.Resources>
+
+    <Border Background="White">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition MinWidth="20"/>
+
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3"
+                    Orientation="Horizontal">
+                    <TextBlock FontFamily="{StaticResource LatoRegular}"
+                           FontSize="{StaticResource FontSizeLarge}"
+                               FontWeight="Bold"
+                           Foreground="Gray"
+                           Language="pl-PL"
+                           Margin="0"
+                           Padding="14"
+                           Text="{Binding Month, FallbackValue='styczeń 2019'}"
+                           TextAlignment="Center"
+                           Width="180"/>
+                    <TextBlock FontFamily="{StaticResource LatoRegular}"
+                           FontSize="{StaticResource FontSizeLarge}"
+                               FontWeight="Bold"
+                           Foreground="Gray"
+                           Language="pl-PL"
+                           Margin="0"
+                           Padding="14"
+                           Text="{Binding Week, FallbackValue='tydz. I'}"
+                           TextAlignment="Center"
+                           Width="100"/>
+                    <Button Command="{Binding CommandToPreviousMonth}" Content="{StaticResource la-chevron-left}"
+                        FontFamily="{StaticResource LineAwesome}" 
+                        FontSize="{StaticResource FontSizeLarge}" Margin="0 8"
+                        Style="{StaticResource TopMenuButton}"/>
+                    <Button Command="{Binding CommandToNextMonth}" Content="{StaticResource la-chevron-right}" 
+                        FontFamily="{StaticResource LineAwesome}"
+                        FontSize="{StaticResource FontSizeLarge}" Margin="0 8"
+                        Style="{StaticResource TopMenuButton}"/>
+
+
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <DatePicker BorderThickness="0"
+                            FontFamily="{StaticResource LatoRegular}"
+                            FontSize="{StaticResource FontSizeRegular}"
+                            HorizontalAlignment="Right"
+                            Language="pl-PL"
+                            Margin="30 7 10 0"
+                            SelectedDate="{Binding SelectedScheduleDay, Converter={StaticResource dateToIScheduleDayConv}, Mode=TwoWay}"
+                            VerticalAlignment="Center"/>
+                    <Button Command="{Binding CommandToToday}" Content="dzisiaj" 
+                        FontFamily="{StaticResource LatoRegular}"
+                        FontSize="{StaticResource FontSizeRegular}" Margin="0 8"
+                        Style="{StaticResource ToolButton}"
+                            VerticalAlignment="Center"/>
+                </StackPanel>
+                
+            </StackPanel>
+            
+            <UniformGrid Columns="7" Grid.Row="1" Rows="1">
+                <TextBlock Style="{StaticResource TopMenuLabel}" Text="poniedziałek"/>
+                <TextBlock Style="{StaticResource TopMenuLabel}" Text="wtorek"/>
+                <TextBlock Style="{StaticResource TopMenuLabel}" Text="środa" />
+                <TextBlock Style="{StaticResource TopMenuLabel}" Text="czwartek" />
+                <TextBlock Style="{StaticResource TopMenuLabel}" Text="piątek" />
+                <TextBlock Style="{StaticResource TopMenuLabel}" Text="sobota" />
+                <TextBlock Style="{StaticResource TopMenuLabel}" Text="niedziela" />
+            </UniformGrid>
+            
+            <ListView Background="Transparent" BorderThickness="0"
+                      Grid.Column="0" Grid.Row="2"
+                      ItemsSource="{Binding}"
+                      SelectedItem="{Binding SelectedScheduleDay, Mode=TwoWay}"
+                      x:Name="schedule">
+                
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding CommandToDoubleClick}"
+                                               CommandParameter="{Binding ElementName=schedule, Path=SelectedItem}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="7" IsItemsHost="True" Rows="{Binding NumberOfRows}"
+                                 FirstColumn="{Binding DayShift}"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Border Background="{Binding Date, Converter={StaticResource monthDayToBrushConverter}}"
+                            BorderThickness="0"
+                            CornerRadius="20"
+                            HorizontalAlignment="Center"
+                            Padding="10"
+                            VerticalAlignment="Top">
+                            <StackPanel>
+                                <TextBlock FontFamily="{StaticResource LatoBold}" 
+                                   FontSize="{StaticResource FontSizeXLarge}"
+                                           FontWeight="Bold"
+                                   Foreground="Black"
+                                   Margin="3"
+                                   Text="{Binding MonthDay}"
+                                           />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="{StaticResource LatoRegular}" 
+                                               FontSize="{StaticResource FontSizeRegular}"
+                                               Foreground="Black"
+                                               Margin="3"
+                                               Text="wizyty"
+                                               Visibility="{Binding NumberOfVisits, Converter={StaticResource intToVisibilityConv}}"/>
+                                    <TextBlock FontFamily="{StaticResource LatoRegular}" 
+                                               FontSize="{StaticResource FontSizeRegular}"
+                                               Foreground="Black"
+                                               Margin="3"
+                                               Text="{Binding NumberOfVisits}"
+                                               Visibility="{Binding NumberOfVisits, Converter={StaticResource intToVisibilityConv}}"/>        
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="{StaticResource LatoRegular}" 
+                                               FontSize="{StaticResource FontSizeRegular}"
+                                               Foreground="Black"
+                                               Margin="3"
+                                               Text="start"
+                                               Visibility="{Binding NumberOfVisits, Converter={StaticResource intToVisibilityConv}}"/>
+                                    <TextBlock FontFamily="{StaticResource LatoRegular}" 
+                                               FontSize="{StaticResource FontSizeRegular}"
+                                               FontWeight="Bold"
+                                               Foreground="Black"
+                                               Margin="3"
+                                               Text="{Binding FirstVisitTime}"
+                                               Visibility="{Binding NumberOfVisits, Converter={StaticResource intToVisibilityConv}}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="{StaticResource LatoRegular}" 
+                                               FontSize="{StaticResource FontSizeRegular}"
+                                               Foreground="Black"
+                                               Margin="3"
+                                               Text="koniec"
+                                               Visibility="{Binding NumberOfVisits, Converter={StaticResource intToVisibilityConv}}"/>
+                                    <TextBlock FontFamily="{StaticResource LatoRegular}" 
+                                               FontSize="{StaticResource FontSizeRegular}"
+                                               FontWeight="Bold"
+                                               Foreground="Black"
+                                               Margin="3"
+                                               Text="{Binding LastVisitTime}"
+                                               Visibility="{Binding NumberOfVisits, Converter={StaticResource intToVisibilityConv}}"/>
+                                </StackPanel>
+
+                            </StackPanel>
+                        </Border>
+
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </Grid>
+    </Border>
+    
+</UserControl>

@@ -1,0 +1,171 @@
+﻿<UserControl x:Class="DentalClinic.Wpf.EmployeeControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DentalClinic.Wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <local:BooleanToVisibilityConverter x:Key="boolToVisibilityConv"/>
+        <local:SelectedToEnableConverter x:Key="selectedToEnableConv"/>
+        <local:StringToBrushConverter x:Key="stringToBrushConv"/>
+        
+        <Style x:Key="alternatingWithTriggers" TargetType="{x:Type ListViewItem}">
+            <Style.Triggers>
+                <Trigger Property="ListView.AlternationIndex" Value="0">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Trigger>
+                <Trigger Property="ListView.AlternationIndex" Value="1">
+                    <Setter Property="Background" Value="WhiteSmoke"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        
+    </UserControl.Resources>
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="260"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Grid.ColumnSpan="1" Grid.Row="0"
+                    Orientation="Horizontal" Background="WhiteSmoke"
+                    >
+            <Button Command="{Binding AddEmployee}"
+                    Margin="10 5"
+                    Style="{StaticResource TopMenuButton}"
+                    >
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontFamily="{StaticResource LineAwesome}"
+                               FontSize="{StaticResource FontSizeLarge}"
+                               Text="{StaticResource la-plus}"
+                               VerticalAlignment="Center"/>
+                    <TextBlock FontFamily="{StaticResource LatoBold}"
+                               FontSize="{StaticResource FontSizeRegular}"
+                               Text="Nowy pracownik"
+                               VerticalAlignment="Bottom"/>
+                </StackPanel>
+            </Button>
+            <Button Command="{Binding EditEmployee}"
+                    IsEnabled="{Binding Path=SelectedItem, ElementName=employeeList, Converter={StaticResource selectedToEnableConv}}"
+                    Margin="10 5"
+                    Style="{StaticResource TopMenuButton}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontFamily="{StaticResource LineAwesome}"
+                               FontSize="{StaticResource FontSizeLarge}"
+                               Text="{StaticResource la-edit}"
+                               VerticalAlignment="Center"/>
+                    <TextBlock FontFamily="{StaticResource LatoBold}"
+                               FontSize="{StaticResource FontSizeRegular}"
+                               Text="Edytuj dane pracownika"
+                               VerticalAlignment="Bottom"/>
+                </StackPanel>
+            </Button>
+            
+        </StackPanel>
+        <Grid Grid.Column="1" Background="WhiteSmoke">
+            <Button Command="{Binding CommandToDeleteEmployee}"
+                    IsEnabled="{Binding Path=SelectedItem, ElementName=employeeList, Converter={StaticResource selectedToEnableConv}}"
+                    HorizontalAlignment="Right"
+                    Margin="10 5"
+                    Style="{StaticResource TopMenuButton}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontFamily="{StaticResource LineAwesome}"
+                               FontSize="{StaticResource FontSizeLarge}"
+                               Foreground="Red"
+                               Text="{StaticResource la-remove}"
+                               VerticalAlignment="Center"/>
+                    <TextBlock FontFamily="{StaticResource LatoBold}"
+                               FontSize="{StaticResource FontSizeRegular}"
+                               Text="Usuń pracownika"
+                               VerticalAlignment="Bottom"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+
+        <ListView AlternationCount="2"
+                    Background="Transparent" BorderThickness="0"
+                    Grid.Column="0" Grid.Row="1"
+                    ItemContainerStyle="{StaticResource alternatingWithTriggers}"
+                    ItemsSource="{Binding EmployeeCollection}"
+                  SelectedItem="{Binding SelectedEmployee}"
+                    x:Name="employeeList" >
+            <ListView.Resources>
+                <Style x:Key="alternatingWithTriggers" TargetType="{x:Type ListView}">
+                    <Setter Property="Background" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="ListView.AlternationIndex" Value="1">
+                            <Setter Property="Background" Value="White"/>
+                        </Trigger>
+                        <Trigger Property="ListView.AlternationIndex" Value="0">
+                            <Setter Property="Background" Value="WhiteSmoke"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.Resources>
+          
+            <ListView.View>
+                <GridView >
+                    <GridViewColumn Header="Tytuł" Width="60">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontFamily="{StaticResource LatoRegular}"
+                                            FontSize="{StaticResource FontSizeRegular}"
+                                            Text="{Binding Person.Title}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Imię" Width="130">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontFamily="{StaticResource LatoRegular}"
+                                            FontSize="{StaticResource FontSizeRegular}"
+                                            Text="{Binding Person.FirstName}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Nazwisko" Width="130">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontFamily="{StaticResource LatoRegular}"
+                                            FontSize="{StaticResource FontSizeRegular}"
+                                            Text="{Binding Person.LastName}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="PESEL" Width="90">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontFamily="{StaticResource LatoRegular}"
+                                            FontSize="{StaticResource FontSizeRegular}"
+                                            Text="{Binding Person.PersonalNumber}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="Nr PWZ" Width="80">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontFamily="{StaticResource LatoRegular}"
+                                            FontSize="{StaticResource FontSizeRegular}"
+                                            Text="{Binding PWZNumer}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="50" Header="Ul.kolor" x:Name="colorColumn">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Background="{Binding FavoriteColor,
+                                                                Converter={StaticResource stringToBrushConv}}"
+                                           Width="{Binding ElementName=colorColumn, Path=Width}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</UserControl>

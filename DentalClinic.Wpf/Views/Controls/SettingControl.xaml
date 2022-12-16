@@ -1,0 +1,236 @@
+﻿<UserControl x:Class="DentalClinic.Wpf.SettingControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DentalClinic.Wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        
+
+
+        <ControlTemplate x:Key="validationTemplate">
+            <DockPanel>
+                <TextBlock Foreground="Red" FontSize="{StaticResource FontSizeLarge}"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center" VerticalAlignment="Center">!</TextBlock>
+                <AdornedElementPlaceholder/>
+            </DockPanel>
+        </ControlTemplate>
+
+        <local:BooleanToYesNoConverter x:Key="boolToYesNoConv"/>
+        <local:SettingControlViewModel x:Key="settingControlViewModel"/>
+        <local:Container x:Key="container"/>
+        
+    </UserControl.Resources>
+    <Grid Background="{StaticResource DefaultBackground}" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <TextBlock Style="{StaticResource TopBanner}" Text="Ustawienia"/>
+        </StackPanel>
+        <Grid Grid.Column="0" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0"
+                       Style="{StaticResource InputFormTextBlock}"
+                       Text="Godzina rozpoczęcia pracy" />
+            <TextBlock Grid.Row="1"
+                       Style="{StaticResource InputFormTextBlock}"
+                       Text="Godzina zakończenia pracy" />
+            <TextBlock Grid.Row="2"
+                       Style="{StaticResource InputFormTextBlock}"
+                       Text="Interwał czasowy terminarza" />
+
+            <TextBlock Grid.Row="3"
+                       Style="{StaticResource InputFormTextBlock}"
+                       Text="Adres IP serwera bazy danych" />
+            
+            <TextBlock Grid.Row="4"
+                       Style="{StaticResource InputFormTextBlock}"
+                       Text="Adres IP tel.kom. serwisu SMS" />
+
+            <TextBlock Grid.Row="5"
+                       Style="{StaticResource InputFormTextBlock}"
+                       Text="Port serwisu SMS" />
+            <TextBlock Grid.Row="6"
+                       Style="{StaticResource InputFormTextBlock}"
+                       Text="Nazwa kliniki" />
+
+            <TextBlock Grid.Row="7"
+                       Style="{StaticResource InputFormTextBlock}"
+                       Text="Adres kliniki" />
+
+            <TextBlock Grid.Row="8"
+                       Style="{StaticResource InputFormTextBlock}"
+                       Text="Stacja na recepcji" />
+
+            <TextBox Grid.Column="1" Grid.Row="0"
+                     Style="{StaticResource InputFormTextBox}"
+                     Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                     x:Name="startWorkHour">
+                <TextBox.Text>
+                    <Binding Path="StartWorkHour" Source="{StaticResource settingControlViewModel}"
+                             UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local:WorkHourRule Min="0" Max="24"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBox Grid.Column="1" Grid.Row="1"
+                     Style="{StaticResource InputFormTextBox}"
+                     Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                     x:Name="endWorkHour">
+                <TextBox.Text>
+                    <Binding Path="EndWorkHour" Source="{StaticResource settingControlViewModel}"
+                             UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local:WorkHourRule Min="0" Max="24"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBox Grid.Column="1" Grid.Row="2"
+                     Style="{StaticResource InputFormTextBox}"
+                     Validation.ErrorTemplate="{StaticResource validationTemplate}"
+                     x:Name="scheduleInterval">
+                <TextBox.Text>
+                    <Binding Path="ScheduleInterval" Source="{StaticResource settingControlViewModel}"
+                             UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <local:ScheduleIntervalRule Min="0" Max="60"/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <TextBox Grid.Column="1" Grid.Row="3"
+                     Style="{StaticResource InputFormTextBox}"
+                     x:Name="dbServerIp">
+                <TextBox.Text>
+                    <Binding Path="DbServerIp" Source="{StaticResource settingControlViewModel}"
+                             UpdateSourceTrigger="PropertyChanged">
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <TextBox Grid.Column="1" Grid.Row="4"
+                     Style="{StaticResource InputFormTextBox}"
+                     x:Name="smsPhoneIP">
+                <TextBox.Text>
+                    <Binding Path="SmsPhoneIP" Source="{StaticResource settingControlViewModel}"
+                             UpdateSourceTrigger="PropertyChanged">
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <TextBox Grid.Column="1" Grid.Row="5"
+                     Style="{StaticResource InputFormTextBox}"
+                     x:Name="smsServicePort">
+                <TextBox.Text>
+                    <Binding Path="SmsServicePort" Source="{StaticResource settingControlViewModel}"
+                             UpdateSourceTrigger="PropertyChanged">
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <TextBox Grid.Column="1" Grid.Row="6"
+                     Style="{StaticResource InputFormTextBox}"
+                     x:Name="clinicName">
+                <TextBox.Text>
+                    <Binding Path="ClinicName" Source="{StaticResource settingControlViewModel}"
+                             UpdateSourceTrigger="PropertyChanged">
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <TextBox Grid.Column="1" Grid.Row="7"
+                     Style="{StaticResource InputFormTextBox}"
+                     x:Name="clinicAddress">
+                <TextBox.Text>
+                    <Binding Path="ClinicAddress" Source="{StaticResource settingControlViewModel}"
+                             UpdateSourceTrigger="PropertyChanged">
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <CheckBox Grid.Column="1" Grid.Row="8"
+                     Content="{Binding ElementName=mainHost, Path=IsChecked, Converter={StaticResource boolToYesNoConv}}"
+                      FontFamily="{StaticResource LatoRegular}"
+                      FontSize="{StaticResource FontSizeRegular}"
+                      IsChecked="{Binding ThisIsMainHost}"
+                      Margin="5 7 5 2"
+                      VerticalAlignment="Bottom"
+                     x:Name="mainHost"/>
+
+            <Button Content="Zapisz" Command="{Binding CommandToSaveSettings}" Grid.Column="1" Grid.Row="9">
+                <Button.Style>
+                    <Style BasedOn="{StaticResource DefaultButtonStyle}" TargetType="Button">
+                        <Setter Property="VerticalAlignment" Value="Top"/>
+                        <Setter Property="IsEnabled" Value="False"/>
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=startWorkHour}" Value="False"/>
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=endWorkHour}" Value="False"/>
+                                    <Condition Binding="{Binding Path=(Validation.HasError), ElementName=scheduleInterval}" Value="False"/>
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="True"/>
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+        <TextBlock Grid.Column="1" Style="{StaticResource TopBanner}" Text="Test bramki SMS"/>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Row="0" Style="{StaticResource InputFormTextBlock}" Text="Number odbiorcy"/>
+            <TextBlock Grid.Row="1" Style="{StaticResource InputFormTextBlock}" Text="Treść wiadomości"/>
+            <TextBox Grid.Column="1" Grid.Row="0" MaxWidth="220" Text="{Binding ReceiverPhone}" Style="{StaticResource InputFormTextBox}"/>
+            <TextBox AcceptsReturn="True" AcceptsTab="True"
+                     Grid.Column="1" Grid.Row="1" MaxHeight="200" MaxWidth="220" TextWrapping="WrapWithOverflow"
+                     Text="{Binding MessageContent}" Style="{StaticResource InputFormTextBox}"
+                     VerticalScrollBarVisibility="Visible"/>
+            <Button Grid.Column="1" Grid.Row="2" Command="{Binding CommandToSendTestSms}" Content="Wyślij" Style="{StaticResource DefaultButtonStyle}" />
+
+        </Grid>
+
+
+    </Grid>
+</UserControl>

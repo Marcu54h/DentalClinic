@@ -1,0 +1,1423 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DentalClinic.Data.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="DentalClinicDataStoreContainer">
+    <EntitySet Name="People" EntityType="DentalClinic.Data.Store.People" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Addresses" EntityType="DentalClinic.Data.Store.Addresses" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Employees" EntityType="DentalClinic.Data.Store.Employees" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Contracts" EntityType="DentalClinic.Data.Store.Contracts" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Patients" EntityType="DentalClinic.Data.Store.Patients" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Visits" EntityType="DentalClinic.Data.Store.Visits" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Teeth" EntityType="DentalClinic.Data.Store.Teeth" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Treatments" EntityType="DentalClinic.Data.Store.Treatments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SubTreatments" EntityType="DentalClinic.Data.Store.SubTreatments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Sub2Treatments" EntityType="DentalClinic.Data.Store.Sub2Treatments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Comments" EntityType="DentalClinic.Data.Store.Comments" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Users" EntityType="DentalClinic.Data.Store.Users" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Offices" EntityType="DentalClinic.Data.Store.Offices" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PriceLists" EntityType="DentalClinic.Data.Store.PriceLists" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Groups" EntityType="DentalClinic.Data.Store.Groups" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="SubGroups" EntityType="DentalClinic.Data.Store.SubGroups" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Sub2Groups" EntityType="DentalClinic.Data.Store.Sub2Groups" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="TreatmentSubTreatment" Association="DentalClinic.Data.Store.TreatmentSubTreatment">
+      <End Role="Treatment" EntitySet="Treatments" />
+      <End Role="SubTreatment" EntitySet="SubTreatments" />
+    </AssociationSet>
+    <AssociationSet Name="SubTreatmentSub2Treatment" Association="DentalClinic.Data.Store.SubTreatmentSub2Treatment">
+      <End Role="SubTreatment" EntitySet="SubTreatments" />
+      <End Role="Sub2Treatment" EntitySet="Sub2Treatments" />
+    </AssociationSet>
+    <AssociationSet Name="PriceListGroup" Association="DentalClinic.Data.Store.PriceListGroup">
+      <End Role="PriceList" EntitySet="PriceLists" />
+      <End Role="Group" EntitySet="Groups" />
+    </AssociationSet>
+    <AssociationSet Name="GroupSubGroup" Association="DentalClinic.Data.Store.GroupSubGroup">
+      <End Role="Group" EntitySet="Groups" />
+      <End Role="SubGroup" EntitySet="SubGroups" />
+    </AssociationSet>
+    <AssociationSet Name="SubGroupSub2Group" Association="DentalClinic.Data.Store.SubGroupSub2Group">
+      <End Role="SubGroup" EntitySet="SubGroups" />
+      <End Role="Sub2Group" EntitySet="Sub2Groups" />
+    </AssociationSet>
+    <AssociationSet Name="PatientPriceList" Association="DentalClinic.Data.Store.PatientPriceList">
+      <End Role="Patient" EntitySet="Patients" />
+      <End Role="PriceList" EntitySet="PriceLists" />
+    </AssociationSet>
+    <AssociationSet Name="PersonEmployee" Association="DentalClinic.Data.Store.PersonEmployee">
+      <End Role="Person" EntitySet="People" />
+      <End Role="Employee" EntitySet="Employees" />
+    </AssociationSet>
+    <AssociationSet Name="PersonPatient" Association="DentalClinic.Data.Store.PersonPatient">
+      <End Role="Person" EntitySet="People" />
+      <End Role="Patient" EntitySet="Patients" />
+    </AssociationSet>
+    <AssociationSet Name="PersonAddress" Association="DentalClinic.Data.Store.PersonAddress">
+      <End Role="Person" EntitySet="People" />
+      <End Role="Address" EntitySet="Addresses" />
+    </AssociationSet>
+    <AssociationSet Name="EmployeeContract" Association="DentalClinic.Data.Store.EmployeeContract">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="Contract" EntitySet="Contracts" />
+    </AssociationSet>
+    <AssociationSet Name="EmployeePatient" Association="DentalClinic.Data.Store.EmployeePatient">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="Patient" EntitySet="Patients" />
+    </AssociationSet>
+    <AssociationSet Name="EmployeeVisit" Association="DentalClinic.Data.Store.EmployeeVisit">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="Visit" EntitySet="Visits" />
+    </AssociationSet>
+    <AssociationSet Name="VisitComment" Association="DentalClinic.Data.Store.VisitComment">
+      <End Role="Visit" EntitySet="Visits" />
+      <End Role="Comment" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="PatientComment" Association="DentalClinic.Data.Store.PatientComment">
+      <End Role="Patient" EntitySet="Patients" />
+      <End Role="Comment" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="EmployeeUser" Association="DentalClinic.Data.Store.EmployeeUser">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="User" EntitySet="Users" />
+    </AssociationSet>
+    <AssociationSet Name="EmployeeComment" Association="DentalClinic.Data.Store.EmployeeComment">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="Comment" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="PatientVisit" Association="DentalClinic.Data.Store.PatientVisit">
+      <End Role="Patient" EntitySet="Patients" />
+      <End Role="Visit" EntitySet="Visits" />
+    </AssociationSet>
+    <AssociationSet Name="OfficeVisit" Association="DentalClinic.Data.Store.OfficeVisit">
+      <End Role="Office" EntitySet="Offices" />
+      <End Role="Visit" EntitySet="Visits" />
+    </AssociationSet>
+    <AssociationSet Name="VisitTreatment" Association="DentalClinic.Data.Store.VisitTreatment">
+      <End Role="Visit" EntitySet="Visits" />
+      <End Role="Treatment" EntitySet="Treatments" />
+    </AssociationSet>
+    <AssociationSet Name="ToothTreatment" Association="DentalClinic.Data.Store.ToothTreatment">
+      <End Role="Tooth" EntitySet="Teeth" />
+      <End Role="Treatment" EntitySet="Treatments" />
+    </AssociationSet>
+    <AssociationSet Name="ToothComment" Association="DentalClinic.Data.Store.ToothComment">
+      <End Role="Tooth" EntitySet="Teeth" />
+      <End Role="Comment" EntitySet="Comments" />
+    </AssociationSet>
+    <AssociationSet Name="VisitTooth" Association="DentalClinic.Data.Store.VisitTooth">
+      <End Role="Visit" EntitySet="Visits" />
+      <End Role="Tooth" EntitySet="Teeth" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="People">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="FirstName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LastName" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PersonalNumber" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="AddDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Addresses">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AddressType" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="City" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Street" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="HouseNumber" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="FlatNumber" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="StateProvince" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="CountryRegion" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="PostalCode" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+    <Property Name="Email" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="HomePhone" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="WorkPhone" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="CellPhone" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="PersonId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Employees">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PWZNumer" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="AddDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+    <Property Name="FavoriteColor" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Person_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Contracts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="StartDate" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="EndDate" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Salary" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="EmployeeId" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Patients">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Insured" Type="bit" Nullable="true" />
+    <Property Name="InsuranceNumber" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Disabled" Type="bit" Nullable="true" />
+    <Property Name="DisabilityType" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="AddDate" Type="datetime" Nullable="false" />
+    <Property Name="ModifiedDate" Type="datetime" Nullable="false" />
+    <Property Name="EmployeeId" Type="int" Nullable="true" />
+    <Property Name="Person_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Visits">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+    <Property Name="EmployeeId" Type="int" Nullable="false" />
+    <Property Name="PatientId" Type="int" Nullable="false" />
+    <Property Name="OfficeId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Teeth">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Number" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="VisitId" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Treatments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="VisitId" Type="int" Nullable="true" />
+    <Property Name="ToothId" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="SubTreatments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="TreatmentId" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Sub2Treatments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Description" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="SubTreatmentId" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Comments">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="VisitId" Type="int" Nullable="true" />
+    <Property Name="PatientId" Type="int" Nullable="true" />
+    <Property Name="EmployeeId" Type="int" Nullable="true" />
+    <Property Name="ToothId" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Users">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Login" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Pass" Type="varbinary(max)" Nullable="false" />
+    <Property Name="Role" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Enabled" Type="bit" Nullable="false" />
+    <Property Name="Locked" Type="bit" Nullable="false" />
+    <Property Name="Employee_Id" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Offices">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Label" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Number" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PriceLists">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Discount" Type="decimal" Nullable="true" Precision="18" Scale="0" />
+    <Property Name="Patient_Id" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Groups">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Type" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="PriceListId" Type="int" Nullable="true" />
+    <Property Name="LowerPrice" Type="decimal" Nullable="true" Precision="18" Scale="0" />
+    <Property Name="UpperPrice" Type="decimal" Nullable="true" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="SubGroups">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="GroupId" Type="int" Nullable="true" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LowerPrice" Type="decimal" Nullable="true" Precision="18" Scale="0" />
+    <Property Name="UpperPrice" Type="decimal" Nullable="true" Precision="18" Scale="0" />
+  </EntityType>
+  <EntityType Name="Sub2Groups">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SubGroupId" Type="int" Nullable="true" />
+    <Property Name="LowerPrice" Type="decimal" Nullable="true" Precision="18" Scale="0" />
+    <Property Name="UpperPrice" Type="decimal" Nullable="true" Precision="18" Scale="0" />
+    <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <Association Name="TreatmentSubTreatment">
+    <End Role="Treatment" Type="DentalClinic.Data.Store.Treatments" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="SubTreatment" Type="DentalClinic.Data.Store.SubTreatments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Treatment">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SubTreatment">
+        <PropertyRef Name="TreatmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SubTreatmentSub2Treatment">
+    <End Role="SubTreatment" Type="DentalClinic.Data.Store.SubTreatments" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Sub2Treatment" Type="DentalClinic.Data.Store.Sub2Treatments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SubTreatment">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Sub2Treatment">
+        <PropertyRef Name="SubTreatmentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PriceListGroup">
+    <End Role="PriceList" Type="DentalClinic.Data.Store.PriceLists" Multiplicity="0..1" />
+    <End Role="Group" Type="DentalClinic.Data.Store.Groups" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PriceList">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Group">
+        <PropertyRef Name="PriceListId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="GroupSubGroup">
+    <End Role="Group" Type="DentalClinic.Data.Store.Groups" Multiplicity="0..1" />
+    <End Role="SubGroup" Type="DentalClinic.Data.Store.SubGroups" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Group">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="SubGroup">
+        <PropertyRef Name="GroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SubGroupSub2Group">
+    <End Role="SubGroup" Type="DentalClinic.Data.Store.SubGroups" Multiplicity="0..1" />
+    <End Role="Sub2Group" Type="DentalClinic.Data.Store.Sub2Groups" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SubGroup">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Sub2Group">
+        <PropertyRef Name="SubGroupId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PatientPriceList">
+    <End Role="Patient" Type="DentalClinic.Data.Store.Patients" Multiplicity="0..1" />
+    <End Role="PriceList" Type="DentalClinic.Data.Store.PriceLists" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Patient">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PriceList">
+        <PropertyRef Name="Patient_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PersonEmployee">
+    <End Role="Person" Type="DentalClinic.Data.Store.People" Multiplicity="1" />
+    <End Role="Employee" Type="DentalClinic.Data.Store.Employees" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Employee">
+        <PropertyRef Name="Person_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PersonPatient">
+    <End Role="Person" Type="DentalClinic.Data.Store.People" Multiplicity="1" />
+    <End Role="Patient" Type="DentalClinic.Data.Store.Patients" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Patient">
+        <PropertyRef Name="Person_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PersonAddress">
+    <End Role="Person" Type="DentalClinic.Data.Store.People" Multiplicity="1" />
+    <End Role="Address" Type="DentalClinic.Data.Store.Addresses" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Person">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Address">
+        <PropertyRef Name="PersonId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EmployeeContract">
+    <End Role="Employee" Type="DentalClinic.Data.Store.Employees" Multiplicity="0..1" />
+    <End Role="Contract" Type="DentalClinic.Data.Store.Contracts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Contract">
+        <PropertyRef Name="EmployeeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EmployeePatient">
+    <End Role="Employee" Type="DentalClinic.Data.Store.Employees" Multiplicity="0..1" />
+    <End Role="Patient" Type="DentalClinic.Data.Store.Patients" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Patient">
+        <PropertyRef Name="EmployeeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EmployeeVisit">
+    <End Role="Employee" Type="DentalClinic.Data.Store.Employees" Multiplicity="1" />
+    <End Role="Visit" Type="DentalClinic.Data.Store.Visits" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Visit">
+        <PropertyRef Name="EmployeeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="VisitComment">
+    <End Role="Visit" Type="DentalClinic.Data.Store.Visits" Multiplicity="0..1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Comment" Type="DentalClinic.Data.Store.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Visit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="VisitId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PatientComment">
+    <End Role="Patient" Type="DentalClinic.Data.Store.Patients" Multiplicity="0..1" />
+    <End Role="Comment" Type="DentalClinic.Data.Store.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Patient">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="PatientId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EmployeeUser">
+    <End Role="Employee" Type="DentalClinic.Data.Store.Employees" Multiplicity="0..1" />
+    <End Role="User" Type="DentalClinic.Data.Store.Users" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="User">
+        <PropertyRef Name="Employee_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EmployeeComment">
+    <End Role="Employee" Type="DentalClinic.Data.Store.Employees" Multiplicity="0..1" />
+    <End Role="Comment" Type="DentalClinic.Data.Store.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="EmployeeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PatientVisit">
+    <End Role="Patient" Type="DentalClinic.Data.Store.Patients" Multiplicity="1" />
+    <End Role="Visit" Type="DentalClinic.Data.Store.Visits" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Patient">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Visit">
+        <PropertyRef Name="PatientId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="OfficeVisit">
+    <End Role="Office" Type="DentalClinic.Data.Store.Offices" Multiplicity="1" />
+    <End Role="Visit" Type="DentalClinic.Data.Store.Visits" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Office">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Visit">
+        <PropertyRef Name="OfficeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="VisitTreatment">
+    <End Role="Visit" Type="DentalClinic.Data.Store.Visits" Multiplicity="0..1" />
+    <End Role="Treatment" Type="DentalClinic.Data.Store.Treatments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Visit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Treatment">
+        <PropertyRef Name="VisitId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ToothTreatment">
+    <End Role="Tooth" Type="DentalClinic.Data.Store.Teeth" Multiplicity="0..1" />
+    <End Role="Treatment" Type="DentalClinic.Data.Store.Treatments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tooth">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Treatment">
+        <PropertyRef Name="ToothId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ToothComment">
+    <End Role="Tooth" Type="DentalClinic.Data.Store.Teeth" Multiplicity="0..1" />
+    <End Role="Comment" Type="DentalClinic.Data.Store.Comments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Tooth">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Comment">
+        <PropertyRef Name="ToothId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="VisitTooth">
+    <End Role="Visit" Type="DentalClinic.Data.Store.Visits" Multiplicity="0..1" />
+    <End Role="Tooth" Type="DentalClinic.Data.Store.Teeth" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Visit">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Tooth">
+        <PropertyRef Name="VisitId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="DentalClinic.Data" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="PDContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="People" EntityType="DentalClinic.Data.Person" />
+          <EntitySet Name="Addresses" EntityType="DentalClinic.Data.Address" />
+          <EntitySet Name="Employees" EntityType="DentalClinic.Data.Employee" />
+          <EntitySet Name="Contracts" EntityType="DentalClinic.Data.Contract" />
+          <EntitySet Name="Patients" EntityType="DentalClinic.Data.Patient" />
+          <EntitySet Name="Visits" EntityType="DentalClinic.Data.Visit" />
+          <EntitySet Name="Teeth" EntityType="DentalClinic.Data.Tooth" />
+          <EntitySet Name="Treatments" EntityType="DentalClinic.Data.Treatment" />
+          <EntitySet Name="SubTreatments" EntityType="DentalClinic.Data.SubTreatment" />
+          <AssociationSet Name="TreatmentSubTreatment" Association="DentalClinic.Data.TreatmentSubTreatment">
+            <End Role="Treatment" EntitySet="Treatments" />
+            <End Role="SubTreatment" EntitySet="SubTreatments" />
+          </AssociationSet>
+          <EntitySet Name="Sub2Treatments" EntityType="DentalClinic.Data.Sub2Treatment" />
+          <AssociationSet Name="SubTreatmentSub2Treatment" Association="DentalClinic.Data.SubTreatmentSub2Treatment">
+            <End Role="SubTreatment" EntitySet="SubTreatments" />
+            <End Role="Sub2Treatment" EntitySet="Sub2Treatments" />
+          </AssociationSet>
+          <EntitySet Name="Comments" EntityType="DentalClinic.Data.Comment" />
+          <EntitySet Name="Users" EntityType="DentalClinic.Data.User" />
+          <EntitySet Name="Offices" EntityType="DentalClinic.Data.Office" />
+          <EntitySet Name="PriceLists" EntityType="DentalClinic.Data.PriceList" />
+          <EntitySet Name="Groups" EntityType="DentalClinic.Data.Group" />
+          <EntitySet Name="SubGroups" EntityType="DentalClinic.Data.SubGroup" />
+          <EntitySet Name="Sub2Groups" EntityType="DentalClinic.Data.Sub2Group" />
+          <AssociationSet Name="PriceListGroup" Association="DentalClinic.Data.PriceListGroup">
+            <End Role="PriceList" EntitySet="PriceLists" />
+            <End Role="Group" EntitySet="Groups" />
+          </AssociationSet>
+          <AssociationSet Name="GroupSubGroup" Association="DentalClinic.Data.GroupSubGroup">
+            <End Role="Group" EntitySet="Groups" />
+            <End Role="SubGroup" EntitySet="SubGroups" />
+          </AssociationSet>
+          <AssociationSet Name="SubGroupSub2Group" Association="DentalClinic.Data.SubGroupSub2Group">
+            <End Role="SubGroup" EntitySet="SubGroups" />
+            <End Role="Sub2Group" EntitySet="Sub2Groups" />
+          </AssociationSet>
+          <AssociationSet Name="PatientPriceList" Association="DentalClinic.Data.PatientPriceList">
+            <End Role="Patient" EntitySet="Patients" />
+            <End Role="PriceList" EntitySet="PriceLists" />
+          </AssociationSet>
+          <AssociationSet Name="PersonEmployee" Association="DentalClinic.Data.PersonEmployee">
+            <End Role="Person" EntitySet="People" />
+            <End Role="Employee" EntitySet="Employees" />
+          </AssociationSet>
+          <AssociationSet Name="PersonPatient" Association="DentalClinic.Data.PersonPatient">
+            <End Role="Person" EntitySet="People" />
+            <End Role="Patient" EntitySet="Patients" />
+          </AssociationSet>
+          <AssociationSet Name="PersonAddress" Association="DentalClinic.Data.PersonAddress">
+            <End Role="Person" EntitySet="People" />
+            <End Role="Address" EntitySet="Addresses" />
+          </AssociationSet>
+          <AssociationSet Name="EmployeeContract" Association="DentalClinic.Data.EmployeeContract">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Contract" EntitySet="Contracts" />
+          </AssociationSet>
+          <AssociationSet Name="EmployeePatient" Association="DentalClinic.Data.EmployeePatient">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Patient" EntitySet="Patients" />
+          </AssociationSet>
+          <AssociationSet Name="EmployeeVisit" Association="DentalClinic.Data.EmployeeVisit">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Visit" EntitySet="Visits" />
+          </AssociationSet>
+          <AssociationSet Name="VisitComment" Association="DentalClinic.Data.VisitComment">
+            <End Role="Visit" EntitySet="Visits" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="PatientComment" Association="DentalClinic.Data.PatientComment">
+            <End Role="Patient" EntitySet="Patients" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="EmployeeUser" Association="DentalClinic.Data.EmployeeUser">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="User" EntitySet="Users" />
+          </AssociationSet>
+          <AssociationSet Name="EmployeeComment" Association="DentalClinic.Data.EmployeeComment">
+            <End Role="Employee" EntitySet="Employees" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="PatientVisit" Association="DentalClinic.Data.PatientVisit">
+            <End Role="Patient" EntitySet="Patients" />
+            <End Role="Visit" EntitySet="Visits" />
+          </AssociationSet>
+          <AssociationSet Name="OfficeVisit" Association="DentalClinic.Data.OfficeVisit">
+            <End Role="Office" EntitySet="Offices" />
+            <End Role="Visit" EntitySet="Visits" />
+          </AssociationSet>
+          <AssociationSet Name="VisitTreatment" Association="DentalClinic.Data.VisitTreatment">
+            <End Role="Visit" EntitySet="Visits" />
+            <End Role="Treatment" EntitySet="Treatments" />
+          </AssociationSet>
+          <AssociationSet Name="ToothTreatment" Association="DentalClinic.Data.ToothTreatment">
+            <End Role="Tooth" EntitySet="Teeth" />
+            <End Role="Treatment" EntitySet="Treatments" />
+          </AssociationSet>
+          <AssociationSet Name="ToothComment" Association="DentalClinic.Data.ToothComment">
+            <End Role="Tooth" EntitySet="Teeth" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="VisitTooth" Association="DentalClinic.Data.VisitTooth">
+            <End Role="Visit" EntitySet="Visits" />
+            <End Role="Tooth" EntitySet="Teeth" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Person">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="PersonalNumber" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" Nullable="true" />
+          <Property Name="AddDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Employee" Relationship="DentalClinic.Data.PersonEmployee" FromRole="Person" ToRole="Employee" />
+          <NavigationProperty Name="Patient" Relationship="DentalClinic.Data.PersonPatient" FromRole="Person" ToRole="Patient" />
+          <NavigationProperty Name="Addresses" Relationship="DentalClinic.Data.PersonAddress" FromRole="Person" ToRole="Address" />
+        </EntityType>
+        <EntityType Name="Address">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="AddressType" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="City" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" Nullable="true" />
+          <Property Name="Street" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="HouseNumber" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" Nullable="true" />
+          <Property Name="FlatNumber" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="StateProvince" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="CountryRegion" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="PostalCode" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" Nullable="true" />
+          <Property Name="ModifiedDate" Type="DateTime" Precision="3" Nullable="false" />
+          <Property Name="Email" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="HomePhone" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="WorkPhone" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="CellPhone" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Person" Relationship="DentalClinic.Data.PersonAddress" FromRole="Address" ToRole="Person" />
+          <Property Name="PersonId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Employee" >
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PWZNumer" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="AddDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Person" Relationship="DentalClinic.Data.PersonEmployee" FromRole="Employee" ToRole="Person" />
+          <NavigationProperty Name="Contracts" Relationship="DentalClinic.Data.EmployeeContract" FromRole="Employee" ToRole="Contract" />
+          <NavigationProperty Name="Patients" Relationship="DentalClinic.Data.EmployeePatient" FromRole="Employee" ToRole="Patient" />
+          <NavigationProperty Name="Visits" Relationship="DentalClinic.Data.EmployeeVisit" FromRole="Employee" ToRole="Visit" />
+          <NavigationProperty Name="User" Relationship="DentalClinic.Data.EmployeeUser" FromRole="Employee" ToRole="User" />
+          <NavigationProperty Name="Comments" Relationship="DentalClinic.Data.EmployeeComment" FromRole="Employee" ToRole="Comment" />
+          <Property Name="FavoriteColor" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Contract">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="StartDate" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="EndDate" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Salary" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Employee" Relationship="DentalClinic.Data.EmployeeContract" FromRole="Contract" ToRole="Employee" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="true" />
+        </EntityType>
+        <EntityType Name="Patient">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Insured" Type="Boolean" Nullable="true" />
+          <Property Name="InsuranceNumber" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Disabled" Type="Boolean" Nullable="true" />
+          <Property Name="DisabilityType" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="AddDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="PriceList" Relationship="DentalClinic.Data.PatientPriceList" FromRole="Patient" ToRole="PriceList" />
+          <NavigationProperty Name="Person" Relationship="DentalClinic.Data.PersonPatient" FromRole="Patient" ToRole="Person" />
+          <NavigationProperty Name="Employee" Relationship="DentalClinic.Data.EmployeePatient" FromRole="Patient" ToRole="Employee" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="Comments" Relationship="DentalClinic.Data.PatientComment" FromRole="Patient" ToRole="Comment" />
+          <NavigationProperty Name="Visits" Relationship="DentalClinic.Data.PatientVisit" FromRole="Patient" ToRole="Visit" />
+        </EntityType>
+        <EntityType Name="Visit">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Employee" Relationship="DentalClinic.Data.EmployeeVisit" FromRole="Visit" ToRole="Employee" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Comments" Relationship="DentalClinic.Data.VisitComment" FromRole="Visit" ToRole="Comment" />
+          <NavigationProperty Name="Patient" Relationship="DentalClinic.Data.PatientVisit" FromRole="Visit" ToRole="Patient" />
+          <Property Name="PatientId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Office" Relationship="DentalClinic.Data.OfficeVisit" FromRole="Visit" ToRole="Office" />
+          <Property Name="OfficeId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Treatments" Relationship="DentalClinic.Data.VisitTreatment" FromRole="Visit" ToRole="Treatment" />
+          <NavigationProperty Name="Teeth" Relationship="DentalClinic.Data.VisitTooth" FromRole="Visit" ToRole="Tooth" />
+        </EntityType>
+        <EntityType Name="Tooth">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Number" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Treatments" Relationship="DentalClinic.Data.ToothTreatment" FromRole="Tooth" ToRole="Treatment" />
+          <NavigationProperty Name="Comments" Relationship="DentalClinic.Data.ToothComment" FromRole="Tooth" ToRole="Comment" />
+          <NavigationProperty Name="Visit" Relationship="DentalClinic.Data.VisitTooth" FromRole="Tooth" ToRole="Visit" />
+          <Property Name="VisitId" Type="Int32" Nullable="true" />
+        </EntityType>
+        <EntityType Name="Treatment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Description" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="SubTreatment" Relationship="DentalClinic.Data.TreatmentSubTreatment" FromRole="Treatment" ToRole="SubTreatment" />
+          <NavigationProperty Name="Visit" Relationship="DentalClinic.Data.VisitTreatment" FromRole="Treatment" ToRole="Visit" />
+          <Property Name="VisitId" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="Tooth" Relationship="DentalClinic.Data.ToothTreatment" FromRole="Treatment" ToRole="Tooth" />
+          <Property Name="ToothId" Type="Int32" Nullable="true" />
+        </EntityType>
+        <EntityType Name="SubTreatment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Description" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Treatment" Relationship="DentalClinic.Data.TreatmentSubTreatment" FromRole="SubTreatment" ToRole="Treatment" />
+          <Property Name="TreatmentId" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="Sub2Treatment" Relationship="DentalClinic.Data.SubTreatmentSub2Treatment" FromRole="SubTreatment" ToRole="Sub2Treatment" />
+        </EntityType>
+        <Association Name="TreatmentSubTreatment">
+          <End Type="DentalClinic.Data.Treatment" Role="Treatment" Multiplicity="0..1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DentalClinic.Data.SubTreatment" Role="SubTreatment" Multiplicity="*" >
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Treatment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SubTreatment">
+              <PropertyRef Name="TreatmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Sub2Treatment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Description" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="SubTreatment" Relationship="DentalClinic.Data.SubTreatmentSub2Treatment" FromRole="Sub2Treatment" ToRole="SubTreatment" />
+          <Property Name="SubTreatmentId" Type="Int32" Nullable="true" />
+        </EntityType>
+        <Association Name="SubTreatmentSub2Treatment">
+          <End Type="DentalClinic.Data.SubTreatment" Role="SubTreatment" Multiplicity="0..1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DentalClinic.Data.Sub2Treatment" Role="Sub2Treatment" Multiplicity="*" >
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="SubTreatment">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sub2Treatment">
+              <PropertyRef Name="SubTreatmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Comment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Content" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Visit" Relationship="DentalClinic.Data.VisitComment" FromRole="Comment" ToRole="Visit" />
+          <Property Name="VisitId" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="Patient" Relationship="DentalClinic.Data.PatientComment" FromRole="Comment" ToRole="Patient" />
+          <Property Name="PatientId" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="Employee" Relationship="DentalClinic.Data.EmployeeComment" FromRole="Comment" ToRole="Employee" />
+          <Property Name="EmployeeId" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="Tooth" Relationship="DentalClinic.Data.ToothComment" FromRole="Comment" ToRole="Tooth" />
+          <Property Name="ToothId" Type="Int32" Nullable="true" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Login" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Pass" Type="Binary" Nullable="false" MaxLength="Max" FixedLength="false" />
+          <Property Name="Role" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Enabled" Type="Boolean" Nullable="false" />
+          <Property Name="Locked" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Employee" Relationship="DentalClinic.Data.EmployeeUser" FromRole="User" ToRole="Employee" />
+        </EntityType>
+        <EntityType Name="Office">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Label" Type="String" Nullable="true" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="Number" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Visits" Relationship="DentalClinic.Data.OfficeVisit" FromRole="Office" ToRole="Visit" />
+        </EntityType>
+        <EntityType Name="PriceList">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Groups" Relationship="DentalClinic.Data.PriceListGroup" FromRole="PriceList" ToRole="Group" />
+          <Property Name="Discount" Type="Decimal" Nullable="true" Precision="18" Scale="0" />
+          <NavigationProperty Name="Patient" Relationship="DentalClinic.Data.PatientPriceList" FromRole="PriceList" ToRole="Patient" />
+        </EntityType>
+        <EntityType Name="Group">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Type" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="PriceList" Relationship="DentalClinic.Data.PriceListGroup" FromRole="Group" ToRole="PriceList" />
+          <Property Name="PriceListId" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="SubGroups" Relationship="DentalClinic.Data.GroupSubGroup" FromRole="Group" ToRole="SubGroup" />
+          <Property Name="LowerPrice" Type="Decimal" Nullable="true" Precision="18" Scale="0" />
+          <Property Name="UpperPrice" Type="Decimal" Nullable="true" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="SubGroup">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Group" Relationship="DentalClinic.Data.GroupSubGroup" FromRole="SubGroup" ToRole="Group" />
+          <Property Name="GroupId" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="Sub2Groups" Relationship="DentalClinic.Data.SubGroupSub2Group" FromRole="SubGroup" ToRole="Sub2Group" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="LowerPrice" Type="Decimal" Nullable="true" Precision="18" Scale="0" />
+          <Property Name="UpperPrice" Type="Decimal" Nullable="true" Precision="18" Scale="0" />
+        </EntityType>
+        <EntityType Name="Sub2Group">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="SubGroup" Relationship="DentalClinic.Data.SubGroupSub2Group" FromRole="Sub2Group" ToRole="SubGroup" />
+          <Property Name="SubGroupId" Type="Int32" Nullable="true" />
+          <Property Name="LowerPrice" Type="Decimal" Nullable="true" Precision="18" Scale="0" />
+          <Property Name="UpperPrice" Type="Decimal" Nullable="true" Precision="18" Scale="0" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="Max" Unicode="true" FixedLength="false" />
+        </EntityType>
+        <Association Name="PriceListGroup">
+          <End Type="DentalClinic.Data.PriceList" Role="PriceList" Multiplicity="0..1" />
+          <End Type="DentalClinic.Data.Group" Role="Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PriceList">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Group">
+              <PropertyRef Name="PriceListId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GroupSubGroup">
+          <End Type="DentalClinic.Data.Group" Role="Group" Multiplicity="0..1" />
+          <End Type="DentalClinic.Data.SubGroup" Role="SubGroup" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Group">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SubGroup">
+              <PropertyRef Name="GroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SubGroupSub2Group">
+          <End Type="DentalClinic.Data.SubGroup" Role="SubGroup" Multiplicity="0..1" />
+          <End Type="DentalClinic.Data.Sub2Group" Role="Sub2Group" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SubGroup">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Sub2Group">
+              <PropertyRef Name="SubGroupId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PatientPriceList">
+          <End Type="DentalClinic.Data.Patient" Role="Patient" Multiplicity="0..1" />
+          <End Type="DentalClinic.Data.PriceList" Role="PriceList" Multiplicity="0..1" />
+        </Association>
+        <Association Name="PersonEmployee">
+          <End Type="DentalClinic.Data.Person" Role="Person" Multiplicity="1" />
+          <End Type="DentalClinic.Data.Employee" Role="Employee" Multiplicity="0..1" />
+        </Association>
+        <Association Name="PersonPatient">
+          <End Type="DentalClinic.Data.Person" Role="Person" Multiplicity="1" />
+          <End Type="DentalClinic.Data.Patient" Role="Patient" Multiplicity="0..1" />
+        </Association>
+        <Association Name="PersonAddress">
+          <End Type="DentalClinic.Data.Person" Role="Person" Multiplicity="1" />
+          <End Type="DentalClinic.Data.Address" Role="Address" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Person">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Address">
+              <PropertyRef Name="PersonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EmployeeContract">
+          <End Type="DentalClinic.Data.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="DentalClinic.Data.Contract" Role="Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contract">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EmployeePatient">
+          <End Type="DentalClinic.Data.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="DentalClinic.Data.Patient" Role="Patient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Patient">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EmployeeVisit">
+          <End Type="DentalClinic.Data.Employee" Role="Employee" Multiplicity="1" />
+          <End Type="DentalClinic.Data.Visit" Role="Visit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Visit">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="VisitComment">
+          <End Type="DentalClinic.Data.Visit" Role="Visit" Multiplicity="0..1" >
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Type="DentalClinic.Data.Comment" Role="Comment" Multiplicity="*" >
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Visit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="VisitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PatientComment">
+          <End Type="DentalClinic.Data.Patient" Role="Patient" Multiplicity="0..1" >
+          </End>
+          <End Type="DentalClinic.Data.Comment" Role="Comment" Multiplicity="*" >
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="PatientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EmployeeUser">
+          <End Type="DentalClinic.Data.Employee" Role="Employee" Multiplicity="0..1" />
+          <End Type="DentalClinic.Data.User" Role="User" Multiplicity="0..1" />
+        </Association>
+        <Association Name="EmployeeComment">
+          <End Type="DentalClinic.Data.Employee" Role="Employee" Multiplicity="0..1" >
+          </End>
+          <End Type="DentalClinic.Data.Comment" Role="Comment" Multiplicity="*" >
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Employee">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="EmployeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PatientVisit">
+          <End Type="DentalClinic.Data.Patient" Role="Patient" Multiplicity="1" />
+          <End Type="DentalClinic.Data.Visit" Role="Visit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Patient">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Visit">
+              <PropertyRef Name="PatientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="OfficeVisit">
+          <End Type="DentalClinic.Data.Office" Role="Office" Multiplicity="1" />
+          <End Type="DentalClinic.Data.Visit" Role="Visit" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Office">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Visit">
+              <PropertyRef Name="OfficeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="VisitTreatment">
+          <End Type="DentalClinic.Data.Visit" Role="Visit" Multiplicity="0..1" >
+          </End>
+          <End Type="DentalClinic.Data.Treatment" Role="Treatment" Multiplicity="*" >
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Visit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Treatment">
+              <PropertyRef Name="VisitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ToothTreatment">
+          <End Type="DentalClinic.Data.Tooth" Role="Tooth" Multiplicity="0..1" >
+          </End>
+          <End Type="DentalClinic.Data.Treatment" Role="Treatment" Multiplicity="*" >
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Tooth">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Treatment">
+              <PropertyRef Name="ToothId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ToothComment">
+          <End Type="DentalClinic.Data.Tooth" Role="Tooth" Multiplicity="0..1" >
+          </End>
+          <End Type="DentalClinic.Data.Comment" Role="Comment" Multiplicity="*" >
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Tooth">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Comment">
+              <PropertyRef Name="ToothId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="VisitTooth">
+          <End Type="DentalClinic.Data.Visit" Role="Visit" Multiplicity="0..1" >
+          </End>
+          <End Type="DentalClinic.Data.Tooth" Role="Tooth" Multiplicity="*" >
+          </End>
+          <ReferentialConstraint>
+            <Principal Role="Visit">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tooth">
+              <PropertyRef Name="VisitId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="DentalClinicDataStoreContainer" CdmEntityContainer="PDContainer">
+    <EntitySetMapping Name="People">
+      <EntityTypeMapping TypeName="IsTypeOf(DentalClinic.Data.Person)">
+        <MappingFragment StoreEntitySet="People">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="PersonalNumber" ColumnName="PersonalNumber" />
+          <ScalarProperty Name="AddDate" ColumnName="AddDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Addresses">
+      <EntityTypeMapping TypeName="IsTypeOf(DentalClinic.Data.Address)">
+        <MappingFragment StoreEntitySet="Addresses">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="AddressType" ColumnName="AddressType" />
+          <ScalarProperty Name="City" ColumnName="City" />
+          <ScalarProperty Name="Street" ColumnName="Street" />
+          <ScalarProperty Name="HouseNumber" ColumnName="HouseNumber" />
+          <ScalarProperty Name="FlatNumber" ColumnName="FlatNumber" />
+          <ScalarProperty Name="StateProvince" ColumnName="StateProvince" />
+          <ScalarProperty Name="CountryRegion" ColumnName="CountryRegion" />
+          <ScalarProperty Name="PostalCode" ColumnName="PostalCode" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="HomePhone" ColumnName="HomePhone" />
+          <ScalarProperty Name="WorkPhone" ColumnName="WorkPhone" />
+          <ScalarProperty Name="CellPhone" ColumnName="CellPhone" />
+          <ScalarProperty Name="PersonId" ColumnName="PersonId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Employees">
+      <EntityTypeMapping TypeName="IsTypeOf(DentalClinic.Data.Employee)">
+        <MappingFragment StoreEntitySet="Employees">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PWZNumer" ColumnName="PWZNumer" />
+          <ScalarProperty Name="AddDate" ColumnName="AddDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="FavoriteColor" ColumnName="FavoriteColor" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Contracts">
+      <EntityTypeMapping TypeName="IsTypeOf(DentalClinic.Data.Contract)">
+        <MappingFragment StoreEntitySet="Contracts">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+          <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+          <ScalarProperty Name="Salary" ColumnName="Salary" />
+          <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Patients">
+      <EntityTypeMapping TypeName="IsTypeOf(DentalClinic.Data.Patient)">
+        <MappingFragment StoreEntitySet="Patients">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Insured" ColumnName="Insured" />
+          <ScalarProperty Name="InsuranceNumber" ColumnName="InsuranceNumber" />
+          <ScalarProperty Name="Disabled" ColumnName="Disabled" />
+          <ScalarProperty Name="DisabilityType" ColumnName="DisabilityType" />
+          <ScalarProperty Name="AddDate" ColumnName="AddDate" />
+          <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+          <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Visits">
+      <EntityTypeMapping TypeName="IsTypeOf(DentalClinic.Data.Visit)">
+        <MappingFragment StoreEntitySet="Visits">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+          <ScalarProperty Name="PatientId" ColumnName="PatientId" />
+          <ScalarProperty Name="OfficeId" ColumnName="OfficeId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Teeth">
+      <EntityTypeMapping TypeName="IsTypeOf(DentalClinic.Data.Tooth)">
+        <MappingFragment StoreEntitySet="Teeth">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Number" ColumnName="Number" />
+          <ScalarProperty Name="VisitId" ColumnName="VisitId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Treatments">
+      <EntityTypeMapping TypeName="IsTypeOf(DentalClinic.Data.Treatment)">
+        <MappingFragment StoreEntitySet="Treatments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="VisitId" ColumnName="VisitId" />
+          <ScalarProperty Name="ToothId" ColumnName="ToothId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SubTreatments">
+      <EntityTypeMapping TypeName="IsTypeOf(DentalClinic.Data.SubTreatment)">
+        <MappingFragment StoreEntitySet="SubTreatments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="TreatmentId" ColumnName="TreatmentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sub2Treatments">
+      <EntityTypeMapping TypeName="IsTypeOf(DentalClinic.Data.Sub2Treatment)">
+        <MappingFragment StoreEntitySet="Sub2Treatments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="SubTreatmentId" ColumnName="SubTreatmentId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Comments">
+      <EntityTypeMapping TypeName="IsTypeOf(DentalClinic.Data.Comment)">
+        <MappingFragment StoreEntitySet="Comments">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Content" ColumnName="Content" />
+          <ScalarProperty Name="VisitId" ColumnName="VisitId" />
+          <ScalarProperty Name="PatientId" ColumnName="PatientId" />
+          <ScalarProperty Name="EmployeeId" ColumnName="EmployeeId" />
+          <ScalarProperty Name="ToothId" ColumnName="ToothId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="IsTypeOf(DentalClinic.Data.User)">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Login" ColumnName="Login" />
+          <ScalarProperty Name="Pass" ColumnName="Pass" />
+          <ScalarProperty Name="Role" ColumnName="Role" />
+          <ScalarProperty Name="Enabled" ColumnName="Enabled" />
+          <ScalarProperty Name="Locked" ColumnName="Locked" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Offices">
+      <EntityTypeMapping TypeName="IsTypeOf(DentalClinic.Data.Office)">
+        <MappingFragment StoreEntitySet="Offices">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Label" ColumnName="Label" />
+          <ScalarProperty Name="Number" ColumnName="Number" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="PriceLists">
+      <EntityTypeMapping TypeName="IsTypeOf(DentalClinic.Data.PriceList)">
+        <MappingFragment StoreEntitySet="PriceLists">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Discount" ColumnName="Discount" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Groups">
+      <EntityTypeMapping TypeName="IsTypeOf(DentalClinic.Data.Group)">
+        <MappingFragment StoreEntitySet="Groups">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="PriceListId" ColumnName="PriceListId" />
+          <ScalarProperty Name="LowerPrice" ColumnName="LowerPrice" />
+          <ScalarProperty Name="UpperPrice" ColumnName="UpperPrice" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SubGroups">
+      <EntityTypeMapping TypeName="IsTypeOf(DentalClinic.Data.SubGroup)">
+        <MappingFragment StoreEntitySet="SubGroups">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="GroupId" ColumnName="GroupId" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="LowerPrice" ColumnName="LowerPrice" />
+          <ScalarProperty Name="UpperPrice" ColumnName="UpperPrice" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sub2Groups">
+      <EntityTypeMapping TypeName="IsTypeOf(DentalClinic.Data.Sub2Group)">
+        <MappingFragment StoreEntitySet="Sub2Groups">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="SubGroupId" ColumnName="SubGroupId" />
+          <ScalarProperty Name="LowerPrice" ColumnName="LowerPrice" />
+          <ScalarProperty Name="UpperPrice" ColumnName="UpperPrice" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="PatientPriceList" TypeName="DentalClinic.Data.PatientPriceList" StoreEntitySet="PriceLists">
+      <EndProperty Name="Patient">
+        <ScalarProperty Name="Id" ColumnName="Patient_Id" />
+      </EndProperty>
+      <EndProperty Name="PriceList">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Patient_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="PersonEmployee" TypeName="DentalClinic.Data.PersonEmployee" StoreEntitySet="Employees">
+      <EndProperty Name="Person">
+        <ScalarProperty Name="Id" ColumnName="Person_Id" />
+      </EndProperty>
+      <EndProperty Name="Employee">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="PersonPatient" TypeName="DentalClinic.Data.PersonPatient" StoreEntitySet="Patients">
+      <EndProperty Name="Person">
+        <ScalarProperty Name="Id" ColumnName="Person_Id" />
+      </EndProperty>
+      <EndProperty Name="Patient">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="EmployeeUser" TypeName="DentalClinic.Data.EmployeeUser" StoreEntitySet="Users">
+      <EndProperty Name="Employee">
+        <ScalarProperty Name="Id" ColumnName="Employee_Id" />
+      </EndProperty>
+      <EndProperty Name="User">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Employee_Id" IsNull="false" />
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,19 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DentalClinic.Wpf">
+
+    <Storyboard x:Key="MenuSlideInAnimation">
+        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SlideMenu" Storyboard.TargetProperty="(FrameworkElement.Width)">
+            <LinearDoubleKeyFrame KeyTime="0:0:0" Value="220" />
+            <LinearDoubleKeyFrame KeyTime="0:0:0.2" Value="60" />
+        </DoubleAnimationUsingKeyFrames>
+    </Storyboard>
+    <Storyboard x:Key="MenuSlideOutAnimation">
+        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="SlideMenu" Storyboard.TargetProperty="(FrameworkElement.Width)">
+            <LinearDoubleKeyFrame KeyTime="0:0:0" Value="60" />
+            <LinearDoubleKeyFrame KeyTime="0:0:0.2" Value="220" />
+        </DoubleAnimationUsingKeyFrames>
+    </Storyboard>
+    <StopStoryboard x:Key="MenuSlideOut" />
+</ResourceDictionary>

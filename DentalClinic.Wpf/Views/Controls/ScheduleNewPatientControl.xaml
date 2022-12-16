@@ -1,0 +1,202 @@
+﻿<UserControl x:Class="DentalClinic.Wpf.ScheduleNewPatientControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:local="clr-namespace:DentalClinic.Wpf"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    
+    <UserControl.Resources>
+        <local:SelectedToEnableConverter x:Key="selectedToEnableConverter"/>
+        <local:TextToVisibilityConverter x:Key="textToVisibilityConverter"/>
+    </UserControl.Resources>
+
+    <Grid Background="White" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="240"/>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="240"/>
+            <ColumnDefinition Width="240"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="0" Orientation="Horizontal">
+            <Button Command="{Binding CommandToGoBack}" Content="{StaticResource la-angle-double-left}"
+                        FontFamily="{StaticResource LineAwesome}" 
+                        FontSize="{StaticResource FontSizeLarge}" Margin="0"
+                    Padding="0"
+                        Style="{StaticResource TopMenuButton}"
+                    VerticalAlignment="Top"/>
+            <TextBlock Text="Umawianie nowego pacjena" Style="{StaticResource TopBanner}"/>
+        </StackPanel>
+        <Grid Grid.Column="1" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0"
+                       Style="{StaticResource InputFormTextBlock}"
+                       Text="Data wizyty"/>
+            <TextBlock Grid.Row="1"
+                       Style="{StaticResource InputFormTextBlock}"
+                       Text="Godzina wizyty"/>
+            
+            <TextBlock Grid.Row="2"
+                       Style="{StaticResource InputFormTextBlock}"
+                       Text="Nazwisko"/>
+
+            <TextBlock Grid.Row="3"
+                       Style="{StaticResource InputFormTextBlock}"
+                       Text="Imię"/>
+            
+            <TextBlock Grid.Row="4"
+                       Style="{StaticResource InputFormTextBlock}"
+                       Text="Telefon"/>
+            <TextBlock Grid.Row="5"
+                       Style="{StaticResource InputFormTextBlock}"
+                       Text="Lekarz prowadzący"/>
+            <TextBlock Grid.Row="6"
+                       Style="{StaticResource InputFormTextBlock}"
+                       Text="Gabinet"/>
+        </Grid>
+        <Grid Grid.Column="2" Grid.Row="1"
+                    HorizontalAlignment="Left"
+                    Margin="0">
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <DatePicker FontFamily="{StaticResource LatoRegular}"
+                        FontSize="{StaticResource FontSizeRegular}"
+                        Grid.Row="0"
+                        HorizontalAlignment="Center"
+                        Margin="4"
+                        SelectedDate="{Binding VisitDateTime}"/>
+
+            <StackPanel Grid.Row="1" HorizontalAlignment="Center" Orientation="Horizontal">
+                <ComboBox FontFamily="{StaticResource LatoRegular}"
+                          FontSize="{StaticResource FontSizeRegular}"
+                          ItemsSource="{Binding HourCombo}"
+                          Margin="5"
+                          SelectedItem="{Binding SelectedHour}"
+                          Width="60"
+                          />
+                <TextBlock Style="{StaticResource InputFormTextBlock}" Text=":"/>
+                <ComboBox FontFamily="{StaticResource LatoRegular}"
+                          FontSize="{StaticResource FontSizeRegular}"
+                          ItemsSource="{Binding MinuteCombo}"
+                          Margin="5"
+                          SelectedItem="{Binding SelectedQuarter}"
+                          Width="60"/>
+            </StackPanel>
+
+            <TextBox Grid.Row="2" Style="{StaticResource InputFormTextBox}"
+                     Text="{Binding LastName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBox Grid.Row="3" Style="{StaticResource InputFormTextBox}"
+                     Text="{Binding FirstName, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBox Grid.Row="4" Style="{StaticResource InputFormTextBox}"
+                     Text="{Binding CellPhone}"/>
+
+            <ComboBox Grid.Row="5" ItemsSource="{Binding Path=EmployeeCollection, Mode=OneWay}"
+                      Margin="10 5"
+                      SelectedItem="{Binding SelectedEmployee}"
+                      SelectedValuePath="Caption"
+                      Width="220">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="{StaticResource LatoRegular}"
+                                   FontSize="{StaticResource FontSizeRegular}"
+                                   FontWeight="Bold"
+                                   Margin="0">
+                                <TextBlock.Text>
+                                    <Binding Path="Person.Title"/>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <TextBlock FontFamily="{StaticResource LatoRegular}"
+                                   FontSize="{StaticResource FontSizeRegular}"
+                                       FontWeight="DemiBold"
+                                   Margin="3 0">
+                                <TextBlock.Text>
+                                    <Binding Path="Person.LastName"/>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <TextBlock FontFamily="{StaticResource LatoRegular}"
+                                   FontSize="{StaticResource FontSizeRegular}"
+                                   Margin="3 0">
+                                <TextBlock.Text>
+                                    <Binding Path="Person.FirstName"/>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+
+            <ComboBox Grid.Row="6" ItemsSource="{Binding Path=OfficeCollection, Mode=OneWay}"
+                      Margin="10 5"
+                      SelectedItem="{Binding SelectedOffice}"
+                      SelectedValuePath="Caption"
+                      Width="220">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock FontFamily="{StaticResource LatoRegular}"
+                                   FontSize="{StaticResource FontSizeRegular}"
+                                   FontWeight="Bold"
+                                   Margin="0">
+                                <TextBlock.Text>
+                                    <Binding Path="Number"/>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <TextBlock FontFamily="{StaticResource LatoRegular}"
+                                   FontSize="{StaticResource FontSizeRegular}"
+                                   Margin="3 0">
+                                <TextBlock.Text>
+                                    <Binding Path="Label"/>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+        </Grid>
+        <Button Command="{Binding CommandToScheduleNewPatient}"
+                Grid.Column="2" Grid.Row="2"
+                Style="{StaticResource DefaultButtonStyle}">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock FontFamily="{StaticResource LineAwesome}"
+                           Style="{StaticResource ToolTextIcon}"
+                           Text="{StaticResource la-user-plus}"/>
+                <TextBlock Margin="5"
+                           FontWeight="Bold"
+                           Style="{StaticResource InputFormTextBlock}"
+                           Text="{Binding ButtonContent, FallbackValue='Umów'}"/>
+            </StackPanel>
+        </Button>
+       
+    </Grid>
+</UserControl>

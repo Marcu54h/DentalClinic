@@ -1,0 +1,716 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:DentalClinic.Wpf">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Colors.xaml" />
+        <ResourceDictionary Source="Fonts.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="FocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Rectangle
+                        Margin="2"
+                        SnapsToDevicePixels="true"
+                        Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+                        StrokeDashArray="1 2"
+                        StrokeThickness="1" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="AlphabetButton" TargetType="{x:Type Button}">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Foreground" Value="Gray" />
+        <Setter Property="FontFamily" Value="{StaticResource LineAwesome}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeLarge}" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Margin" Value="1" />
+        <Setter Property="Padding" Value="2" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <StackPanel>
+                        <ContentPresenter Margin="{TemplateBinding Margin}" VerticalAlignment="{TemplateBinding VerticalAlignment}" />
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="PaleVioletRed" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Foreground" Value="IndianRed" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="Gray" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="DefaultButtonStyle" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="{StaticResource Button.Static.Background}" />
+        <Setter Property="BorderBrush" Value="{StaticResource Button.Static.Border}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeRegular}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Margin" Value="5" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="10,5,10,5" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border
+                        x:Name="border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        SnapsToDevicePixels="true">
+                        <ContentPresenter
+                            x:Name="contentPresenter"
+                            Margin="{TemplateBinding Padding}"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Focusable="False"
+                            RecognizesAccessKey="True"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsDefaulted" Value="true">
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}" />
+                        </Trigger>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Button.MouseOver.Background}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.MouseOver.Border}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Button.Pressed.Background}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Pressed.Border}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter TargetName="border" Property="Background" Value="{StaticResource Button.Disabled.Background}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{StaticResource Button.Disabled.Border}" />
+                            <Setter TargetName="contentPresenter" Property="TextElement.Foreground" Value="{StaticResource Button.Disabled.Foreground}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SlideMenuBtn" TargetType="{x:Type Button}">
+        <Setter Property="Foreground" Value="{StaticResource Fo11GainsboroBrush}" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="MinHeight" Value="23" />
+        <Setter Property="MinWidth" Value="60" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <StackPanel>
+                        <TextBlock Foreground="{TemplateBinding Background}" />
+                        <ContentPresenter />
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="White" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource FG12FuzzyWuzzyBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ToolButton" TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Foreground" Value="Green" />
+        <Setter Property="FontFamily" Value="{StaticResource LineAwesome}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeXXLarge}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="4" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Button
+                        Background="{TemplateBinding Background}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        Command="{TemplateBinding Command}"
+                        Content="{TemplateBinding Content}"
+                        Foreground="{TemplateBinding Foreground}" />
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="PaleVioletRed" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Foreground" Value="IndianRed" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="Transparent" />
+                            <Setter Property="Foreground" Value="Gray" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="ToolDeleteButton" TargetType="{x:Type Button}">
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+
+        <Setter Property="Foreground" Value="Red" />
+        <Setter Property="FontFamily" Value="{StaticResource LineAwesome}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeXLarge}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="MinHeight" Value="23" />
+        <Setter Property="MinWidth" Value="40" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <StackPanel>
+                        <ContentPresenter Margin="8" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="PaleVioletRed" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Foreground" Value="IndianRed" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="Gray" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="TopMenuButton" TargetType="{x:Type Button}">
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="FontFamily" Value="{StaticResource LatoBold}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeRegular}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="MinHeight" Value="23" />
+        <Setter Property="MinWidth" Value="60" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <StackPanel>
+                        <ContentPresenter Margin="8" VerticalAlignment="Center" />
+                    </StackPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="Green" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource FG12FuzzyWuzzyBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="LightGray" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="ToothButton" TargetType="{x:Type Button}">
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <ContentPresenter />
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Foreground" Value="Green" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Foreground" Value="{StaticResource FG12FuzzyWuzzyBrush}" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Foreground" Value="LightGray" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="DefaultListView" TargetType="{x:Type ListView}">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+
+        <Setter Property="ScrollViewer.CanContentScroll" Value="True" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListView}">
+                    <Border Name="Border" BorderThickness="1">
+                        <Border.Background>
+                            <SolidColorBrush Color="{StaticResource ControlLightColor}" />
+                        </Border.Background>
+                        <Border.BorderBrush>
+                            <SolidColorBrush Color="{StaticResource BorderMediumColor}" />
+                        </Border.BorderBrush>
+                        <ScrollViewer Style="{DynamicResource {x:Static GridView.GridViewScrollViewerStyleKey}}">
+                            <ItemsPresenter />
+                        </ScrollViewer>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsGrouping" Value="True">
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background">
+                                <Setter.Value>
+                                    <SolidColorBrush Color="{DynamicResource DisabledBorderLightColor}" />
+                                </Setter.Value>
+                            </Setter>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="DefaultListViewItem" TargetType="{x:Type ListViewItem}">
+        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                    <Border
+                        x:Name="Border"
+                        Padding="2"
+                        Background="Transparent"
+                        SnapsToDevicePixels="true">
+                        <GridViewRowPresenter VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="MouseOver" />
+                                <VisualState x:Name="Disabled" />
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="SelectionStates">
+                                <VisualState x:Name="Unselected" />
+                                <VisualState x:Name="Selected">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                            <EasingColorKeyFrame KeyTime="0" Value="{StaticResource SelectedBackgroundColor}" />
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="SelectedUnfocused">
+                                    <Storyboard>
+                                        <ColorAnimationUsingKeyFrames Storyboard.TargetName="Border" Storyboard.TargetProperty="(Panel.Background).(SolidColorBrush.Color)">
+                                            <EasingColorKeyFrame KeyTime="0" Value="{StaticResource SelectedUnfocusedColor}" />
+                                        </ColorAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="toothPath" TargetType="{x:Type Path}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=IsChecked, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}" Value="True">
+                <Setter Property="Fill" Value="Green" />
+                <Setter Property="StrokeThickness" Value="2" />
+                <Setter Property="Stroke" Value="Green" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ToggleButton}}}" Value="True">
+                <Setter Property="Fill" Value="Red" />
+                <Setter Property="Stroke" Value="Red" />
+                <Setter Property="StrokeThickness" Value="2" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="Banner" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="Gray" />
+        <Setter Property="FontFamily" Value="{StaticResource LatoRegular}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeRegular}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Language" Value="pl-PL" />
+        <Setter Property="Margin" Value="10,0" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="InputFormTextBlock" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="FontFamily" Value="{StaticResource LatoRegular}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeRegular}" />
+        <Setter Property="Margin" Value="10,3" />
+        <Setter Property="TextAlignment" Value="Right" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="ListItem" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="Black" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="FontFamily" Value="{StaticResource LatoRegular}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeRegular}" />
+        <Setter Property="Margin" Value="10,3" />
+        <Setter Property="TextAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="ToolTextIcon" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="Green" />
+        <Setter Property="FontFamily" Value="{StaticResource LineAwesome}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeXLarge}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="TopBanner" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="Gray" />
+        <Setter Property="FontFamily" Value="{StaticResource LatoRegular}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeXLarge}" />
+        <Setter Property="FontWeight" Value="DemiBold" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Language" Value="pl-PL" />
+        <Setter Property="Margin" Value="10,3" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="TopMenuLabel" TargetType="{x:Type TextBlock}">
+        <Setter Property="Foreground" Value="LightGray" />
+        <Setter Property="FontFamily" Value="{StaticResource LatoBold}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeRegular}" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="MinHeight" Value="23" />
+        <Setter Property="MinWidth" Value="60" />
+        <Setter Property="TextAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="InputFormTextBox" TargetType="{x:Type TextBox}">
+        <Setter Property="Foreground" Value="{StaticResource BG11SteelBlueBrush}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="FontFamily" Value="{StaticResource LatoRegular}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeRegular}" />
+        <Setter Property="Margin" Value="10,3" />
+        <Setter Property="TextAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="toothToggleButton" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Grid>
+                        <Border
+                            x:Name="Border"
+                            Background="Transparent"
+                            BorderThickness="0"
+                            CornerRadius="5">
+                            <ContentPresenter />
+                        </Border>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal" />
+                                <VisualState x:Name="MouseOver" />
+                                <VisualState x:Name="Pressed" />
+                                <VisualState x:Name="Disabled" />
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="CheckStates">
+                                <VisualState x:Name="Checked" />
+                                <VisualState x:Name="Unchecked" />
+                                <VisualState x:Name="Indeterminate" />
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style x:Key="DefaultTreeView" TargetType="{x:Type TreeView}">
+        <Setter Property="FontFamily" Value="{StaticResource LatoRegular}" />
+        <Setter Property="FontSize" Value="{StaticResource FontSizeSmall}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TreeView}">
+                    <ScrollViewer
+                        Padding="4"
+                        CanContentScroll="True"
+                        Focusable="False">
+                        <ItemsPresenter />
+                    </ScrollViewer>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="GroupTreeViewItemStyle" TargetType="{x:Type TreeViewItem}">
+        <Style.Resources>
+            <LinearGradientBrush x:Key="ItemAreaBrush" Opacity="0.3" StartPoint="0.5, 0" EndPoint="0.5, 1">
+                <GradientStop Offset="0" Color="#EEFFFFFF" />
+                <GradientStop Offset="1" Color="#22000000" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="SelectedItemAreaBrush" Opacity="0.4" StartPoint="0.5, 0" EndPoint="0.5, 1">
+                <GradientStop Offset="0" Color="#22000000" />
+                <GradientStop Offset="1" Color="#EEFFFFFF" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="ItemBorderBrush" StartPoint="0.5, 0" EndPoint="0.5, 1">
+                <GradientStop Offset="0" Color="LightGray" />
+                <GradientStop Offset="1" Color="Gray" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="SelectedItemBorderBrush" StartPoint="0.5, 0" EndPoint="0.5, 1">
+                <GradientStop Offset="0" Color="Gray" />
+                <GradientStop Offset="1" Color="LightGray" />
+            </LinearGradientBrush>
+            <DropShadowBitmapEffect x:Key="DropShadowEffect" />
+        </Style.Resources>
+
+        <Setter Property="IsExpanded" Value="True" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TreeViewItem}">
+                    <Grid Name="Gd" Margin="3,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!--  This Border contains elements which display the content and child items of the TreeViewItem.  -->
+                        <Border
+                            Name="Bd"
+                            Padding="3"
+                            Background="{StaticResource ItemAreaBrush}"
+                            BorderBrush="{StaticResource ItemBorderBrush}"
+                            BorderThickness="0.6"
+                            CornerRadius="4"
+                            SnapsToDevicePixels="True">
+                            <Grid>
+                                <!--  Items with children are shown in an Expander.  -->
+                                <Expander Name="Exp" IsExpanded="{TemplateBinding TreeViewItem.IsExpanded}">
+                                    <Expander.Header>
+                                        <!--  Displays the item's header in the Expander.  -->
+                                        <ContentPresenter ContentSource="Header" />
+                                    </Expander.Header>
+                                    <!--  Displays the item's children.  -->
+                                    <ItemsPresenter />
+                                </Expander>
+
+                                <!--  Items without children are shown in a ContentPresenter.  -->
+                                <ContentPresenter
+                                    Name="CntPres"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    ContentSource="Header"
+                                    Visibility="Collapsed" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <!--
+                            If the TreeViewItem has child items,
+                            show it in an Expander.  Otherwise
+                            hide the Expander and show the hidden
+                            ContentPresenter.
+                        -->
+                        <Trigger Property="TreeViewItem.HasItems" Value="false">
+                            <Setter TargetName="Exp" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="CntPres" Property="Visibility" Value="Visible" />
+                        </Trigger>
+
+                        <!--  When the item is selected in the TreeView, use the "selected" colors and give it a drop shadow.  -->
+                        <!--<Trigger Property="IsSelected" Value="true">
+                            <Setter
+                                TargetName="Bd"
+                                Property="Panel.Background"
+                                Value="{StaticResource SelectedItemAreaBrush}" />
+                            <Setter
+                                TargetName="Bd"
+                                Property="Border.BorderBrush"
+                                Value="{StaticResource SelectedItemBorderBrush}" />
+                            <Setter
+                                TargetName="Bd"
+                                Property="TextElement.Foreground"
+                                Value="{DynamicResource
+                                  {x:Static SystemColors.HighlightTextBrushKey}}" />
+                            <Setter
+                                TargetName="Bd"
+                                Property="Border.BitmapEffect"
+                                Value="{StaticResource DropShadowEffect}" />
+                                        </Trigger>-->
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <!--
+            Make each TreeViewItem show it's children
+            in a StackPanel. If it is a root item then
+            the Orientation will be 'Horizontal', else
+            'Vertical'.
+        -->
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <ItemsPanelTemplate.Resources>
+                        <local:ItemsPanelOrientationConverter x:Key="conv" />
+                    </ItemsPanelTemplate.Resources>
+                    <StackPanel IsItemsHost="True" Orientation="{Binding RelativeSource={x:Static RelativeSource.TemplatedParent}, Converter={StaticResource conv}}" />
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="GroupTreeViewVerticalItemStyle" TargetType="{x:Type TreeViewItem}">
+        <Style.Resources>
+            <LinearGradientBrush x:Key="ItemAreaBrush" Opacity="0.3" StartPoint="0.5, 0" EndPoint="0.5, 1">
+                <GradientStop Offset="0" Color="#EEFFFFFF" />
+                <GradientStop Offset="1" Color="#22000000" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="SelectedItemAreaBrush" Opacity="0.4" StartPoint="0.5, 0" EndPoint="0.5, 1">
+                <GradientStop Offset="0" Color="#EEFFFFFF" />
+                <GradientStop Offset="1" Color="#22000000" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="ItemBorderBrush" StartPoint="0.5, 0" EndPoint="0.5, 1">
+                <GradientStop Offset="0" Color="LightGray" />
+                <GradientStop Offset="1" Color="Gray" />
+            </LinearGradientBrush>
+            <LinearGradientBrush x:Key="SelectedItemBorderBrush" StartPoint="0.5, 0" EndPoint="0.5, 1">
+                <GradientStop Offset="0" Color="Gray" />
+                <GradientStop Offset="1" Color="LightGray" />
+            </LinearGradientBrush>
+            <DropShadowBitmapEffect x:Key="DropShadowEffect" />
+        </Style.Resources>
+
+        <Setter Property="IsExpanded" Value="False" />
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TreeViewItem}">
+                    <Grid Margin="3,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                        </Grid.RowDefinitions>
+
+                        <!--  This Border contains elements which display the content and child items of the TreeViewItem.  -->
+                        <Border
+                            Name="Bd"
+                            Padding="3"
+                            Background="{StaticResource ItemAreaBrush}"
+                            BorderBrush="{StaticResource ItemBorderBrush}"
+                            BorderThickness="0.6"
+                            CornerRadius="4"
+                            SnapsToDevicePixels="True">
+                            <Grid>
+                                <!--  Items with children are shown in an Expander.  -->
+                                <Expander Name="Exp" IsExpanded="{TemplateBinding TreeViewItem.IsExpanded}">
+                                    <Expander.Header>
+                                        <!--  Displays the item's header in the Expander.  -->
+                                        <ContentPresenter ContentSource="Header" />
+                                    </Expander.Header>
+                                    <!--  Displays the item's children.  -->
+                                    <ItemsPresenter />
+                                </Expander>
+
+                                <!--  Items without children are shown in a ContentPresenter.  -->
+                                <ContentPresenter
+                                    Name="CntPres"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    ContentSource="Header"
+                                    Visibility="Collapsed" />
+                            </Grid>
+                        </Border>
+                    </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <!--
+                            If the TreeViewItem has child items, show it in an Expander.  Otherwise
+                            hide the Expander and show the hidden ContentPresenter.
+                        -->
+                        <Trigger Property="TreeViewItem.HasItems" Value="false">
+                            <Setter TargetName="Exp" Property="Visibility" Value="Collapsed" />
+                            <Setter TargetName="CntPres" Property="Visibility" Value="Visible" />
+                        </Trigger>
+
+                        <!--  When the item is selected in the TreeView, use the "selected" colors and give it a drop shadow.  -->
+                        <Trigger Property="IsSelected" Value="true">
+                            <Setter TargetName="Bd" Property="Panel.Background" Value="{StaticResource SelectedItemAreaBrush}" />
+                            <Setter TargetName="Bd" Property="Border.BorderBrush" Value="{StaticResource SelectedItemBorderBrush}" />
+                            <Setter TargetName="Bd" Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}" />
+                            <Setter TargetName="Bd" Property="Border.BitmapEffect" Value="{StaticResource DropShadowEffect}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+        <!--
+            Make each TreeViewItem show it's children
+            in a StackPanel. If it is a root item then
+            the Orientation will be 'Horizontal', else
+            'Vertical'.
+        -->
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <ItemsPanelTemplate.Resources>
+                        <local:ItemsPanelOrientationConverter x:Key="conv" />
+                    </ItemsPanelTemplate.Resources>
+                    <StackPanel />
+
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
+</ResourceDictionary>

@@ -1,0 +1,362 @@
+﻿<UserControl x:Class="DentalClinic.Wpf.PatientViewControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:local="clr-namespace:DentalClinic.Wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="750" d:DesignWidth="1200">
+
+    <UserControl.Resources>
+
+        <CollectionViewSource x:Key="src" Source="{Binding PatientTreatments}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="VisitDateTime"/>
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+        
+        <local:BooleanToVisibilityConverter x:Key="boolToVisibilityConv"/>
+        <local:BooleanToBrushConverter x:Key="boolToBrushConv"/>
+        <local:PeselToFontConverter x:Key="peselToFontConv"/>
+        <local:SelectedToVisibilityConverter x:Key="selectedToVisibilityConv"/>
+        <local:CountToVisibilityConverter x:Key="countToVisibilityConv"/>
+
+    </UserControl.Resources>
+    
+    <Grid Background="White" ScrollViewer.VerticalScrollBarVisibility="Auto">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="20"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="20"/>
+        </Grid.RowDefinitions>
+        <Image Grid.Column="1" Grid.Row="1" Source="{Binding SelectedPatient.Person.PersonalNumber,
+                                                             Converter={StaticResource peselToFontConv}}"/>
+        <TextBlock Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="0"
+                   FontSize="{StaticResource FontSizeLarge}"
+                   Style="{StaticResource TopMenuLabel}"
+                   >
+            <TextBlock.Text>
+                <MultiBinding StringFormat="{}{0} {1} {2}">
+                    <Binding Path="SelectedPatient.Person.Title"/>
+                    <Binding Path="SelectedPatient.Person.LastName"/>
+                    <Binding Path="SelectedPatient.Person.FirstName"/>
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+
+        <StackPanel Grid.Column="3" Grid.ColumnSpan="2" Grid.Row="1">
+            <TextBlock FontFamily="{StaticResource LatoRegular}"
+                   FontSize="{StaticResource FontSizeRegular}"
+                   TextWrapping="WrapWithOverflow"
+                   Text="{Binding PatientBornDate}"/>
+            <TextBlock />
+            <TextBlock FontFamily="{StaticResource LatoRegular}"
+                   FontSize="{StaticResource FontSizeRegular}"
+                   TextWrapping="WrapWithOverflow"
+                   Text="{Binding PatientPhone}"/>
+            <TextBlock />
+            <TextBlock FontFamily="{StaticResource LatoRegular}"
+                   FontSize="{StaticResource FontSizeRegular}"
+                   TextWrapping="WrapWithOverflow"
+                   Text="{Binding PatientEmail}"/>
+            <TextBlock />
+            <CheckBox IsChecked="{Binding SmsNotify}"
+                      Content="Powiadomienia SMS" FontFamily="{StaticResource LatoRegular}"
+                      FontSize="{StaticResource FontSizeRegular}"
+                      Visibility="{Binding ThisIsMainHost, Converter={StaticResource boolToVisibilityConv}}"/>
+        </StackPanel>
+        <StackPanel  Grid.Column="6" Grid.ColumnSpan="3" Orientation="Horizontal">
+            <TextBlock HorizontalAlignment="Left" Style="{StaticResource Banner}"
+                       Text="Notatki odnośnie pacjenta" VerticalAlignment="Bottom"/>
+
+            <Button Command="{Binding CommandToAddPatientComment}" Content="{StaticResource la-plus}"
+                    FontSize="{StaticResource FontSizeLarge}"
+                    Style="{StaticResource ToolButton}"
+                    ToolTip="Dodaj nową notatkę przypisaną do pacjenta"
+                    VerticalAlignment="Bottom"/>
+            <Button Command="{Binding CommandToSavePatientComments}" Content="{StaticResource la-save}"
+                    Foreground="{Binding ChangesSaved, Converter={StaticResource boolToBrushConv}}"
+                    FontSize="{StaticResource FontSizeLarge}"
+                    Margin="0"
+                    Padding="0"
+                    Style="{StaticResource ToolButton}"
+                    VerticalAlignment="Bottom"
+                    Visibility="{Binding ChangesMade, Converter={StaticResource boolToVisibilityConv}}"
+                    />
+        </StackPanel>
+        
+
+        <ListView Grid.Column="6" Grid.ColumnSpan="3" Grid.Row="1" Grid.RowSpan="2"
+                  ItemsSource="{Binding PatientComments}" Style="{StaticResource DefaultListView}"
+                  x:Name="patientCommentList">
+            <ListView.ItemTemplate>
+                <ItemContainerTemplate>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox BorderThickness="0 0 0 1" 
+                                             Text="{Binding Title}" Style="{StaticResource InputFormTextBox}"/>
+                            <Button Command="{Binding ElementName=patientCommentList,
+                                                          Path=DataContext.CommandToRemovePatientComment}"
+                                        CommandParameter="{Binding }"
+                                        Content="{StaticResource la-remove}" 
+                                        Style="{StaticResource ToolDeleteButton}"
+                                        VerticalAlignment="Bottom"/>
+                        </StackPanel>
+
+                        <TextBox AcceptsReturn="True" AcceptsTab="True"
+                                         BorderThickness="0" MinHeight="40" MaxHeight="180"
+                                         Foreground="Black"
+                                         Language="pl-PL"
+                                         SpellCheck.IsEnabled="True"
+                                         Style="{StaticResource InputFormTextBox}"
+                                         Text="{Binding Content}"
+                                         TextWrapping="Wrap"/>
+
+                    </StackPanel>
+                </ItemContainerTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <Button Command="{Binding CommandToGoBack}" Content="{StaticResource la-angle-double-left}"
+                FontFamily="{StaticResource LineAwesome}" 
+                FontSize="{StaticResource FontSizeLarge}" Margin="0"
+                Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0"
+                Style="{StaticResource TopMenuButton}"/>
+        <StackPanel Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="2" Orientation="Horizontal">
+            <TextBlock 
+                   FontSize="{StaticResource FontSizeRegular}"
+                   HorizontalAlignment="Left"
+                   Style="{StaticResource Banner}"
+                   Text="Dane tele-adresowe"
+                   VerticalAlignment="Bottom"/>
+            <Button Command="{Binding CommandToAddAddress}" Content="{StaticResource la-plus}"
+                    FontSize="{StaticResource FontSizeLarge}"
+                    Visibility="Hidden"
+                    Style="{StaticResource ToolButton}"
+                    ToolTip="Dodaj nowy adres"
+                    VerticalAlignment="Bottom"/>
+        </StackPanel>
+        
+        <DataGrid AutoGenerateColumns="False"
+                  Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="3"
+                  ItemsSource="{Binding PatientAddresses}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding AddressType}" Header="TYP" MinWidth="80"/>
+                <DataGridTextColumn Binding="{Binding City}" Header="MIASTO" MinWidth="120"/>
+                <DataGridTextColumn Binding="{Binding Street}" Header="ULICA" MinWidth="120"/>
+                <DataGridTextColumn Binding="{Binding HouseNumber}" Header="NR DOMU" MinWidth="120"/>
+                <DataGridTextColumn Binding="{Binding FlatNumber}" Header="NR MIESZK." MinWidth="120"/>
+                <DataGridTextColumn Binding="{Binding PostalCode}" Header="KOD POCZTOWY" MinWidth="120"/>
+                <DataGridTextColumn Binding="{Binding Email}" Header="E-MAIL" MinWidth="120"/>
+                <DataGridTextColumn Binding="{Binding CellPhone}" Header="TEL.KOM." MinWidth="120"/>
+                <DataGridTextColumn Binding="{Binding WorkPhone}" Header="TEL.PRACA" MinWidth="120"/>
+                <DataGridTextColumn Binding="{Binding HomePhone}" Header="TEL.DOM." MinWidth="120"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <StackPanel Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="5" Orientation="Horizontal">
+            <TextBlock 
+                   FontSize="{StaticResource FontSizeRegular}"
+                   HorizontalAlignment="Left"
+                   Style="{StaticResource Banner}"
+                   Text="Zabiegi"
+                   VerticalAlignment="Bottom"/>
+            
+        </StackPanel>
+        
+        
+
+        <ListView Grid.Column="1" Grid.ColumnSpan="4" Grid.Row="6" Grid.RowSpan="2"
+                  ItemsSource="{Binding Source={StaticResource src}}"
+                  SelectedItem="{Binding SelectedTreatment}"
+                  x:Name="treatmentList">
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding CommandToChangeSelectedComment}"
+                                           CommandParameter="{Binding ElementName=treatmentList, Path=SelectedItem}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+            
+
+            <ListView.View>
+                <GridView>
+                    
+                    <GridViewColumn>
+                        <GridViewColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock FontFamily="{StaticResource LatoRegular}"
+                                           FontWeight="DemiBold"
+                                           FontSize="{StaticResource FontSizeRegular}"
+                                           Text="Nr zęba/wizyta"/>
+                            </DataTemplate>
+                        </GridViewColumn.HeaderTemplate>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontFamily="{StaticResource LatoRegular}"
+                                           FontSize="{StaticResource FontSizeSmall}"
+                                           Margin="5 0 0 0"
+                                           Text="{Binding ObjectOfTreatment}"
+                                           TextAlignment="Center"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+
+                    <GridViewColumn>
+                        <GridViewColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock FontFamily="{StaticResource LatoRegular}"
+                                           FontWeight="DemiBold"
+                                           FontSize="{StaticResource FontSizeRegular}"
+                                           Text="Typ"/>
+                            </DataTemplate>
+                        </GridViewColumn.HeaderTemplate>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontFamily="{StaticResource LatoRegular}"
+                                           FontSize="{StaticResource FontSizeSmall}"
+                                           Margin="5 0 0 0"
+                                           Text="{Binding Treatment}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    
+                    <GridViewColumn>
+                        <GridViewColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock FontFamily="{StaticResource LatoRegular}"
+                                           FontWeight="DemiBold"
+                                           FontSize="{StaticResource FontSizeRegular}"
+                                           Text="Podtyp"/>
+                            </DataTemplate>
+                        </GridViewColumn.HeaderTemplate>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontFamily="{StaticResource LatoRegular}"
+                                           FontSize="{StaticResource FontSizeSmall}"
+                                           Margin="5 0 0 0"
+                                           Text="{Binding SubTreatment}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn>
+                        <GridViewColumn.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock FontFamily="{StaticResource LatoRegular}"
+                                           FontWeight="DemiBold"
+                                           FontSize="{StaticResource FontSizeRegular}"
+                                           Text="Podtyp2"/>
+                            </DataTemplate>
+                        </GridViewColumn.HeaderTemplate>
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontFamily="{StaticResource LatoRegular}"
+                                           FontSize="{StaticResource FontSizeSmall}"
+                                           Margin="5 0 0 0"
+                                           Text="{Binding Sub2Treatment}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                </GridView>
+            </ListView.View>
+
+            <ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.ContainerStyle>
+                        <Style TargetType="{x:Type GroupItem}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                        <Expander IsExpanded="True" BorderBrush="#FFA4B97F"
+                                                  BorderThickness="0,0,0,1">
+                                            <Expander.Header>
+                                                <DockPanel>
+                                                    <TextBlock FontFamily="{StaticResource LineAwesome}"
+                                                               FontWeight="DemiBold"
+                                                               FontSize="{StaticResource FontSizeLarge}"
+                                                               Foreground="Black" Margin="5 0 0 0" 
+                                                               Text="{StaticResource la-dashboard}"
+                                                               VerticalAlignment="Center"/>
+                                                    <TextBlock FontFamily="{StaticResource LatoRegular}"
+                                                               FontSize="{StaticResource FontSizeRegular}"
+                                                               Margin="3 0 0 0" Text="{Binding Path=Name, StringFormat='HH:mm dddd'}"
+                                                               FontWeight="Bold" Foreground="Black"
+                                                               Language="pl-PL"
+                                                               VerticalAlignment="Center"/>
+                                                    <TextBlock FontFamily="{StaticResource LineAwesome}"
+                                                               FontWeight="DemiBold"
+                                                               FontSize="{StaticResource FontSizeLarge}"
+                                                               Foreground="Black" Margin="5 0 0 0" 
+                                                               Text="{StaticResource la-calendar}"
+                                                               VerticalAlignment="Center"/>
+                                                    <TextBlock FontFamily="{StaticResource LatoRegular}"
+                                                               FontSize="{StaticResource FontSizeRegular}"
+                                                               Margin="3 0 0 0" Text="{Binding Path=Name, StringFormat='dd.MM.yyyy'}"
+                                                               FontWeight="Bold" Foreground="Black"
+                                                               Language="pl-PL"
+                                                               VerticalAlignment="Center"/>
+                                                </DockPanel>
+                                            </Expander.Header>
+                                            <ItemsPresenter />
+                                        </Expander>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GroupStyle.ContainerStyle>
+                </GroupStyle>
+            </ListView.GroupStyle>
+            
+        </ListView>
+
+        <TextBlock Grid.Column="6" Grid.Row="5" 
+                   Style="{StaticResource Banner}"
+                   Text="{Binding SelectedTreatment.ObjectOfTreatment,FallbackValue='Notatki do ....'}"
+                   VerticalAlignment="Bottom"
+                   Visibility="{Binding ElementName=treatmentList, Path=SelectedItem, Converter={StaticResource selectedToVisibilityConv}}"/>
+        <ListView Grid.Column="6" Grid.ColumnSpan="3" Grid.Row="6" Grid.RowSpan="2"
+                  ItemsSource="{Binding Comments}" Style="{StaticResource DefaultListView}"
+                  x:Name="commentList">
+            <ListView.ItemTemplate>
+                <ItemContainerTemplate>
+                    <StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox BorderThickness="0 0 0 1" 
+                                             Text="{Binding Title}" Style="{StaticResource InputFormTextBox}"/>
+                        </StackPanel>
+
+                        <TextBox AcceptsReturn="True" AcceptsTab="True"
+                                         BorderThickness="0" MinHeight="40" MaxHeight="180"
+                                         Foreground="Black"
+                                         Language="pl-PL"
+                                         SpellCheck.IsEnabled="True"
+                                         Style="{StaticResource InputFormTextBox}"
+                                         Text="{Binding Content}"
+                                         TextWrapping="Wrap"/>
+
+                    </StackPanel>
+                </ItemContainerTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</UserControl>

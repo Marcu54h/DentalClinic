@@ -1,0 +1,481 @@
+﻿<UserControl x:Class="DentalClinic.Wpf.ScheduleDayControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:local="clr-namespace:DentalClinic.Wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="1200"
+             >
+
+    <UserControl.Resources>
+        <local:BooleanToVisibilityConverter x:Key="boolToVisibilityConverter"/>
+        <local:MonthDayToBrushConverter x:Key="monthDayToBrushConverter"/>
+        <local:DateToIScheduleDayConverter x:Key="dateToIScheduleDayConv"/>
+        <local:IntToVisibilityConverter x:Key="intToVisibilityConv"/>
+        <local:EmployeesVisibilityConverter x:Key="employeesVisibilityConv"/>
+        <local:OfficesVisibilityConverter x:Key="officesVisibilityConv"/>
+        <local:MinuteToVisibilityConverter x:Key="minuteToVisibilityConv"/>
+        <local:StringToBrushConverter x:Key="stringToBrushConverter"/>
+
+        <Style x:Key="alternatingWithTriggers" TargetType="{x:Type ListViewItem}">
+            <Style.Triggers>
+                <Trigger Property="ListView.AlternationIndex" Value="0">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Trigger>
+                <Trigger Property="ListView.AlternationIndex" Value="1">
+                    <Setter Property="Background" Value="WhiteSmoke"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+         
+    </UserControl.Resources>
+
+    <Grid ScrollViewer.HorizontalScrollBarVisibility="Auto"
+          ScrollViewer.VerticalScrollBarVisibility="Auto"
+          ScrollViewer.CanContentScroll="True">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <!-- TOP LEFT BAR -->
+        <StackPanel Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Orientation="Horizontal">
+            <StackPanel 
+                    Orientation="Horizontal">
+                <Button Command="{Binding CommandToGoBack}" Content="{StaticResource la-angle-double-left}"
+                        FontFamily="{StaticResource LineAwesome}" 
+                        FontSize="{StaticResource FontSizeLarge}" Margin="0 8"
+                        Style="{StaticResource TopMenuButton}"/>
+                <TextBlock FontFamily="{StaticResource LatoRegular}"
+                           FontSize="{StaticResource FontSizeLarge}"
+                               FontWeight="Bold"
+                           Foreground="Gray"
+                           Language="pl-PL"
+                           Margin="0"
+                           Padding="14"
+                           Text="{Binding SelectedDayLabel}"
+                           TextAlignment="Center"
+                           Width="360"/>
+                <Button Command="{Binding CommandToPreviousDay}" Content="{StaticResource la-chevron-left}"
+                        FontFamily="{StaticResource LineAwesome}" 
+                        FontSize="{StaticResource FontSizeLarge}" Margin="0 8"
+                        Style="{StaticResource TopMenuButton}"/>
+                <Button Command="{Binding CommandToNextDay}" Content="{StaticResource la-chevron-right}" 
+                        FontFamily="{StaticResource LineAwesome}"
+                        FontSize="{StaticResource FontSizeLarge}" Margin="0 8"
+                        Style="{StaticResource TopMenuButton}"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <DatePicker BorderThickness="0"
+                            FontFamily="{StaticResource LatoRegular}"
+                            FontSize="{StaticResource FontSizeRegular}"
+                            HorizontalAlignment="Right"
+                            Language="pl-PL"
+                            Margin="30 7 10 0"
+                            SelectedDate="{Binding DateTimePickerDate}"
+                            VerticalAlignment="Center"/>
+                <Button Command="{Binding CommandToToday}" Content="dzisiaj" 
+                        FontFamily="{StaticResource LatoRegular}"
+                        FontSize="{StaticResource FontSizeRegular}" Margin="0 8"
+                        Style="{StaticResource ToolButton}"
+                            VerticalAlignment="Center"/>
+            </StackPanel>
+        </StackPanel>
+        
+        <!-- TOP RIGHT BAR -->
+        <StackPanel Grid.Column="1" Grid.Row="0">
+            <TextBlock Foreground="LightSlateGray"
+                       Style="{StaticResource TopMenuLabel}" Text="Wyświetlanie wg"/>
+            <ComboBox Margin="3 0" SelectedIndex="{Binding SortByIndex}" x:Name="displayBy" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding CommandToSelectionChange}"
+                                               CommandParameter="{Binding ElementName=displayBy, Path=SelectedValue.Content.Text}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <ComboBoxItem>
+                    <TextBlock Text="Gabinetów"/>
+                </ComboBoxItem>
+                <ComboBoxItem>
+                    <TextBlock Text="Pracowników"/>
+                </ComboBoxItem>
+            </ComboBox>
+        </StackPanel>
+        
+        <!-- SELECTED EMPLOYEES COLLECTION -->
+        <ListView BorderThickness="0"
+                  Grid.Column="0" Grid.Row="1"
+                  ItemsSource="{Binding SelectedEmployees}"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  SelectedIndex="{Binding SelectedEmployeeIndex}"
+                  VerticalAlignment="Top"
+                  Visibility="{Binding ElementName=displayBy, Path=SelectedIndex,
+                                       Converter={StaticResource employeesVisibilityConv}}"
+                  x:Name="selectedEmployees">
+            
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding CommandToDoubleClick}"
+                                           CommandParameter="{Binding ElementName=selectedEmployees, Path=SelectedItem}"
+                                           />
+                </i:EventTrigger>
+                <i:EventTrigger EventName="SelectionChange">
+                    <i:InvokeCommandAction Command="{Binding CommandToMouseDown}"
+                                           CommandParameter="{Binding ElementName=selectedEmployees, Path=SelectedItem}"
+                                           />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Style="{StaticResource Banner}" Text="{Binding Caption}"/>
+
+                        <ListView AlternationCount="2" BorderThickness="0" Grid.Row="1" 
+                                  ItemContainerStyle="{StaticResource alternatingWithTriggers}"
+                                  ItemsSource="{Binding WorkingHours}"
+                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                  SelectedIndex="{Binding DataContext.SelectedWorkIntervalIndex,
+                                                          RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                          AncestorLevel=1, AncestorType={x:Type UserControl}}}"
+                                  SelectedItem="{Binding DataContext.SelectedWorkInterval, Mode=TwoWay,
+                                                          RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                          AncestorLevel=1, AncestorType={x:Type UserControl}}}"
+
+                                  x:Name="empWorkingHours">
+                            
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDoubleClick">
+                                    <i:InvokeCommandAction Command="{Binding DataContext.CommandToDoubleClick,
+                                                                             RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                             AncestorLevel=1, AncestorType={x:Type UserControl}}}"
+                                                           CommandParameter="{Binding ElementName=empWorkingHours, Path=SelectedItem}"/>
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="SelectionChange">
+                                    <i:InvokeCommandAction Command="{Binding DataContext.CommandToMouseDown,
+                                                                             RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                             AncestorLevel=1, AncestorType={x:Type UserControl}}}"
+                                                           CommandParameter="{Binding ElementName=empWorkingHours, Path=SelectedItem}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid x:Name="workInterval">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                            <TextBlock FontWeight="Bold" Text="{Binding LabelHour}"
+                                                       Visibility="{Binding ElementName=empMin, Path=Text, Converter={StaticResource minuteToVisibilityConv}}"/>
+                                            <TextBlock Text=":"
+                                                       Visibility="{Binding ElementName=empMin, Path=Text, Converter={StaticResource minuteToVisibilityConv}}"/>
+                                            <TextBlock Text="{Binding LabelMinute}" x:Name="empMin"/>
+                                            <Button Command="{Binding CommandToScheduleNewPatient}"
+                                                    CommandParameter="{Binding }"
+                                                    Content="{StaticResource la-plus-circle}"
+                                                    FontFamily="{StaticResource LineAwesome}"
+                                                    FontSize="{StaticResource FontSizeSmall}"
+                                                     Style="{StaticResource ToolButton}"
+                                                    ToolTip="Umów nowego pacjenta"
+                                                    />
+                                        </StackPanel>
+                                        <ListView BorderThickness="0" Grid.Column="1" ItemsSource="{Binding Visits}"
+                                                  SelectedIndex="{Binding DataContext.SelectedVisitIndex,
+                                                                         RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                         AncestorLevel=1, AncestorType={x:Type UserControl}}}"
+                                                  SelectedItem="{Binding DataContext.SelectedVisit, Mode=TwoWay,
+                                                                         RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                          AncestorLevel=1, AncestorType={x:Type UserControl}}}"
+                                                  x:Name="empVisits">
+
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="MouseDoubleClick">
+                                                    <i:InvokeCommandAction Command="{Binding DataContext.CommandToDoubleClick,
+                                                                                             RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}"
+                                                                           CommandParameter="{Binding ElementName=empVisits, Path=SelectedItem}"/>
+                                                </i:EventTrigger>
+                                                <i:EventTrigger EventName="SelectionChange">
+                                                    <i:InvokeCommandAction Command="{Binding DataContext.CommandToMouseDown,
+                                                                             RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                             AncestorLevel=1, AncestorType={x:Type UserControl}}}"
+                                                                           CommandParameter="{Binding ElementName=empVisits, Path=SelectedItem}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+
+                                            <ListView.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel/>
+                                                </ItemsPanelTemplate>
+                                            </ListView.ItemsPanel>
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Background="Transparent" Orientation="Horizontal">
+                                                        <TextBlock Background="Transparent" MinWidth="60">
+                                                            <TextBlock.Text>
+                                                                <MultiBinding StringFormat="{}{0} {1} {2}">
+                                                                    <Binding Path="Patient.Person.Title"/>
+                                                                    <Binding Path="Patient.Person.LastName"/>
+                                                                    <Binding Path="Patient.Person.FirstName"/>
+                                                                </MultiBinding>
+                                                            </TextBlock.Text>
+                                                            
+                                                        </TextBlock>
+                                                        <TextBlock Background="Transparent" FontFamily="{StaticResource LineAwesome}"
+                                                                   Margin="5 3" Text="{StaticResource la-arrow-right}"/>
+                                                        <TextBlock Background="Transparent" MinWidth="60">
+                                                            <TextBlock.Text>
+                                                                <MultiBinding StringFormat="{}{0} {1}">
+                                                                    <Binding Path="Office.Number"/>
+                                                                    <Binding Path="Office.Label"/>
+                                                                </MultiBinding>
+                                                            </TextBlock.Text>
+                                                        </TextBlock>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+
+                                        </ListView>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <!-- SELECTED OFFICES COLLECTION -->
+        <ListView BorderThickness="0"
+                  Grid.Column="0" Grid.Row="1"
+                  ItemsSource="{Binding SelectedOffices}"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  SelectedIndex="{Binding SelectedOfficeIndex}"
+                  VerticalAlignment="Top"
+                  Visibility="{Binding ElementName=displayBy, Path=SelectedIndex,
+                                       Converter={StaticResource officesVisibilityConv}}"
+                  x:Name="selectedOffices">
+            
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding CommandToDoubleClick}"
+                                           CommandParameter="{Binding ElementName=selectedOffices, Path=SelectedItem}"/>
+                </i:EventTrigger>
+                <i:EventTrigger EventName="SelectionChange">
+                    <i:InvokeCommandAction Command="{Binding CommandToMouseDown}"
+                                           CommandParameter="{Binding ElementName=selectedOffices, Path=SelectedItem}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+            
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" Text="{Binding Caption}" Style="{StaticResource Banner}"/>
+                        <ListView AlternationCount="2" BorderThickness="0" Grid.Row="1" ItemsSource="{Binding WorkingHours}"
+                                  ItemContainerStyle="{StaticResource alternatingWithTriggers}"
+                                  ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                  SelectedIndex="{Binding DataContext.SelectedWorkIntervalIndex,
+                                                          RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                          AncestorLevel=1, AncestorType={x:Type UserControl}}}"
+                                  SelectedItem="{Binding DataContext.SelectedWorkInterval, Mode=TwoWay,
+                                                          RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                          AncestorLevel=1, AncestorType={x:Type UserControl}}}"
+                                  x:Name="offWorkingHours">
+
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDoubleClick">
+                                    <i:InvokeCommandAction Command="{Binding DataContext.CommandToDoubleClick,
+                                                                             RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                             AncestorLevel=1, AncestorType={x:Type UserControl}}}"
+                                                           CommandParameter="{Binding ElementName=offWorkingHours, Path=SelectedItem}"/>
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="SelectionChange">
+                                    <i:InvokeCommandAction Command="{Binding DataContext.CommandToMouseDown,
+                                                                             RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                             AncestorLevel=1, AncestorType={x:Type UserControl}}}"
+                                                           CommandParameter="{Binding ElementName=offWorkingHours, Path=SelectedItem}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition/>
+                                        </Grid.RowDefinitions>
+                                        <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                            <TextBlock FontWeight="Bold" Text="{Binding LabelHour}"
+                                                       Visibility="{Binding ElementName=empMin, Path=Text, Converter={StaticResource minuteToVisibilityConv}}"/>
+                                            <TextBlock Text=":"
+                                                       Visibility="{Binding ElementName=empMin, Path=Text, Converter={StaticResource minuteToVisibilityConv}}"/>
+                                            <TextBlock Text="{Binding LabelMinute}" x:Name="empMin"/>
+                                            <Button Command="{Binding CommandToScheduleNewPatient}"
+                                                    CommandParameter="{Binding }"
+                                                    Content="{StaticResource la-plus-circle}"
+                                                    FontFamily="{StaticResource LineAwesome}"
+                                                    FontSize="{StaticResource FontSizeSmall}"
+                                                     Style="{StaticResource ToolButton}"
+                                                    ToolTip="Umów nowego pacjenta"
+                                                    />
+                                        </StackPanel>
+                                        <ListView BorderThickness="0" Grid.Column="1" ItemsSource="{Binding Visits}"
+                                                  SelectedIndex="{Binding DataContext.SelectedVisitIndex,
+                                                                          RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                                          AncestorLevel=1, AncestorType={x:Type UserControl}}}"
+                                                  SelectedItem="{Binding DataContext.SelectedVisit, Mode=TwoWay,
+                                                                         RelativeSource={RelativeSource Mode=FindAncestor,
+                                                                         AncestorLevel=1, AncestorType={x:Type UserControl}}}"
+                                                  x:Name="offVisits">
+
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="MouseDoubleClick">
+                                                    <i:InvokeCommandAction Command="{Binding DataContext.CommandToDoubleClick,
+                                                                                             RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}"
+                                                                           CommandParameter="{Binding ElementName=offVisits, Path=SelectedItem}"/>
+                                                </i:EventTrigger>
+                                                <i:EventTrigger EventName="SelectionChange">
+                                                    <i:InvokeCommandAction Command="{Binding DataContext.CommandToMouseDown,
+                                                                                             RelativeSource={RelativeSource Mode=FindAncestor, AncestorLevel=1, AncestorType={x:Type UserControl}}}"
+                                                                           CommandParameter="{Binding ElementName=offVisits, Path=SelectedItem}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                            
+                                            <ListView.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel/>
+                                                </ItemsPanelTemplate>
+                                            </ListView.ItemsPanel>
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel Background="Transparent" Orientation="Horizontal">
+                                                        <TextBlock Background="Transparent" MinWidth="60">
+                                                            <TextBlock.Text>
+                                                                <MultiBinding StringFormat="{}{0} {1} {2}">
+                                                                    <Binding Path="Patient.Person.Title"/>
+                                                                    <Binding Path="Patient.Person.LastName"/>
+                                                                    <Binding Path="Patient.Person.FirstName"/>
+                                                                </MultiBinding>
+                                                            </TextBlock.Text>
+                                                        </TextBlock>
+                                                        
+                                                        <TextBlock Background="Transparent" FontFamily="{StaticResource LineAwesome}"
+                                                                   Margin="5 0" Text="{StaticResource la-arrow-right}"/>
+                                                        <Border Background="{Binding Employee.FavoriteColor, Converter={StaticResource stringToBrushConverter}}"
+                                                                BorderBrush="Black" BorderThickness="1"
+                                                                CornerRadius="2" Padding="4 0">
+                                                            <TextBlock Background="{Binding Employee.FavoriteColor, Converter={StaticResource stringToBrushConverter}}"
+                                                                       MinWidth="60">
+                                                                <TextBlock.Text>
+                                                                    <MultiBinding StringFormat="{}{0} {1} {2}">
+                                                                        <Binding Path="Employee.Person.Title"/>
+                                                                        <Binding Path="Employee.Person.LastName"/>
+                                                                        <Binding Path="Employee.Person.FirstName"/>
+                                                                    </MultiBinding>
+                                                                </TextBlock.Text>
+                                                            </TextBlock>
+                                                        </Border>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+
+                                        </ListView>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+
+        </ListView>
+
+        <!-- LIST OF OFFICES -->
+        <ListView BorderThickness="0" Grid.Column="1" Grid.Row="1"
+                  ItemsSource="{Binding OfficeCollection}"
+                  Visibility="{Binding ElementName=displayBy, Path=SelectedIndex,
+                                       Converter={StaticResource officesVisibilityConv}}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox IsChecked="{Binding Selected, Mode=TwoWay}">
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="Checked">
+                                    <i:InvokeCommandAction Command="{Binding DataContext.CommandToCheckThisOffice,
+                                                                             RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                                                           CommandParameter="{Binding }"/>
+                                </i:EventTrigger>
+                                <i:EventTrigger EventName="Unchecked">
+                                    <i:InvokeCommandAction Command="{Binding DataContext.CommandToUnCheckThisOffice,
+                                                                             RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                                                           CommandParameter="{Binding }"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        <TextBlock Text="{Binding Caption}"/>
+                    </CheckBox>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        
+        <!-- LIST OF EMPLOYEES -->
+        <ListView BorderThickness="0" Grid.Column="1" Grid.Row="1"
+                  ItemsSource="{Binding EmployeeCollection}"
+                  Visibility="{Binding ElementName=displayBy, Path=SelectedIndex,
+                                       Converter={StaticResource employeesVisibilityConv}}"
+                  x:Name="empCollection">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox IsChecked="{Binding Selected, Mode=TwoWay}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="Checked">
+                                <i:InvokeCommandAction Command="{Binding DataContext.CommandToCheckThisEmployee,
+                                                                         RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                                                       CommandParameter="{Binding }"/>
+                            </i:EventTrigger>
+                            <i:EventTrigger EventName="Unchecked">
+                                <i:InvokeCommandAction Command="{Binding DataContext.CommandToUnCheckThisEmployee,
+                                                                         RelativeSource={RelativeSource AncestorType={x:Type ListView}}}"
+                                                       CommandParameter="{Binding }"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <TextBlock Text="{Binding Caption}"/>
+                    </CheckBox>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+    </Grid>
+</UserControl>

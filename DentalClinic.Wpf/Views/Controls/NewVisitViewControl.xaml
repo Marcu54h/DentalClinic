@@ -1,0 +1,286 @@
+﻿<UserControl x:Class="DentalClinic.Wpf.NewVisitViewControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+             xmlns:local="clr-namespace:DentalClinic.Wpf"
+             mc:Ignorable="d" 
+             d:DesignHeight="850" d:DesignWidth="1200">
+
+    <UserControl.Resources>
+        <local:BooleanToVisibilityConverter x:Key="boolToVisibilityConv"/>
+        <local:SelectedToEnableConverter x:Key="selectedToEnableConv"/>
+        <local:SelectedToVisibilityConverter x:Key="selectedToVisibilityConv"/>
+        <local:StringToBrushConverter x:Key="stringToBrushConv"/>
+
+        <Style x:Key="alternatingWithTriggers" TargetType="{x:Type ListViewItem}">
+            <Style.Triggers>
+                <Trigger Property="ListView.AlternationIndex" Value="0">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Trigger>
+                <Trigger Property="ListView.AlternationIndex" Value="1">
+                    <Setter Property="Background" Value="WhiteSmoke"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="alternatingDataGrid" TargetType="{x:Type DataGridRow}">
+            <Style.Triggers>
+                <Trigger Property="ListView.AlternationIndex" Value="0">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Trigger>
+                <Trigger Property="ListView.AlternationIndex" Value="1">
+                    <Setter Property="Background" Value="WhiteSmoke"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+    </UserControl.Resources>
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="70"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Column="1" Grid.Row="2">
+            <TextBlock HorizontalAlignment="Center" Margin="6" Text="Wyszukaj wg" Style="{StaticResource Banner}"/>
+            <ComboBox FontFamily="{StaticResource LatoRegular}"
+                      FontSize="{StaticResource FontSizeRegular}"
+                      FontWeight="DemiBold"
+                      HorizontalContentAlignment="Center" Margin="6 0 6 0"
+                      IsSynchronizedWithCurrentItem="True"
+                      SelectedIndex="{Binding FilterBy, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <ComboBoxItem Content="NAZWISKA"/>
+                <ComboBoxItem Content="IMIENIA"/>
+                <ComboBoxItem Content="NR PESEL"/>
+                <ComboBoxItem Content="TYTUŁU"/>
+            </ComboBox>
+            <TextBox FontFamily="{StaticResource LatoRegular}"
+                     FontSize="{StaticResource FontSizeRegular}"
+                     FontWeight="DemiBold"
+                     Margin="6" Text="{Binding Filter, UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+        <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Orientation="Horizontal">
+            <Button Command="{Binding CommandToGoBack}" Content="{StaticResource la-angle-double-left}"
+                    FontFamily="{StaticResource LineAwesome}" 
+                    FontSize="{StaticResource FontSizeLarge}" Margin="0 5"
+                    Foreground="Gray"
+                    Style="{StaticResource TopMenuButton}"
+                    VerticalContentAlignment="Center"/>
+            <TextBlock Style="{StaticResource TopBanner}"
+                   Text="{Binding VisitDateLabel, FallbackValue='Wizyta dnia styczeń 2019'}"
+
+                   />
+        </StackPanel>
+        <TextBlock Grid.Column="0" Grid.Row="1"
+                   HorizontalAlignment="Left"
+                   Style="{StaticResource Banner}"
+                   Text="Wybierz pacjenta z listy"/>
+        <ListView AlternationCount="2"
+                  Background="Transparent" BorderThickness="0"
+                  Grid.Column="0" Grid.Row="2"
+                  ItemContainerStyle="{StaticResource alternatingWithTriggers}"
+                  ItemsSource="{Binding FilteredPatientCollection}" SelectedItem="{Binding Patient}"
+                  x:Name="patientList">
+
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding CommandToDoubleClick}"
+                                           CommandParameter="{Binding ElementName=patientList, Path=SelectedItem}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding Person.Title}"
+                                        Header="Tytuł" Width="60"/>
+                    <GridViewColumn Header="Imię" Width="130" DisplayMemberBinding="{Binding Person.FirstName}"/>
+                    <GridViewColumn Header="Nazwisko" Width="130">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontFamily="{StaticResource LatoRegular}"
+                                               FontSize="{StaticResource FontSizeRegular}"
+                                               Text="{Binding Person.LastName}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="PESEL" Width="90" DisplayMemberBinding="{Binding Person.PersonalNumber}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        
+        <WrapPanel Grid.Column="2" Grid.Row="2" Grid.RowSpan="3" HorizontalAlignment="Right" Orientation="Horizontal">
+            <Button Command="{Binding CommandToFilter}" CommandParameter="" Content="a-z" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="A" Content="A" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="B" Content="B" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="C" Content="C" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="D" Content="D" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="E" Content="E" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="F" Content="F" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="G" Content="G" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="H" Content="H" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="I" Content="I" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="J" Content="J" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="K" Content="K" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="L" Content="L" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="Ł" Content="Ł" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="M" Content="M" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="N" Content="N" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="Ń" Content="Ń" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="O" Content="O" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="P" Content="P" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="R" Content="R" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="S" Content="S" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="Ś" Content="Ś" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="T" Content="T" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="U" Content="U" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="W" Content="W" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="Y" Content="Y" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="Z" Content="Z" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="Ż" Content="Ż" Style="{StaticResource AlphabetButton}"/>
+            <Button Command="{Binding CommandToFilter}" CommandParameter="Ź" Content="Ź" Style="{StaticResource AlphabetButton}"/>
+        </WrapPanel>
+        
+        <StackPanel Grid.Column="3" Grid.Row="2">
+            <TextBlock FontWeight="Bold" Style="{StaticResource Banner}"
+                   Text="Nowa wizyta"
+                       TextDecorations="Underline"
+                   Visibility="{Binding ElementName=patientList, Path=SelectedItem,
+                                        Converter={StaticResource selectedToVisibilityConv}}"/>
+            
+            <TextBlock  Style="{StaticResource Banner}"
+                   Text="{Binding VisitsTime}"
+                   Visibility="{Binding ElementName=patientList, Path=SelectedItem,
+                                        Converter={StaticResource selectedToVisibilityConv}}"/>
+
+            <TextBlock FontWeight="DemiBold" Style="{StaticResource Banner}"
+                       Visibility="{Binding ElementName=patientList, Path=SelectedItem,
+                                            Converter={StaticResource selectedToVisibilityConv}}">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0} {1} {2}">
+                        <Binding Path="Patient.Person.Title"/>
+                        <Binding Path="Patient.Person.LastName"/>
+                        <Binding Path="Patient.Person.FirstName"/>
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+
+            <TextBlock Style="{StaticResource Banner}"
+                       Text="do"
+                       Visibility="{Binding ElementName=patientList, Path=SelectedItem,
+                                            Converter={StaticResource selectedToVisibilityConv}}"/>
+
+            <TextBlock FontWeight="DemiBold" Foreground="{Binding ItIsNotMyEmployee, Converter={StaticResource stringToBrushConv}}" Style="{StaticResource Banner}"
+                       Visibility="{Binding ElementName=patientList, Path=SelectedItem,
+                                            Converter={StaticResource selectedToVisibilityConv}}">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0} {1} {2}">
+                        <Binding Path="SelectedEmployee.Person.Title"/>
+                        <Binding Path="SelectedEmployee.Person.LastName"/>
+                        <Binding Path="SelectedEmployee.Person.FirstName"/>
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+
+            <TextBlock Style="{StaticResource Banner}"
+                       Text="w"
+                       Visibility="{Binding ElementName=patientList, Path=SelectedItem,
+                                            Converter={StaticResource selectedToVisibilityConv}}"/>
+
+            <TextBlock Style="{StaticResource Banner}"
+                       Visibility="{Binding ElementName=patientList, Path=SelectedItem,
+                                            Converter={StaticResource selectedToVisibilityConv}}">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0} {1}">
+                        <Binding Path="SelectedOffice.Number"/>
+                        <Binding Path="SelectedOffice.Label"/>
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+
+            <Button Content="Zatwierdź" Command="{Binding CommandToScheduleVisit}"
+                    Style="{StaticResource DefaultButtonStyle}"
+                    Visibility="{Binding DataCorrect,
+                                         Converter={StaticResource boolToVisibilityConv}}"/>
+
+        </StackPanel>
+        
+        <TextBlock Grid.Column="0" Grid.Row="3"
+                   HorizontalAlignment="Left"
+                   Style="{StaticResource Banner}"
+                   Text="Wybierz do kogo umówić pacjenta lub pozostaw ustawienie domyślne"/>
+        
+        <ListView AlternationCount="2"
+                  Background="Transparent" BorderThickness="0"
+                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4"
+                  ItemContainerStyle="{StaticResource alternatingWithTriggers}"
+                  ItemsSource="{Binding DoctorCollection}"
+                  SelectedItem="{Binding SelectedEmployee}"
+                  x:Name="employeeList" >
+            <ListView.Resources>
+                <Style x:Key="alternatingWithTriggers" TargetType="{x:Type ListView}">
+                    <Setter Property="Background" Value="White"/>
+                    <Style.Triggers>
+                        <Trigger Property="ListView.AlternationIndex" Value="1">
+                            <Setter Property="Background" Value="White"/>
+                        </Trigger>
+                        <Trigger Property="ListView.AlternationIndex" Value="0">
+                            <Setter Property="Background" Value="WhiteSmoke"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </ListView.Resources>
+            <ListView.View>
+                <GridView >
+                    <GridViewColumn DisplayMemberBinding="{Binding Person.Title}"
+                                    Header="Tytuł" Width="60"/>
+                    <GridViewColumn Header="Imię" Width="130" DisplayMemberBinding="{Binding Person.FirstName}"/>
+                    <GridViewColumn Header="Nazwisko" Width="130">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock FontFamily="{StaticResource LatoRegular}"
+                                           FontSize="{StaticResource FontSizeRegular}"
+                                           Text="{Binding Person.LastName}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Header="PESEL" Width="90" DisplayMemberBinding="{Binding Person.PersonalNumber}"/>
+                    <GridViewColumn Header="Nr PWZ" Width="80" DisplayMemberBinding="{Binding PWZNumer}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <TextBlock Grid.Column="0" Grid.Row="5"
+                   HorizontalAlignment="Left"
+                   Style="{StaticResource Banner}"
+                   Text="Wybierz gabinet"/>
+
+        <DataGrid AlternationCount="2" AutoGenerateColumns="False" 
+                  Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6"
+                  ItemContainerStyle="{StaticResource alternatingDataGrid}"
+                      ItemsSource="{Binding OfficeCollection}"
+                  IsReadOnly="True"
+                      SelectedItem="{Binding SelectedOffice}"
+                      x:Name="officeList">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Label}" Header="NAZWA" MinWidth="80" Width="2*"/>
+                <DataGridTextColumn Binding="{Binding Number}" Header="NUMER" MinWidth="80" Width="*"/>
+                <DataGridTextColumn Binding="{Binding Type}" Header="TYP" MinWidth="80" Width="2*"/>
+            </DataGrid.Columns>
+            
+        </DataGrid>
+    </Grid>
+</UserControl>
