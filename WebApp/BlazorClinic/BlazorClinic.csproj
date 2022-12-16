@@ -4,6 +4,8 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <BaseOutputPath>..\..\..\Build\WebApp</BaseOutputPath>
+    <BaseIntermediateOutputPath>..\..\..\Build\WebApp</BaseIntermediateOutputPath>
   </PropertyGroup>
 
 </Project>
