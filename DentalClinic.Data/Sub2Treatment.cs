@@ -10,8 +10,7 @@
 namespace DentalClinic.Data
 {
     using System;
-    using System.Collections.Generic;
-    
+
     public partial class Sub2Treatment
     {
         public int Id { get; set; }
