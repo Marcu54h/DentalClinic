@@ -1,0 +1,40 @@
+﻿@using WebModel;
+@inject DialogService dialogService
+
+<RadzenTemplateForm TItem="Visit" Data="@model" Submit=@OnSubmit>
+    <div class="row" style="margin-bottom: 16px">
+        <RadzenLabel Text="Wizyta" />
+    </div>
+    <div class="col">
+        <RadzenDatePicker Name="Date" @bind-Value="@model.Date" ShowTime="true" />
+        <RadzenRequiredValidator Component="Date" Text="Data i godzina wyzyty są wymagane" />
+    </div>
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col">
+            <RadzenButton ButtonType="ButtonType.Submit" Text="Zapisz" />
+        </div>
+    </div>
+
+
+</RadzenTemplateForm>
+
+@code {
+    [Parameter]
+    public DateTime Start { get; set; }
+
+    [Parameter]
+    public DateTime End { get; set; }
+
+    Visit model = Visit.Empty;
+
+    protected override void OnParametersSet()
+    {
+        model.Date = Start;
+    }
+
+    void OnSubmit(Visit model)
+    {
+        dialogService.Close(model);
+    }
+}

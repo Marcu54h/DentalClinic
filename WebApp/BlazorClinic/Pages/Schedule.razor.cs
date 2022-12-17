@@ -1,13 +1,20 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using Radzen;
+using Radzen.Blazor.Rendering;
+using Radzen.Blazor;
+using System;
 using WebDataSource;
 using WebModel;
+using BlazorClinic.Pages.Visits;
+using System.Collections.Generic;
 
 namespace BlazorClinic.Pages
 {
     public partial class Schedule : ComponentBase
     {
+        public RadzenScheduler<Visit> scheduler = new();
+
         [Inject]
         protected ILogger<Schedule> logger { get; set; } = default!;
         [Inject]
@@ -17,15 +24,21 @@ namespace BlazorClinic.Pages
         [Inject]
         public NavigationManager navigationManager { get; set; } = default!;
 
-        IEnumerable<Visit> VisitEnum = Enumerable.Empty<Visit>();
+        IList<Visit> VisitList = new List<Visit>();
         IList<Visit> selectedVisits = default!;
 
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
+
             var visitsWithProps = context.Visits
                                          .Include(v => v.Employee)
                                          .ThenInclude(e => e.Person)
+                                         .Include(v => v.Patient)
+                                         .ThenInclude(p => p.Person)
+                                         .Include(v => v.Treatments)
+                                         .Include(v => v.Comments)
+                                         .Include(v => v.Teeth)
                                          .AsNoTracking();
 
             if (context is null)
@@ -36,14 +49,28 @@ namespace BlazorClinic.Pages
 
             if (visitsWithProps is not null) 
             {
-                VisitEnum = await visitsWithProps.ToListAsync();
+                VisitList = await visitsWithProps.ToListAsync();
             }
             else
             {
                 logger.LogInformation("context.Visits returns no visits data.");
             }
+        }
 
-            
+        async Task OnSlotSelect(SchedulerSlotSelectEventArgs args)
+        {
+            logger.LogInformation(@"SlotSelect: Start={start} End={end}", args.Start, args.End);
+
+           /* Visit data = await DialogService.OpenAsync<AddVisit>("Umów nową wizytę",
+                new Dictionary<string, object> { { "Start", args.Start }, { "End", args.End } });
+
+            if (data != null)
+            {
+                VisitList.Add(data);
+                // Either call the Reload method or reassign the Data property of the Scheduler
+                await scheduler.Reload();
+            }*/
+           await Task.Delay(500);
         }
 
         void OnCellContextMenu(DataGridCellMouseEventArgs<Visit> args)
@@ -73,16 +100,56 @@ namespace BlazorClinic.Pages
         {
 
             // Highlight today in month view
-            if (args.View.Text == "Miesiąć" && args.Start.Date == DateTime.Today)
+            if (args.View.Text == "Month" && args.Start.Date == DateTime.Today)
             {
                 args.Attributes["style"] = "background: rgba(255,220,40,.2);";
             }
 
             // Highlight working hours (9-18)
-            if ((args.View.Text == "Tydzień" || args.View.Text == "Dzień") && args.Start.Hour > 8 && args.Start.Hour < 19)
+            if ((args.View.Text == "Week" || args.View.Text == "Day") && args.Start.Hour > 7 && args.Start.Hour < 22)
             {
                 args.Attributes["style"] = "background: rgba(255,220,40,.2);";
             }
+        }
+
+        protected void OnVisitRender(SchedulerAppointmentRenderEventArgs<Visit> args)
+        {
+            string employeeFavoriteColor = args.Data.Employee.FavoriteColor;
+
+            if (args.Data.filled)
+            {
+                args.Attributes["style"] = @"background-color: " + employeeFavoriteColor + ";";
+            }
+            else
+            {
+                if (employeeFavoriteColor.ToLower() == "white")
+                {
+                    args.Attributes["style"] = @"background-color: " + employeeFavoriteColor + "; " +
+                                        "color: black; border-bottom-style: groove; " +
+                                        "border-bottom-color: red; border-bottom-width: 2px;";
+                }
+                else
+                {
+                    args.Attributes["style"] = @"background-color: " + employeeFavoriteColor + "; " +
+                                        "border-bottom-style: groove; border-bottom-color: red; border-bottom-width: 2px;";
+                }
+                
+            }
+            
+        }
+
+        async Task OnVisitSelect(SchedulerAppointmentSelectEventArgs<Visit> args)
+        {
+            logger.LogInformation(@"VisitSelect: Visit={args}", args.Data);
+
+            Dictionary<string, object> editVisitDialogParams = new Dictionary<string, object>
+            {
+                {"Visit", args.Data },
+            };
+
+            await dialogService.OpenAsync<EditVisit>("Zmień wizytę", editVisitDialogParams);
+
+            await scheduler.Reload();
         }
     }
 }

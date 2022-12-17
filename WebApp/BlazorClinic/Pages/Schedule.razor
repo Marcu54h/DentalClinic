@@ -6,9 +6,9 @@
 
 <h2>Detnal SPA - Terminarz</h2>
 
-<RadzenScheduler style="height: 768px;"
-                 TextProperty="Label" SelectedIndex="2" Data=@VisitEnum
-                 TItem="Visit" StartProperty="Date" EndProperty="EndDate">
+<RadzenScheduler @ref=@scheduler style="height: 900px;" SlotSelect=@OnSlotSelect AppointmentSelect=@OnVisitSelect
+                 SlotRender=@OnSlotRender TextProperty="Label" SelectedIndex="2" Data=@VisitList
+                 TItem="Visit" StartProperty="Date" EndProperty="EndDate" AppointmentRender=@OnVisitRender>
     <RadzenDayView TimeFormat="HH:mm"/>
     <RadzenWeekView TimeFormat="HH:mm"/>
     <RadzenMonthView />

@@ -6,9 +6,9 @@ namespace WebModel
     {
         public int Id { get; set; }
         public bool? Insured { get; set; }
-        public string InsuranceNumber { get; set; } = string.Empty;
+        public string? InsuranceNumber { get; set; } = string.Empty;
         public bool? Disabled { get; set; }
-        public string DisabilityType { get; set; } = string.Empty;
+        public string? DisabilityType { get; set; } = string.Empty;
         public DateTime AddDate { get; set; }
         public DateTime ModifiedDate { get; set; }
         public int? EmployeeId { get; set; }
@@ -16,7 +16,7 @@ namespace WebModel
         public PriceList PriceList { get; set; } = PriceList.Empty;
         [NotMapped]
         public Person Person { get; set; } = Person.Empty;
-        public int Person_Id { get; set; }
+        public int PersonId { get; set; }
         public Employee Employee { get; set; } = Employee.Empty;
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
         public ICollection<Visit> Visits { get; set; } = new List<Visit>();

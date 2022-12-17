@@ -32,6 +32,8 @@ namespace WebDataSource
         {
             mb.Entity<User>().Property(u => u.EmployeeId).HasColumnName("Employee_Id");
             mb.Entity<Employee>().Property(e => e.PersonId).HasColumnName("Person_Id");
+            mb.Entity<Patient>().Property(p => p.PersonId).HasColumnName("Person_Id");
+            mb.Entity<PriceList>().Property(p => p.PatientId).HasColumnName("Patient_Id");
 
             mb.Entity<Employee>().HasOne(e => e.User);
 
@@ -42,6 +44,8 @@ namespace WebDataSource
             mb.Entity<Patient>().HasOne(p => p.Employee);
             mb.Entity<Patient>().HasOne(p => p.PriceList);
             mb.Entity<Patient>().HasOne(p => p.Person);
+
+            mb.Entity<PriceList>().HasOne(p => p.Patient);
         }
     }
 }
