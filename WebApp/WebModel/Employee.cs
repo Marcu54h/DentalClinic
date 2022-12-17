@@ -19,5 +19,7 @@ namespace WebModel
 
         [NotMapped]
         public static Employee Empty { get; private set; } = new Employee();
+
+        public override string ToString() => Person.ToString();
     }
 }

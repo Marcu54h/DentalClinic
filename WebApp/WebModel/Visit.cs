@@ -21,7 +21,7 @@ namespace WebModel
         public DateTime EndDate => Date.AddHours(1);
 
         [NotMapped]
-        public string Label => Date.ToString("HH:mm") + " | " + Employee.Person.ToString() + " | " +
+        public string Label => Date.ToString("HH:mm") + " | " +
             Patient.Person.ToString();
 
         [NotMapped]

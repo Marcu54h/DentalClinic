@@ -26,14 +26,11 @@ namespace BlazorClinic.Pages
         public NavigationManager navigationManager { get; set; } = default!;
 
         IList<Visit> VisitList = new List<Visit>();
+        IList<Employee> Employees = new List<Employee>();
+        
         IList<Visit> selectedVisits = default!;
 
         private DateTime currentDate;
-        
-        private Task afterDateChangeAsync()
-        {
-            return Task.CompletedTask;
-        }
 
         protected override async Task OnParametersSetAsync()
         {
@@ -44,7 +41,20 @@ namespace BlazorClinic.Pages
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-            
+
+            var getEmployees = context.Employees
+                                      .Include(e => e.Person)
+                                      .AsNoTracking();
+            contextIsBussy = true;
+
+            var getEmployeesTask = getEmployees.ToListAsync();
+
+            Employees = await getEmployeesTask;
+
+            if (getEmployeesTask.IsCompleted)
+            {
+                contextIsBussy = false;
+            }
         }
 
         async Task OnSlotSelect(SchedulerSlotSelectEventArgs args)
@@ -88,9 +98,11 @@ namespace BlazorClinic.Pages
 
         protected async Task OnLoadData(SchedulerLoadDataEventArgs args)
         {
+            
             if (!contextIsBussy)
             {
                 contextIsBussy = true;
+
                 var visitsWithProps = context.Visits
                                          .Where(v => v.Date > args.Start && v.Date < args.End)
                                          .Include(v => v.Employee)
@@ -102,36 +114,34 @@ namespace BlazorClinic.Pages
                                          .Include(v => v.Teeth)
                                          .AsNoTracking();
 
+                Task<List<Visit>>  dataLoadingTask = visitsWithProps.ToListAsync();
+
                 if (context is null)
                 {
                     logger.LogError("Visits component - ClinicContext is null!");
                     return;
                 }
 
-                if (visitsWithProps is not null)
+                VisitList = await dataLoadingTask;
+
+                if (dataLoadingTask.IsCompleted)
                 {
-                    VisitList = await visitsWithProps.ToListAsync();
-                }
-                else
-                {
-                    logger.LogInformation("context.Visits returns no visits data.");
+                    contextIsBussy = false;
                 }
             }
-
-            contextIsBussy = false;
         }
 
         protected void OnSlotRender(SchedulerSlotRenderEventArgs args)
         {
             currentDate = scheduler!.CurrentDate;
             // Highlight today in month view
-            if (args.View.Text == "Month" && args.Start.Date == DateTime.Today)
+            if (args.View.Text == "Miesiąc" && args.Start.Date == DateTime.Today)
             {
                 args.Attributes["style"] = "background: rgba(255,220,40,.2);";
             }
 
             // Highlight working hours (9-18)
-            if ((args.View.Text == "Week" || args.View.Text == "Day") && args.Start.Hour > 7 && args.Start.Hour < 22)
+            if ((args.View.Text == "Tydzień" || args.View.Text == "Dzień") && args.Start.Hour > 7 && args.Start.Hour < 22)
             {
                 args.Attributes["style"] = "background: rgba(255,220,40,.2);";
             }

@@ -1,7 +1,26 @@
 ﻿@page "/"
 
+@inject NavigationManager navigationManager
+
 <PageTitle>Dental SPA - strona główna</PageTitle>
 
-<h1>Hello, world!</h1>
+<div>
+    <div class="row">
+        <div class="col">
+            <RadzenText Text="Dental SPA" TextStyle="TextStyle.DisplayH1" />
+        </div>
+        
+    </div>
+    <div class="row">
+        <div class="col">
+            <RadzenCard>
+                <RadzenLink onclick=@(() => navigationManager.NavigateTo("./schedule")) Text="Przejdź do terminarza">
+                    <RadzenText Text="Terminarz" TextStyle="TextStyle.Body1" />
+                    <RadzenIcon Icon="favorite" IconStyle="IconStyle.Primary" />
+                </RadzenLink>
+            </RadzenCard>
+        </div>
+    </div>
+</div>
 
-Welcome to your new app.
+

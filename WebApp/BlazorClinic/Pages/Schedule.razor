@@ -5,14 +5,48 @@
 @inject DialogService dialogService
 @inject NotificationService notificationService
 
-<h2>Detnal SPA - Terminarz</h2>
+<div>
+    <div class="row">
+        <div class="col align-self-center">
+            <RadzenText Text="Terminarz" TextStyle="TextStyle.DisplayH3" />
+        </div>
+        @if (contextIsBussy)
+        {
+            <div class="col align-self-center">
+                <RadzenImage Path="./img/loading.gif" Style="width: 40px; height: 40px;" />
+            </div>
+        }
+    </div>
+    <div class="row">
+        <div class="col-10">
+            <RadzenScheduler @ref=@scheduler style="height: 1024px;" SlotSelect=@OnSlotSelect 
+                             SlotRender=@OnSlotRender TextProperty="Label" SelectedIndex="1" Data=@VisitList
+                             LoadData=@OnLoadData AppointmentSelect=@OnVisitSelect
+                             TItem="Visit" StartProperty="Date" EndProperty="EndDate" AppointmentRender=@OnVisitRender>
+                <RadzenDayView TimeFormat="HH:mm" Text="Dzień" />
+                <RadzenWeekView TimeFormat="HH:mm" Text="Tydzień" />
+                <RadzenMonthView Text="Miesiąc" />
+            </RadzenScheduler>
+        </div>
+        <div class="col-2">
+            <div>
+                <div class="row">
+                    <RadzenText Text="Legenda" TextStyle="TextStyle.Body1" />
+                </div>
 
+                @foreach(Employee employee in Employees)
+                {
 
-<RadzenScheduler @ref=@scheduler style="height: 900px;" SlotSelect=@OnSlotSelect AppointmentSelect=@OnVisitSelect
-                 SlotRender=@OnSlotRender TextProperty="Label" SelectedIndex="1" Data=@VisitList
-                 LoadData=@OnLoadData
-                 TItem="Visit" StartProperty="Date" EndProperty="EndDate" AppointmentRender=@OnVisitRender>
-    <RadzenDayView TimeFormat="HH:mm" Text="Dzień" />
-    <RadzenWeekView TimeFormat="HH:mm" Text="Tydzień" />
-    <RadzenMonthView Text="Miesiąć" />
-</RadzenScheduler>
+                    string style = "background-color: " + employee.FavoriteColor + ";";
+
+                    <div class="row m-1">
+                        <RadzenCard Style=@style>
+                            <RadzenText Text="@employee.ToString()" TextStyle="TextStyle.Body2" />
+                        </RadzenCard>
+                    </div>
+                }
+            </div>
+            
+        </div>
+    </div>
+</div>
