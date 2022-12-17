@@ -13,7 +13,8 @@ namespace BlazorClinic.Pages
 {
     public partial class Schedule : ComponentBase
     {
-        public RadzenScheduler<Visit> scheduler = new();
+        public RadzenScheduler<Visit>? scheduler = new();
+        private bool contextIsBussy = false;
 
         [Inject]
         protected ILogger<Schedule> logger { get; set; } = default!;
@@ -27,34 +28,23 @@ namespace BlazorClinic.Pages
         IList<Visit> VisitList = new List<Visit>();
         IList<Visit> selectedVisits = default!;
 
+        private DateTime currentDate;
+        
+        private Task afterDateChangeAsync()
+        {
+            return Task.CompletedTask;
+        }
+
+        protected override async Task OnParametersSetAsync()
+        {
+            await base.OnParametersSetAsync();
+            
+        }
+
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
-
-            var visitsWithProps = context.Visits
-                                         .Include(v => v.Employee)
-                                         .ThenInclude(e => e.Person)
-                                         .Include(v => v.Patient)
-                                         .ThenInclude(p => p.Person)
-                                         .Include(v => v.Treatments)
-                                         .Include(v => v.Comments)
-                                         .Include(v => v.Teeth)
-                                         .AsNoTracking();
-
-            if (context is null)
-            {
-                logger.LogError("Visits component - ClinicContext is null!");
-                return;
-            }
-
-            if (visitsWithProps is not null) 
-            {
-                VisitList = await visitsWithProps.ToListAsync();
-            }
-            else
-            {
-                logger.LogInformation("context.Visits returns no visits data.");
-            }
+            
         }
 
         async Task OnSlotSelect(SchedulerSlotSelectEventArgs args)
@@ -96,9 +86,44 @@ namespace BlazorClinic.Pages
             var p = patient;
         }
 
+        protected async Task OnLoadData(SchedulerLoadDataEventArgs args)
+        {
+            if (!contextIsBussy)
+            {
+                contextIsBussy = true;
+                var visitsWithProps = context.Visits
+                                         .Where(v => v.Date > args.Start && v.Date < args.End)
+                                         .Include(v => v.Employee)
+                                         .ThenInclude(e => e.Person)
+                                         .Include(v => v.Patient)
+                                         .ThenInclude(p => p.Person)
+                                         .Include(v => v.Treatments)
+                                         .Include(v => v.Comments)
+                                         .Include(v => v.Teeth)
+                                         .AsNoTracking();
+
+                if (context is null)
+                {
+                    logger.LogError("Visits component - ClinicContext is null!");
+                    return;
+                }
+
+                if (visitsWithProps is not null)
+                {
+                    VisitList = await visitsWithProps.ToListAsync();
+                }
+                else
+                {
+                    logger.LogInformation("context.Visits returns no visits data.");
+                }
+            }
+
+            contextIsBussy = false;
+        }
+
         protected void OnSlotRender(SchedulerSlotRenderEventArgs args)
         {
-
+            currentDate = scheduler!.CurrentDate;
             // Highlight today in month view
             if (args.View.Text == "Month" && args.Start.Date == DateTime.Today)
             {
@@ -149,7 +174,15 @@ namespace BlazorClinic.Pages
 
             await dialogService.OpenAsync<EditVisit>("Zmień wizytę", editVisitDialogParams);
 
-            await scheduler.Reload();
+            await scheduler!.Reload();
         }
+
+        void ShowNotification(NotificationMessage message)
+        {
+            notificationService.Notify(message);
+
+            logger.LogInformation(@"{severity} notification", message.Severity);
+        }
+
     }
 }
