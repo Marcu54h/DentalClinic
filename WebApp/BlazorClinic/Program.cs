@@ -1,3 +1,4 @@
+using BlazorClinic.Abstraction;
 using Microsoft.EntityFrameworkCore;
 using Radzen;
 using WebDataSource;
@@ -13,7 +14,7 @@ builder.Services.AddScoped<NotificationService>();
 builder.Services.AddScoped<TooltipService>();
 builder.Services.AddScoped<ContextMenuService>();
 
-builder.Services.AddDbContext<ClinicContext>(options =>
+builder.Services.AddDbContextFactory<ClinicContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DentalClinic") ??
         throw new InvalidOperationException("Connection string 'DentalClinic' not found.")));
 

@@ -1,6 +1,9 @@
 ﻿@page "/schedule"
 
 @using WebModel
+@using BlazorClinic.Abstraction
+
+@inherits ContextAwareRadzenComponent
 
 @inject DialogService dialogService
 @inject NotificationService notificationService
@@ -19,13 +22,21 @@
     </div>
     <div class="row">
         <div class="col-10">
-            <RadzenScheduler @ref=@scheduler style="height: 1024px;" SlotSelect=@OnSlotSelect 
+            <RadzenScheduler @ref=@scheduler SlotSelect=@OnSlotSelect TodayText="Dzisiaj" style="height: 1024px;"
                              SlotRender=@OnSlotRender TextProperty="Label" SelectedIndex="1" Data=@VisitList
                              LoadData=@OnLoadData AppointmentSelect=@OnVisitSelect
                              TItem="Visit" StartProperty="Date" EndProperty="EndDate" AppointmentRender=@OnVisitRender>
-                <RadzenDayView TimeFormat="HH:mm" Text="Dzień" />
-                <RadzenWeekView TimeFormat="HH:mm" Text="Tydzień" />
-                <RadzenMonthView Text="Miesiąc" />
+                <Template Context="VisitList">
+                    <strong>@VisitList.Date.ToString("HH:mm")</strong>
+                    | <strong>@VisitList.Patient.Person.LastName</strong>
+                    @VisitList.Patient.Person.FirstName
+                </Template>
+                <ChildContent>
+                    <RadzenDayView TimeFormat="HH:mm" Text="Dzień" StartTime="TimeSpan.FromHours(7)" />
+                    <RadzenWeekView TimeFormat="HH:mm" Text="Tydzień" StartTime="TimeSpan.FromHours(7)"/>
+                    <RadzenMonthView Text="Miesiąc" MoreText="+ {0} wizyt." />
+                </ChildContent>
+                
             </RadzenScheduler>
         </div>
         <div class="col-2">

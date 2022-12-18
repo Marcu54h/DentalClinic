@@ -28,11 +28,11 @@ Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "DentalClinic.Setup", "Denta
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{B289EABF-989D-461F-BF57-81E37A0AEA82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorClinic", "WebApp\BlazorClinic\BlazorClinic.csproj", "{ED6619F2-A700-4DE7-9B3D-81205CE86172}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorClinic", "WebApp\BlazorClinic\BlazorClinic.csproj", "{ED6619F2-A700-4DE7-9B3D-81205CE86172}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebDataSource", "WebApp\WebDataSource\WebDataSource.csproj", "{F41D6B85-DEAE-40D1-8A6D-590E188441A0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebDataSource", "WebApp\WebDataSource\WebDataSource.csproj", "{F41D6B85-DEAE-40D1-8A6D-590E188441A0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebModel", "WebApp\WebModel\WebModel.csproj", "{B516AE8F-9119-4B0D-A401-82CEE5E26B2F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebModel", "WebApp\WebModel\WebModel.csproj", "{B516AE8F-9119-4B0D-A401-82CEE5E26B2F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,25 +1,21 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.EntityFrameworkCore;
 using Radzen;
-using Radzen.Blazor.Rendering;
-using Radzen.Blazor;
-using System;
-using WebDataSource;
 using WebModel;
 using BlazorClinic.Pages.Visits;
-using System.Collections.Generic;
+using Radzen.Blazor;
+using BlazorClinic.Abstraction;
 
 namespace BlazorClinic.Pages
 {
-    public partial class Schedule : ComponentBase
+    public partial class Schedule : ContextAwareRadzenComponent
     {
         public RadzenScheduler<Visit>? scheduler = new();
         private bool contextIsBussy = false;
-
+        
         [Inject]
         protected ILogger<Schedule> logger { get; set; } = default!;
-        [Inject]
-        protected ClinicContext context { get; set; } = default!;
+
         [Inject]
         public ContextMenuService contextMenu { get; set; } = default!;
         [Inject]
@@ -42,7 +38,7 @@ namespace BlazorClinic.Pages
         {
             await base.OnInitializedAsync();
 
-            var getEmployees = context.Employees
+            var getEmployees = Context.Employees
                                       .Include(e => e.Person)
                                       .AsNoTracking();
             contextIsBussy = true;
@@ -70,7 +66,8 @@ namespace BlazorClinic.Pages
                 // Either call the Reload method or reassign the Data property of the Scheduler
                 await scheduler.Reload();
             }*/
-           await Task.Delay(500);
+            await Task.Delay(500);
+            
         }
 
         void OnCellContextMenu(DataGridCellMouseEventArgs<Visit> args)
@@ -91,19 +88,15 @@ namespace BlazorClinic.Pages
             );
         }
 
-        void OnRowSelect(Patient patient)
-        {
-            var p = patient;
-        }
+        
 
         protected async Task OnLoadData(SchedulerLoadDataEventArgs args)
         {
-            
             if (!contextIsBussy)
             {
                 contextIsBussy = true;
 
-                var visitsWithProps = context.Visits
+                var visitsWithProps = Context.Visits
                                          .Where(v => v.Date > args.Start && v.Date < args.End)
                                          .Include(v => v.Employee)
                                          .ThenInclude(e => e.Person)
@@ -116,7 +109,7 @@ namespace BlazorClinic.Pages
 
                 Task<List<Visit>>  dataLoadingTask = visitsWithProps.ToListAsync();
 
-                if (context is null)
+                if (Context is null)
                 {
                     logger.LogError("Visits component - ClinicContext is null!");
                     return;

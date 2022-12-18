@@ -1,0 +1,30 @@
+﻿@page "/patients"
+@using BlazorClinic.Abstraction;
+@using WebModel
+
+@inherits ContextAwareRadzenComponent
+
+<div>
+    <div class="row">
+        <div class="col">
+            <RadzenText Text="Lista pacjentów" TextStyle="TextStyle.H4" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <RadzenDataGrid TItem="Patient" Data="@patients" AllowPaging="true" ColumnWidth="200px"
+                            LogicalFilterOperator="LogicalFilterOperator.Or" AllowFiltering="true"
+                            FilterMode="FilterMode.Advanced" AllowSorting="true" PageSize="20"
+                            PagerHorizontalAlign="HorizontalAlign.Left" ShowPagingSummary="true"
+                            AllowColumnResize="true">
+                <Columns>
+                    <RadzenDataGridColumn TItem="Patient" Property="Id" Title="Id" Frozen="true"
+                            MinWidth="25px" Width="25px" Filterable="false" TextAlign="TextAlign.Center"/>
+                    <RadzenDataGridColumn TItem="Patient" Property="Person.LastName" Title="Nazwisko" Frozen="true" Width="200px" />
+                    <RadzenDataGridColumn TItem="Patient" Property="Person.FirstName" Title="Imię" Frozen="true" Width="200px" />
+                    <RadzenDataGridColumn TItem="Patient" Property="Person.PersonalNumber" Title="PESEL" Frozen="true" Width="200px" />
+                </Columns>
+            </RadzenDataGrid>
+        </div>
+    </div>
+</div>

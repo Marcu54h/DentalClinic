@@ -1,24 +1,49 @@
 ﻿@page "/"
-
+@inherits RadzenComponent
 @inject NavigationManager navigationManager
 
 <PageTitle>Dental SPA - strona główna</PageTitle>
 
 <div>
     <div class="row">
-        <div class="col">
-            <RadzenText Text="Dental SPA" TextStyle="TextStyle.DisplayH1" />
+        <div class="col align-self-center">
+            <RadzenText Text="Dental SPA" TextStyle="TextStyle.DisplayH2" />
         </div>
-        
+
+        <div class="col align-self-center">
+            <RadzenImage Visible="@loadingImgVisible" Path="./img/loading.gif" Style="width: 40px; height: 40px;" />
+        </div>
+
     </div>
     <div class="row">
         <div class="col">
-            <RadzenCard>
-                <RadzenLink onclick=@(() => navigationManager.NavigateTo("./schedule")) Text="Przejdź do terminarza">
-                    <RadzenText Text="Terminarz" TextStyle="TextStyle.Body1" />
-                    <RadzenIcon Icon="favorite" IconStyle="IconStyle.Primary" />
-                </RadzenLink>
-            </RadzenCard>
+            <RadzenText Text="Ilość wizyt" TextStyle="TextStyle.DisplayH6" />
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <RadzenChart @ref=chart>
+                <RadzenLineSeries Smooth="true" Data="@chartData2019" CategoryProperty="Month"
+                    ValueProperty="Count" Title="2019">
+                    <RadzenMarkers MarkerType="MarkerType.Square" />
+                    <RadzenSeriesDataLabels Visible="true" />
+                </RadzenLineSeries>
+                <RadzenLineSeries Smooth="true" Data="@chartData2020" CategoryProperty="Month"
+                    ValueProperty="Count" Title="2020">
+                    <RadzenMarkers MarkerType="MarkerType.Square" />
+                    <RadzenSeriesDataLabels Visible="true" />
+                </RadzenLineSeries>
+                <RadzenLineSeries Smooth="true" Data="@chartData2021" CategoryProperty="Month"
+                    ValueProperty="Count" Title="2021">
+                    <RadzenMarkers MarkerType="MarkerType.Square" />
+                    <RadzenSeriesDataLabels Visible="true" />
+                </RadzenLineSeries>
+                <RadzenLineSeries Smooth="true" Data="@chartData2022" CategoryProperty="Month"
+                    ValueProperty="Count" Title="2022">
+                    <RadzenMarkers MarkerType="MarkerType.Square" />
+                    <RadzenSeriesDataLabels Visible="true" />
+                </RadzenLineSeries>
+            </RadzenChart>
         </div>
     </div>
 </div>
