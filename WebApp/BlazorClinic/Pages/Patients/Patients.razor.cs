@@ -24,5 +24,6 @@ namespace BlazorClinic.Pages.Patients
                               .Include(p => p.Person)
                               .AsNoTracking();
         }
+
     }
 }
