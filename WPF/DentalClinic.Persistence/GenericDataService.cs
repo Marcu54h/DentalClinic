@@ -1,10 +1,7 @@
 ﻿using DentalClinic.WpfMD.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using WebDataSource;
 using WebModel;
@@ -38,23 +35,44 @@ namespace DentalClinic.Persistence
         {
             using(ClinicContext context = _clinicContextFactory.CreateDbContext())
             {
-                await context.Set<T>().FirstOrDefaultAsync(e => e.Id)
+                T? entity = await context.Set<T>().FirstOrDefaultAsync(e => e.Id == id);
+                if (entity is not null) 
+                {
+                    context.Set<T>().Remove(entity);
+                    await context.SaveChangesAsync();
+                    return true;
+                }
             }
+            return false;
         }
 
         public async Task<T> Get(int id)
         {
-            throw new NotImplementedException();
+            using (ClinicContext context = _clinicContextFactory.CreateDbContext())
+            {
+                T? entity = await context.Set<T>().FirstOrDefaultAsync(e => e.Id == id);
+                return entity!;
+            }
         }
 
         public async Task<IEnumerable<T>> GetAll()
         {
-            throw new NotImplementedException();
+            using (ClinicContext context = _clinicContextFactory.CreateDbContext())
+            {
+                IEnumerable<T> entities = await context.Set<T>().ToListAsync();
+                return entities;
+            }
         }
 
         public async Task<T> Update(int id, T entity)
         {
-            throw new NotImplementedException();
+            using (ClinicContext context = _clinicContextFactory.CreateDbContext())
+            {
+                entity.Id = id;
+                context.Set<T>().Update(entity);
+                await context.SaveChangesAsync();
+                return entity;
+            }
         }
     }
 }
