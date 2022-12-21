@@ -2,9 +2,8 @@
 
 namespace WebModel
 {
-    public partial class Visit
+    public partial class Visit : EntityBase
     {
-        public int Id { get; set; }
         public DateTime Date { get; set; }
 
         public Employee Employee { get; set; } = Employee.Empty;

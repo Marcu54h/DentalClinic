@@ -2,9 +2,8 @@
 
 namespace WebModel
 {
-    public class User
+    public class User : EntityBase
     {
-        public int Id { get; set; }
         public string Login { get; set; } = string.Empty;
         public byte[] Pass { get; set; } = default!;
         public string Role { get; set; } = string.Empty;

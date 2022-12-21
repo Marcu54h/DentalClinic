@@ -2,9 +2,8 @@
 
 namespace WebModel
 {
-    public class Contract
+    public class Contract : EntityBase
     {
-        public int Id { get; set; }
         public string Type { get; set; } = string.Empty;
         public string StartDate { get; set; } = string.Empty;
         public string EndDate { get; set; } = string.Empty;

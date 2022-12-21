@@ -2,9 +2,8 @@
 
 namespace WebModel
 {
-    public class SubGroup
+    public class SubGroup : EntityBase
     {
-        public int Id { get; set; }
         public int? GroupId { get; set; }
         public string Name { get; set; } = string.Empty;
         public decimal? LowerPrice { get; set; }

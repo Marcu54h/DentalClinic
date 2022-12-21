@@ -2,9 +2,8 @@
 
 namespace WebModel
 {
-    public class Tooth
+    public class Tooth : EntityBase
     {
-        public int Id { get; set; }
         public string Number { get; set; } = string.Empty;
         public int? VisitId { get; set; }
 

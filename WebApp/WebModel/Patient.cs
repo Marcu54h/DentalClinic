@@ -2,9 +2,8 @@
 
 namespace WebModel
 {
-    public class Patient
-    {
-        public int Id { get; set; }
+    public class Patient : EntityBase
+    { 
         public bool? Insured { get; set; }
         public string? InsuranceNumber { get; set; } = string.Empty;
         public bool? Disabled { get; set; }

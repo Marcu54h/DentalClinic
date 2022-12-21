@@ -2,9 +2,8 @@
 
 namespace WebModel
 {
-    public class PriceList
+    public class PriceList : EntityBase
     {
-        public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public decimal? Discount { get; set; }
 

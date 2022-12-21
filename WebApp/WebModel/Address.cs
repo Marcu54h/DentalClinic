@@ -2,9 +2,8 @@
 
 namespace WebModel
 {
-    public class Address
+    public class Address : EntityBase
     {
-        public int Id { get; set; }
         public string AddressType { get; set; } = string.Empty;
         public string City { get; set; } = string.Empty;
         public string Street { get; set; } = string.Empty;

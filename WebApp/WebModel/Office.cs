@@ -2,9 +2,8 @@
 
 namespace WebModel
 {
-    public class Office
+    public class Office : EntityBase
     {
-        public int Id { get; set; }
         public string Type { get; set; } = string.Empty;
         public string Label { get; set; } = string.Empty;
         public string Number { get; set; } = string.Empty;

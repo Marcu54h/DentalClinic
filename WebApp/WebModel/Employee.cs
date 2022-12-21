@@ -2,9 +2,8 @@
 
 namespace WebModel
 {
-    public class Employee
+    public class Employee : EntityBase
     {
-        public int Id { get; set; }
         public string? PWZNumer { get; set; } = string.Empty;
         public DateTime AddDate { get; set; }
         public DateTime ModifiedDate { get; set; }
