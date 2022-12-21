@@ -32,21 +32,13 @@ namespace DentalClinic.WpfMD.ViewModels
         public IViewType CurrentView
         {
             get => currentView;
-            set
-            {
-                if (currentView != value) { currentView = value; }
-                Changed(nameof(CurrentView));
-            }
+            set => SetField(ref currentView, value);
         }
 
         public bool IsLeftDrawerOpen
         {
             get => isLeftDrawerOpen;
-            set
-            {
-                isLeftDrawerOpen = value;
-                Changed(nameof(IsLeftDrawerOpen));
-            }
+            set => SetField(ref isLeftDrawerOpen, value);
         }
 
         public IAsyncCommand<bool> CommandToOpenLeftDrawer { get; set; }
