@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:DentalClinic.WpfMD"
+    xmlns:vm="clr-namespace:DentalClinic.WpfMD.ViewModels"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
     Title="MainWindow"
@@ -15,5 +16,51 @@
     TextElement.FontWeight="Medium"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     mc:Ignorable="d">
-    <Grid />
+    <Window.DataContext>
+        <vm:MainViewModel />
+    </Window.DataContext>
+   
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="60" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0">
+            <ToggleButton x:Name="BackgroundToggle" Margin="8,0,16,0" />
+            <Button Command="{Binding CommandToOpenLeftDrawer}" Padding="0"
+                    CommandParameter="{StaticResource TrueValue}"
+                    Style="{StaticResource MaterialDesignFlatAccentBgButton}">
+                <md:PackIcon Kind="Menu" />
+            </Button>
+        </StackPanel>
+
+        <md:DrawerHost x:Name="MainDrawerHost" BorderBrush="{DynamicResource MaterialDesignDivider}"
+                       Grid.Column="0" Grid.ColumnSpan="2" LeftDrawerCloseOnClickAway="True"
+                       IsLeftDrawerOpen="{Binding IsLeftDrawerOpen}" Panel.ZIndex="1">
+            
+            <md:DrawerHost.Style>
+                <Style BasedOn="{StaticResource {x:Type md:DrawerHost}}" TargetType="md:DrawerHost">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsChecked, ElementName=BackgroundToggle}" Value="True">
+                            <Setter Property="OverlayBackground" Value="{DynamicResource PrimaryHueMidBrush}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </md:DrawerHost.Style>
+            <md:DrawerHost.LeftDrawerContent>
+                <StackPanel Margin="16">
+                    <TextBlock Margin="4" Text="MENU" HorizontalAlignment="Center" />
+                    <Button Margin="4" HorizontalAlignment="Center"
+                            Command="{x:Static md:DrawerHost.CloseDrawerCommand}"
+                            CommandParameter="{x:Static Dock.Left}" Content="CLOSE"
+                            Style="{StaticResource MaterialDesignFlatButton}" />
+                </StackPanel>
+            </md:DrawerHost.LeftDrawerContent>
+        </md:DrawerHost>
+        
+        
+        <ContentControl Grid.Column="1" Content="{Binding CurrentView}" Panel.ZIndex="0"/>
+
+    </Grid>
 </Window>
