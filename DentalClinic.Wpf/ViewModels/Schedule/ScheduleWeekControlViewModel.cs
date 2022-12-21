@@ -13,7 +13,7 @@
     {
         #region Fields
 
-        private ICommand commandToClick;
+        //private ICommand commandToClick;
 
         private ICommand commandToDoubleClick;
 

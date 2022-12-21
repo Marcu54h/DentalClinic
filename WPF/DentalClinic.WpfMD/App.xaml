@@ -17,6 +17,9 @@
                     <DataTemplate DataType="{x:Type vm:PatientsViewModel}">
                         <views:PatientsView />
                     </DataTemplate>
+                    <DataTemplate DataType="{x:Type vm:ScheduleViewModel}">
+                        <views:ScheduleView />
+                    </DataTemplate>
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

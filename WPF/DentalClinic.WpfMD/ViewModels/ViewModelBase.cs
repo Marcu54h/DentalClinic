@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using DentalClinic.WpfMD.Abstraction;
+using DentalClinic.WpfMD.Models;
+using System.ComponentModel;
 
 namespace DentalClinic.WpfMD.ViewModels
 {

@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:DentalClinic.WpfMD"
     xmlns:vm="clr-namespace:DentalClinic.WpfMD.ViewModels"
+    xmlns:vt="clr-namespace:DentalClinic.WpfMD.Models"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
     Title="MainWindow"
@@ -16,10 +17,7 @@
     TextElement.FontWeight="Medium"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     mc:Ignorable="d">
-    <Window.DataContext>
-        <vm:MainViewModel />
-    </Window.DataContext>
-   
+  
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="60" />
@@ -49,13 +47,32 @@
                 </Style>
             </md:DrawerHost.Style>
             <md:DrawerHost.LeftDrawerContent>
-                <StackPanel Margin="16">
-                    <TextBlock Margin="4" Text="MENU" HorizontalAlignment="Center" />
-                    <Button Margin="4" HorizontalAlignment="Center"
-                            Command="{x:Static md:DrawerHost.CloseDrawerCommand}"
-                            CommandParameter="{x:Static Dock.Left}" Content="CLOSE"
-                            Style="{StaticResource MaterialDesignFlatButton}" />
-                </StackPanel>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="30"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="MENU" HorizontalAlignment="Center" Margin="0,12"
+                               Grid.Column="0"/>
+                    <Button Grid.Column="1" Margin="4" HorizontalAlignment="Center" Padding="0"
+                                Command="{x:Static md:DrawerHost.CloseDrawerCommand}"
+                                CommandParameter="{x:Static Dock.Left}"
+                                Style="{StaticResource MaterialDesignFlatButton}" >
+                        <md:PackIcon Kind="Backburger" />
+                    </Button>
+                    <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Margin="6">
+                        <Button Content="Terminarz" Style="{StaticResource MaterialDesignFlatButton}"
+                                Command="{Binding CommandToChangeView}"
+                                CommandParameter="{x:Static vt:ViewType.ScheduleViewModel}"/>
+                        <Button Content="Pacjenci" Style="{StaticResource MaterialDesignFlatButton}"
+                                Command="{Binding CommandToChangeView}"
+                                CommandParameter="{x:Static vt:ViewType.PatientsViewModel}"/>
+                    </StackPanel>
+                </Grid>
             </md:DrawerHost.LeftDrawerContent>
         </md:DrawerHost>
         

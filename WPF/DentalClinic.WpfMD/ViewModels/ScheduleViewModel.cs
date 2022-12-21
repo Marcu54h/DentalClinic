@@ -3,8 +3,8 @@ using DentalClinic.WpfMD.Models;
 
 namespace DentalClinic.WpfMD.ViewModels
 {
-    public class PatientsViewModel : ViewModelBase, IViewType
+    public class ScheduleViewModel : ViewModelBase, IViewType
     {
-        public ViewType ViewType => ViewType.PatientsViewModel;
+        public ViewType ViewType => ViewType.ScheduleViewModel;
     }
 }
