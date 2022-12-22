@@ -6,11 +6,12 @@ namespace DentalClinic.WpfMD.ViewModels
 {
     public class ScheduleViewModel : ViewModelBase, IViewType
     {
-        public ScheduleViewModel()
-
+        public ScheduleViewModel(INavigationStore navigationStore)
+            : base(navigationStore)
         {
 
         }
+
         public ViewType ViewType => ViewType.ScheduleViewModel;
     }
 }

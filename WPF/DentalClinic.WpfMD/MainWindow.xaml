@@ -6,6 +6,7 @@
     xmlns:local="clr-namespace:DentalClinic.WpfMD"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+    xmlns:views="clr-namespace:DentalClinic.WpfMD.Views"
     xmlns:vm="clr-namespace:DentalClinic.WpfMD.ViewModels"
     xmlns:vt="clr-namespace:DentalClinic.WpfMD.Models"
     Title="Dental SPA"
@@ -17,7 +18,16 @@
     TextElement.FontWeight="Medium"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     mc:Ignorable="d">
-
+    <Window.Resources>
+        <ResourceDictionary>
+            <DataTemplate DataType="{x:Type vm:PatientsViewModel}">
+                <views:PatientsView />
+            </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:ScheduleViewModel}">
+                <views:ScheduleView />
+            </DataTemplate>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="60" />

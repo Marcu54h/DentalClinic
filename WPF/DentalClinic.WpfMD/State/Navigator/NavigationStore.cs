@@ -3,7 +3,7 @@ using System;
 
 namespace DentalClinic.WpfMD.State.Navigator
 {
-    public class NavigationStore
+    public class NavigationStore : INavigationStore
     {
         public event Action<IViewType> CurrentViewChanged = default!;
         private IViewType _currentView = default!;

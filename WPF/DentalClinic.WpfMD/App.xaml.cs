@@ -15,16 +15,15 @@ namespace DentalClinic.WpfMD
     public partial class App : Application
     {
         public static IHost AppHost { get; private set; } = default!;
-        public static readonly NavigationStore NavigationStore = new();
 
         public App()
         {
-            NavigationStore.CurrentView = new PatientsViewModel();
             AppHost = Host.CreateDefaultBuilder()
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddSingleton<MainWindow>();
                     services.AddSingleton<INavigator, Navigator>();
+                    services.AddSingleton<INavigationStore, NavigationStore>();
                     services.AddViewModelsFactory();
                     services.AddTransient(typeof(IClinicState<>), typeof(ClinicState<>));
                 }).Build();
@@ -34,15 +33,13 @@ namespace DentalClinic.WpfMD
         {
             await AppHost.StartAsync();
 
+            var navigationStore = AppHost.Services.GetRequiredService<INavigationStore>();
             var startupForm = AppHost.Services.GetRequiredService<MainWindow>();
             var vmFactory = AppHost.Services.GetRequiredService<IViewModelsFactory>();
+            navigationStore.CurrentView = vmFactory.Create(ViewType.PatientsViewModel);
             startupForm.DataContext = vmFactory.Create(ViewType.MainViewModel);
 
-            
-
             startupForm.Show();
-
-            
 
             base.OnStartup(e);
 
