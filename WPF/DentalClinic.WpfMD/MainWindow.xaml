@@ -4,11 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:DentalClinic.WpfMD"
-    xmlns:vm="clr-namespace:DentalClinic.WpfMD.ViewModels"
-    xmlns:vt="clr-namespace:DentalClinic.WpfMD.Models"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
-    Title="MainWindow"
+    xmlns:vm="clr-namespace:DentalClinic.WpfMD.ViewModels"
+    xmlns:vt="clr-namespace:DentalClinic.WpfMD.Models"
+    Title="Dental SPA"
     Width="800"
     Height="450"
     Background="{DynamicResource MaterialDesignPaper}"
@@ -17,7 +17,7 @@
     TextElement.FontWeight="Medium"
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     mc:Ignorable="d">
-  
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="60" />
@@ -26,17 +26,24 @@
 
         <StackPanel Grid.Column="0">
             <ToggleButton x:Name="BackgroundToggle" Margin="8,0,16,0" />
-            <Button Command="{Binding CommandToOpenLeftDrawer}" Padding="0"
-                    CommandParameter="{StaticResource TrueValue}"
-                    Style="{StaticResource MaterialDesignFlatAccentBgButton}">
+            <Button
+                Padding="0"
+                Command="{Binding CommandToOpenLeftDrawer}"
+                CommandParameter="{StaticResource TrueValue}"
+                Style="{StaticResource MaterialDesignFlatAccentBgButton}">
                 <md:PackIcon Kind="Menu" />
             </Button>
         </StackPanel>
 
-        <md:DrawerHost x:Name="MainDrawerHost" BorderBrush="{DynamicResource MaterialDesignDivider}"
-                       Grid.Column="0" Grid.ColumnSpan="2" LeftDrawerCloseOnClickAway="True"
-                       IsLeftDrawerOpen="{Binding IsLeftDrawerOpen}" Panel.ZIndex="1">
-            
+        <md:DrawerHost
+            x:Name="MainDrawerHost"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            Panel.ZIndex="1"
+            BorderBrush="{DynamicResource MaterialDesignDivider}"
+            IsLeftDrawerOpen="{Binding IsLeftDrawerOpen}"
+            LeftDrawerCloseOnClickAway="True">
+
             <md:DrawerHost.Style>
                 <Style BasedOn="{StaticResource {x:Type md:DrawerHost}}" TargetType="md:DrawerHost">
                     <Style.Triggers>
@@ -49,35 +56,53 @@
             <md:DrawerHost.LeftDrawerContent>
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="30" />
                     </Grid.ColumnDefinitions>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="40" />
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
-                    <TextBlock Text="MENU" HorizontalAlignment="Center" Margin="0,12"
-                               Grid.Column="0"/>
-                    <Button Grid.Column="1" Margin="4" HorizontalAlignment="Center" Padding="0"
-                                Command="{x:Static md:DrawerHost.CloseDrawerCommand}"
-                                CommandParameter="{x:Static Dock.Left}"
-                                Style="{StaticResource MaterialDesignFlatButton}" >
+                    <TextBlock
+                        Grid.Column="0"
+                        Margin="0,12"
+                        HorizontalAlignment="Center"
+                        Text="MENU" />
+                    <Button
+                        Grid.Column="1"
+                        Margin="4"
+                        Padding="0"
+                        HorizontalAlignment="Center"
+                        Command="{x:Static md:DrawerHost.CloseDrawerCommand}"
+                        CommandParameter="{x:Static Dock.Left}"
+                        Style="{StaticResource MaterialDesignFlatButton}">
                         <md:PackIcon Kind="Backburger" />
                     </Button>
-                    <StackPanel Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Margin="6">
-                        <Button Content="Terminarz" Style="{StaticResource MaterialDesignFlatButton}"
-                                Command="{Binding CommandToChangeView}"
-                                CommandParameter="{x:Static vt:ViewType.ScheduleViewModel}"/>
-                        <Button Content="Pacjenci" Style="{StaticResource MaterialDesignFlatButton}"
-                                Command="{Binding CommandToChangeView}"
-                                CommandParameter="{x:Static vt:ViewType.PatientsViewModel}"/>
+                    <StackPanel
+                        Grid.Row="1"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        Margin="6">
+                        <Button
+                            Command="{Binding CommandToChangeView}"
+                            CommandParameter="{x:Static vt:ViewType.ScheduleViewModel}"
+                            Content="Terminarz"
+                            Style="{StaticResource MaterialDesignFlatButton}" />
+                        <Button
+                            Command="{Binding CommandToChangeView}"
+                            CommandParameter="{x:Static vt:ViewType.PatientsViewModel}"
+                            Content="Pacjenci"
+                            Style="{StaticResource MaterialDesignFlatButton}" />
                     </StackPanel>
                 </Grid>
             </md:DrawerHost.LeftDrawerContent>
         </md:DrawerHost>
-        
-        
-        <ContentControl Grid.Column="1" Content="{Binding CurrentView}" Panel.ZIndex="0"/>
+
+
+        <ContentControl
+            Grid.Column="1"
+            Panel.ZIndex="0"
+            Content="{Binding CurrentView}" />
 
     </Grid>
 </Window>

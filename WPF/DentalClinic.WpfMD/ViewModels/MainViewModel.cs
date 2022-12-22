@@ -8,14 +8,14 @@ namespace DentalClinic.WpfMD.ViewModels
     {
         public ViewType ViewType => ViewType.MainViewModel;
         private bool isLeftDrawerOpen = false;
-        private IViewType currentView = default!;
-        private IViewModelsFactory _viewModelsFactory;
+        private readonly IViewModelsFactory _viewModelsFactory;
         
 
         public MainViewModel(IViewModelsFactory viewModelsFactory)
+
         {
             _viewModelsFactory = viewModelsFactory;
-            CurrentView = new PatientsViewModel();
+            CurrentView = App.NavigationStore.CurrentView;
 
             CommandToOpenLeftDrawer = new AsyncCommand<bool>(
                 async (choice) => await Task.Run(() => IsLeftDrawerOpen = choice));
@@ -23,16 +23,11 @@ namespace DentalClinic.WpfMD.ViewModels
             CommandToChangeView = new AsyncCommand<ViewType>(
                 async (viewType) => await Task.Run(() =>
                 {
-                    CurrentView = _viewModelsFactory.Create(viewType);
+                    App.NavigationStore.CurrentView = _viewModelsFactory.Create(viewType);
                     IsLeftDrawerOpen = false;
                 })
             );
-        }
-
-        public IViewType CurrentView
-        {
-            get => currentView;
-            set => SetField(ref currentView, value);
+            App.NavigationStore.CurrentViewChanged += OnCurrentViewChanged;
         }
 
         public bool IsLeftDrawerOpen
@@ -43,5 +38,13 @@ namespace DentalClinic.WpfMD.ViewModels
 
         public IAsyncCommand<bool> CommandToOpenLeftDrawer { get; set; }
         public IAsyncCommand<ViewType> CommandToChangeView { get; set; }
+
+        private void OnCurrentViewChanged(IViewType view) => CurrentView = view;
+        
+
+        protected override void Dispose()
+        {
+            App.NavigationStore.CurrentViewChanged -= OnCurrentViewChanged;
+        }
     }
 }
