@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using WebDataSource;
 using WebModel;
@@ -24,36 +25,51 @@ namespace DentalClinic.WpfMD
 
         public App()
         {
-            AppHost = Host.CreateDefaultBuilder()
-                .ConfigureServices((hostContext, services) =>
-                {
-                    Environment.SetEnvironmentVariable("DEVELOPMENT", "true");
-                    if (Environment.GetEnvironmentVariable("DEVELOPMENT") == "true") 
-                    {
-                        services.AddDbContextFactory<ClinicContext>(options =>
-                        {
-                            options.EnableDetailedErrors();
-                            options.EnableThreadSafetyChecks();
-                            options.EnableSensitiveDataLogging();
-                            options.LogTo(message => Debug.WriteLine(message));
-                            options.UseSqlServer(hostContext.Configuration.GetConnectionString("DentalClinic") ??
-                                throw new InvalidOperationException("Connection string 'DentalClinic' not found.")); ;
-                        });
-                    } else
-                    {
-                        services.AddDbContextFactory<ClinicContext>(options =>
-                        {
-                            options.UseSqlServer(hostContext.Configuration.GetConnectionString("DentalClinic") ??
-                                throw new InvalidOperationException("Connection string 'DentalClinic' not found.")); ;
-                        });
-                    }
+            IHostBuilder hostBuilder = Host.CreateDefaultBuilder();
+#if DEBUG
+            hostBuilder.ConfigureAppConfiguration(config =>
+            {
+                config.SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true);
 
-                    services.AddTransient(typeof(IDataService<>), typeof(GenericDataService<>));
-                    services.AddSingleton<MainWindow>();
-                    services.AddSingleton<INavigationStore, NavigationStore>();
-                    services.AddViewModelsFactory();
-                    services.AddTransient(typeof(IClinicState<>), typeof(ClinicState<>));
-                }).Build();
+            });
+#else
+            hostBuilder.ConfigureAppConfiguration(config =>
+            {
+                config.SetBasePath(Directory.GetCurrentDirectory())
+                    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+
+            });
+#endif
+
+            hostBuilder.ConfigureServices((hostContext, services) =>
+            {
+
+                services.AddDbContextFactory<ClinicContext>(options =>
+                {
+                    options.EnableDetailedErrors();
+                    options.EnableThreadSafetyChecks();
+                    options.EnableSensitiveDataLogging();
+                    options.LogTo(message => Debug.WriteLine(message));
+                    options.UseSqlServer(hostContext.Configuration.GetConnectionString("DentalClinic") ??
+                        throw new InvalidOperationException("Connection string 'DentalClinic' not found.")); ;
+                });
+
+                services.AddDbContextFactory<ClinicContext>(options =>
+                {
+                    options.UseSqlServer(hostContext.Configuration.GetConnectionString("DentalClinic") ??
+                        throw new InvalidOperationException("Connection string 'DentalClinic' not found.")); ;
+                });
+
+
+                services.AddTransient(typeof(IDataService<>), typeof(GenericDataService<>));
+                services.AddSingleton<MainWindow>();
+                services.AddSingleton<INavigationStore, NavigationStore>();
+                services.AddViewModelsFactory();
+                services.AddTransient(typeof(IClinicState<>), typeof(ClinicState<>));
+            });
+
+            AppHost = hostBuilder.Build();
         }
 
         protected override async void OnStartup(StartupEventArgs e)
