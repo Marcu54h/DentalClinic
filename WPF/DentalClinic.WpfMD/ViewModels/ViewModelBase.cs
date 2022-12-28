@@ -1,4 +1,5 @@
 ﻿using DentalClinic.WpfMD.Abstraction;
+using DentalClinic.WpfMD.Models;
 using DentalClinic.WpfMD.State.Navigator;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,6 +7,9 @@ using System.Runtime.CompilerServices;
 
 namespace DentalClinic.WpfMD.ViewModels
 {
+    public delegate IViewType CreateViewModel();
+    public delegate IAsyncCommand<IViewType> CreateCommand(ViewType viewType);
+
     public class ViewModelBase : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -16,6 +20,7 @@ namespace DentalClinic.WpfMD.ViewModels
         public ViewModelBase(INavigationStore navigationStore)
         {
             _navigationStore = navigationStore;
+            _navigationStore.CurrentViewChanged += OnCurrentViewChanged;
         }
 
         protected virtual void Changed([CallerMemberName]string propertyName = null!) =>
@@ -26,7 +31,9 @@ namespace DentalClinic.WpfMD.ViewModels
             if (EqualityComparer<T>.Default.Equals(field, value)) return false;
             field = value;
             Changed(propertyName);
+
             return true;
+            
         }
 
         public IViewType CurrentView
@@ -37,8 +44,10 @@ namespace DentalClinic.WpfMD.ViewModels
 
         protected virtual void Dispose()
         {
-
+            _navigationStore.CurrentViewChanged -= OnCurrentViewChanged;
         }
+
+        protected virtual void OnCurrentViewChanged(IViewType view) => CurrentView = view;
 
         protected INavigationStore NavigationStore => _navigationStore;
     }

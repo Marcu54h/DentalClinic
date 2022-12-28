@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace DentalClinic.WpfMD.Services
+namespace DentalClinic.Persistence
 {
     public interface IDataService<T>
     {

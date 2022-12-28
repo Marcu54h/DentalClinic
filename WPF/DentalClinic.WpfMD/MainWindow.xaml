@@ -30,18 +30,21 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="60" />
+            <ColumnDefinition Width="25" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="0">
-            <ToggleButton x:Name="BackgroundToggle" Margin="8,0,16,0" />
+        <StackPanel Grid.Column="0" Margin="6,6,0,6">
             <Button
-                Padding="0"
+                Padding="-2,-5"
                 Command="{Binding CommandToOpenLeftDrawer}"
                 CommandParameter="{StaticResource TrueValue}"
-                Style="{StaticResource MaterialDesignFlatAccentBgButton}">
-                <md:PackIcon Kind="Menu" />
+                Style="{StaticResource MaterialDesignToolButton}"
+                ToolTip="Pokaż MENU">
+                <md:PackIcon
+                    Width="18"
+                    Height="18"
+                    Kind="Menu" />
             </Button>
         </StackPanel>
 
@@ -53,16 +56,6 @@
             BorderBrush="{DynamicResource MaterialDesignDivider}"
             IsLeftDrawerOpen="{Binding IsLeftDrawerOpen}"
             LeftDrawerCloseOnClickAway="True">
-
-            <md:DrawerHost.Style>
-                <Style BasedOn="{StaticResource {x:Type md:DrawerHost}}" TargetType="md:DrawerHost">
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsChecked, ElementName=BackgroundToggle}" Value="True">
-                            <Setter Property="OverlayBackground" Value="{DynamicResource PrimaryHueMidBrush}" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </md:DrawerHost.Style>
             <md:DrawerHost.LeftDrawerContent>
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -85,8 +78,12 @@
                         HorizontalAlignment="Center"
                         Command="{x:Static md:DrawerHost.CloseDrawerCommand}"
                         CommandParameter="{x:Static Dock.Left}"
-                        Style="{StaticResource MaterialDesignFlatButton}">
-                        <md:PackIcon Kind="Backburger" />
+                        Style="{StaticResource MaterialDesignToolButton}"
+                        ToolTip="Ukryj MENU">
+                        <md:PackIcon
+                            Width="18"
+                            Height="18"
+                            Kind="Backburger" />
                     </Button>
                     <StackPanel
                         Grid.Row="1"
@@ -111,6 +108,7 @@
 
         <ContentControl
             Grid.Column="1"
+            Margin="6"
             Panel.ZIndex="0"
             Content="{Binding CurrentView}" />
 

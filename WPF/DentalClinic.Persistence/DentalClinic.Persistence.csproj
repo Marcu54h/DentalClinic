@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\WebApp\WebDataSource\WebDataSource.csproj" />
-    <ProjectReference Include="..\DentalClinic.WpfMD\DentalClinic.WpfMD.csproj" />
   </ItemGroup>
 
 </Project>

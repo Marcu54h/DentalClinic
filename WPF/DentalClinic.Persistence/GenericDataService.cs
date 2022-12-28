@@ -1,20 +1,20 @@
-﻿using DentalClinic.WpfMD.Services;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WebDataSource;
 using WebModel;
 
 namespace DentalClinic.Persistence
 {
-    internal class GenericDataService<T> : IDataService<T>
+    public class GenericDataService<T> : IDataService<T>
         where T : EntityBase
         
     {
-        private readonly ClinicContextFactory _clinicContextFactory;
+        private readonly IDbContextFactory<ClinicContext> _clinicContextFactory;
 
-        public GenericDataService(ClinicContextFactory clinicContextFactory)
+        public GenericDataService(IDbContextFactory<ClinicContext> clinicContextFactory)
         {
             _clinicContextFactory = clinicContextFactory;
         }
@@ -59,7 +59,7 @@ namespace DentalClinic.Persistence
         {
             using (ClinicContext context = _clinicContextFactory.CreateDbContext())
             {
-                IEnumerable<T> entities = await context.Set<T>().ToListAsync();
+                IEnumerable<T> entities = await context.Set<T>().AsNoTracking().ToListAsync();
                 return entities;
             }
         }

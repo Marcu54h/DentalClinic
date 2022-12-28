@@ -1,11 +1,17 @@
-﻿using DentalClinic.WpfMD.Abstraction;
+﻿using DentalClinic.Persistence;
+using DentalClinic.WpfMD.Abstraction;
 using DentalClinic.WpfMD.Models;
 using DentalClinic.WpfMD.State;
 using DentalClinic.WpfMD.State.Navigator;
-using DentalClinic.WpfMD.ViewModels;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
+using System.Diagnostics;
 using System.Windows;
+using WebDataSource;
+using WebModel;
 
 namespace DentalClinic.WpfMD
 {
@@ -21,8 +27,29 @@ namespace DentalClinic.WpfMD
             AppHost = Host.CreateDefaultBuilder()
                 .ConfigureServices((hostContext, services) =>
                 {
+                    Environment.SetEnvironmentVariable("DEVELOPMENT", "true");
+                    if (Environment.GetEnvironmentVariable("DEVELOPMENT") == "true") 
+                    {
+                        services.AddDbContextFactory<ClinicContext>(options =>
+                        {
+                            options.EnableDetailedErrors();
+                            options.EnableThreadSafetyChecks();
+                            options.EnableSensitiveDataLogging();
+                            options.LogTo(message => Debug.WriteLine(message));
+                            options.UseSqlServer(hostContext.Configuration.GetConnectionString("DentalClinic") ??
+                                throw new InvalidOperationException("Connection string 'DentalClinic' not found.")); ;
+                        });
+                    } else
+                    {
+                        services.AddDbContextFactory<ClinicContext>(options =>
+                        {
+                            options.UseSqlServer(hostContext.Configuration.GetConnectionString("DentalClinic") ??
+                                throw new InvalidOperationException("Connection string 'DentalClinic' not found.")); ;
+                        });
+                    }
+
+                    services.AddTransient(typeof(IDataService<>), typeof(GenericDataService<>));
                     services.AddSingleton<MainWindow>();
-                    services.AddSingleton<INavigator, Navigator>();
                     services.AddSingleton<INavigationStore, NavigationStore>();
                     services.AddViewModelsFactory();
                     services.AddTransient(typeof(IClinicState<>), typeof(ClinicState<>));
@@ -34,12 +61,12 @@ namespace DentalClinic.WpfMD
             await AppHost.StartAsync();
 
             var navigationStore = AppHost.Services.GetRequiredService<INavigationStore>();
-            var startupForm = AppHost.Services.GetRequiredService<MainWindow>();
+            var startupWindow = AppHost.Services.GetRequiredService<MainWindow>();
             var vmFactory = AppHost.Services.GetRequiredService<IViewModelsFactory>();
             navigationStore.CurrentView = vmFactory.Create(ViewType.PatientsViewModel);
-            startupForm.DataContext = vmFactory.Create(ViewType.MainViewModel);
+            startupWindow.DataContext = vmFactory.Create(ViewType.MainViewModel);
 
-            startupForm.Show();
+            startupWindow.Show();
 
             base.OnStartup(e);
 
