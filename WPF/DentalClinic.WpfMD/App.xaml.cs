@@ -44,24 +44,23 @@ namespace DentalClinic.WpfMD
 
             hostBuilder.ConfigureServices((hostContext, services) =>
             {
-
+#if DEBUG
                 services.AddDbContextFactory<ClinicContext>(options =>
                 {
                     options.EnableDetailedErrors();
                     options.EnableThreadSafetyChecks();
                     options.EnableSensitiveDataLogging();
                     options.LogTo(message => Debug.WriteLine(message));
-                    options.UseSqlServer(hostContext.Configuration.GetConnectionString("DentalClinic") ??
-                        throw new InvalidOperationException("Connection string 'DentalClinic' not found.")); ;
+                    options.UseSqlServer(hostContext.Configuration.GetConnectionString("Clinic") ??
+                        throw new InvalidOperationException("Connection string 'Clinic' not found.")); ;
                 });
-
+#else
                 services.AddDbContextFactory<ClinicContext>(options =>
                 {
                     options.UseSqlServer(hostContext.Configuration.GetConnectionString("DentalClinic") ??
                         throw new InvalidOperationException("Connection string 'DentalClinic' not found.")); ;
                 });
-
-
+#endif
                 services.AddTransient(typeof(IDataService<>), typeof(GenericDataService<>));
                 services.AddSingleton<MainWindow>();
                 services.AddSingleton<INavigationStore, NavigationStore>();

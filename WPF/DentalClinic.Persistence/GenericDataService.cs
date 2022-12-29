@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using WebDataSource;
 using WebModel;
@@ -55,12 +57,24 @@ namespace DentalClinic.Persistence
             }
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+        public async Task<IEnumerable<T>> GetAll<TProperty>(Expression<Func<T, TProperty>> expression = default!)
         {
             using (ClinicContext context = _clinicContextFactory.CreateDbContext())
             {
-                IEnumerable<T> entities = await context.Set<T>().AsNoTracking().ToListAsync();
-                return entities;
+                IQueryable<T> query;
+                if (expression is not null)
+                {
+                    query = context.Set<T>()
+                                   .Include(expression)
+                                   .AsNoTracking();
+                }
+                else
+                {
+                    query = context.Set<T>()
+                                   .AsNoTracking();
+                }
+                
+                return await query.ToListAsync();
             }
         }
 

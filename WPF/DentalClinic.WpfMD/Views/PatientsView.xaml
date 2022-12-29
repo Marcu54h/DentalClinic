@@ -12,14 +12,30 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         <StackPanel>
             <TextBlock Text="PATIENTS VIEW" />
             <Button
                 Command="{Binding ShowMeTheSchedule}"
                 CommandParameter="{x:Static vt:ViewType.ScheduleViewModel}"
                 Content="Pokaż skedżul" />
-            <DataGrid ItemsSource="{Binding Patients}" />
+
         </StackPanel>
+
+        <DataGrid
+            Grid.Row="1"
+            AutoGenerateColumns="False"
+            ItemsSource="{Binding Patients}">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding Id}" Header="Id" />
+                <DataGridTextColumn Binding="{Binding Person.FirstName}" Header="Imię" />
+                <DataGridTextColumn Binding="{Binding Person.LastName}" Header="Nazwisko" />
+                <DataGridTextColumn Binding="{Binding Person.PersonalNumber}" Header="PESEL" />
+            </DataGrid.Columns>
+        </DataGrid>
 
     </Grid>
 </UserControl>

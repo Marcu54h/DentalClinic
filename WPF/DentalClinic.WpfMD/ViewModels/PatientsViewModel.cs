@@ -23,9 +23,7 @@ namespace DentalClinic.WpfMD.ViewModels
 
             Patients = new List<Patient>();
 
-            var data = _dataService.GetAll().Result;
-
-            Patients = data;
+            Patients = Task.Run(() => _dataService.GetAll(p => p.Person)).Result;
 
             ShowMeTheSchedule = new AsyncCommand<ViewType>(
                 async (viewType) => await Task.Run(() =>
@@ -38,7 +36,7 @@ namespace DentalClinic.WpfMD.ViewModels
         public IEnumerable<Patient> Patients
         {
             get => _patients;
-            set => _patients = value;
+            set => SetField(ref _patients, value);
         }
 
         public ViewType ViewType => ViewType.PatientsViewModel;
