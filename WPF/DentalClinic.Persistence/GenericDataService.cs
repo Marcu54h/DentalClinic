@@ -57,16 +57,28 @@ namespace DentalClinic.Persistence
             }
         }
 
-        public async Task<IEnumerable<T>> GetAll<TProperty>(Expression<Func<T, TProperty>> expression = default!)
+        public async Task<IEnumerable<T>> GetAll<TProperty, T2Property>(
+            Expression<Func<T, TProperty>> include = default!,
+            Expression<Func<TProperty, T2Property>> thenInclude = default!)
         {
             using (ClinicContext context = _clinicContextFactory.CreateDbContext())
             {
                 IQueryable<T> query;
-                if (expression is not null)
+                if (include is not null)
                 {
-                    query = context.Set<T>()
-                                   .Include(expression)
+                    if ( thenInclude is not null)
+                    {
+                        query = context.Set<T>()
+                                   .Include(include)
+                                   .ThenInclude(thenInclude)
                                    .AsNoTracking();
+                    } else
+                    {
+                        query = context.Set<T>()
+                                   .Include(include)
+                                   .AsNoTracking();
+                    }
+                    
                 }
                 else
                 {

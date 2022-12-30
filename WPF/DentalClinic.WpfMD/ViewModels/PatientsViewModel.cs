@@ -23,7 +23,7 @@ namespace DentalClinic.WpfMD.ViewModels
 
             Patients = new List<Patient>();
 
-            Patients = Task.Run(() => _dataService.GetAll(p => p.Person)).Result;
+            Patients = Task.Run(() => _dataService.GetAll(p => p.Person, pers => pers.Addresses)).Result;
 
             ShowMeTheSchedule = new AsyncCommand<ViewType>(
                 async (viewType) => await Task.Run(() =>

@@ -7,7 +7,9 @@ namespace DentalClinic.Persistence
 {
     public interface IDataService<T>
     {
-        Task<IEnumerable<T>> GetAll<TProperty>(Expression<Func<T, TProperty>> expression = default!);
+        Task<IEnumerable<T>> GetAll<TProperty, T2Property>(
+            Expression<Func<T, TProperty>> include = default!,
+            Expression<Func<TProperty, T2Property>> thanInclude = default!);
         Task<T> Get(int id);
         Task<T> Create(T entity);
         Task<T> Update(int id, T entity);

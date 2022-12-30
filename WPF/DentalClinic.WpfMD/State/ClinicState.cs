@@ -41,7 +41,7 @@ namespace DentalClinic.WpfMD.State
 
         private async Task Initialize()
         {
-            IEnumerable<T> entities = await _dataService.GetAll<T>();
+            IEnumerable<T> entities = await _dataService.GetAll<object, object>();
 
             _entities.Clear();
             _entities.AddRange(entities);
