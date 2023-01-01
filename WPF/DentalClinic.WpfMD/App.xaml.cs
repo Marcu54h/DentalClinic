@@ -51,8 +51,8 @@ namespace DentalClinic.WpfMD
                     options.EnableThreadSafetyChecks();
                     options.EnableSensitiveDataLogging();
                     options.LogTo(message => Debug.WriteLine(message));
-                    options.UseSqlServer(hostContext.Configuration.GetConnectionString("Clinic") ??
-                        throw new InvalidOperationException("Connection string 'Clinic' not found.")); ;
+                    options.UseSqlServer(hostContext.Configuration.GetConnectionString("DentalClinic") ??
+                        throw new InvalidOperationException("Connection string 'DentalClinic' not found.")); ;
                 });
 #else
                 services.AddDbContextFactory<ClinicContext>(options =>
