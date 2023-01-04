@@ -11,6 +11,7 @@
     d:DataContext="{d:DesignInstance Type=vm:LoginViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="800"
+    KeyDown="OnKeyDown"
     TextElement.FontSize="14"
     mc:Ignorable="d">
     <Grid Margin="12">
@@ -40,34 +41,38 @@
             Grid.Row="1"
             Margin="12,0,12,0"
             HorizontalAlignment="Right"
-            VerticalAlignment="Center"
+            VerticalAlignment="Bottom"
             Style="{DynamicResource MaterialDesignBody1TextBlock}"
             Text="Nazwa użytkownika" />
         <TextBox
             Grid.Row="1"
             Grid.Column="1"
-            VerticalAlignment="Center"
+            VerticalAlignment="Bottom"
+            FontSize="16"
             Style="{DynamicResource MaterialDesignFilledTextBox}"
             TabIndex="0"
-            Text="{Binding Login, UpdateSourceTrigger=PropertyChanged}" />
+            Text="{Binding UserLogin, UpdateSourceTrigger=PropertyChanged}" />
         <TextBlock
             Grid.Row="2"
             Margin="12,0,12,0"
             HorizontalAlignment="Right"
-            VerticalAlignment="Center"
+            VerticalAlignment="Bottom"
             Style="{DynamicResource MaterialDesignBody1TextBlock}"
             Text="Hasło" />
         <ctrls:BindablePasswordBox
             Grid.Row="2"
             Grid.Column="1"
-            VerticalAlignment="Center"
+            VerticalAlignment="Bottom"
             Pswd="{Binding Password}"
             TabIndex="1" />
         <Button
+            x:Name="_loginButton"
             Grid.Row="3"
             Grid.Column="0"
             Grid.ColumnSpan="2"
             MaxWidth="200"
+            VerticalAlignment="Bottom"
+            Command="{Binding LoginCommand}"
             Content="OK"
             Style="{DynamicResource MaterialDesignOutlinedButton}"
             TabIndex="2" />

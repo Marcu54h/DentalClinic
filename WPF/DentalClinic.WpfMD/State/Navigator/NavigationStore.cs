@@ -1,11 +1,14 @@
 ﻿using DentalClinic.WpfMD.Abstraction;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace DentalClinic.WpfMD.State.Navigator
 {
+
     public class NavigationStore : INavigationStore
     {
+        public event Action<IViewType> CurrentViewChanged = default!;
         private IViewType _currentView = default!;
         private IList<IViewType> _queue = new List<IViewType>();
         private int _currentIndex = -1;
@@ -23,6 +26,7 @@ namespace DentalClinic.WpfMD.State.Navigator
             {
                 _currentView = value;
                 AddViewToQueue(CurrentView);
+                OnCurrentViewChanged(_currentView);
                 _currentIndex += 1;
             }
         }
@@ -33,6 +37,7 @@ namespace DentalClinic.WpfMD.State.Navigator
             {
                 _currentIndex -= 1;
                 CurrentView = _queue[_currentIndex];
+                OnCurrentViewChanged(_currentView);
             }
             return _currentView;
         }
@@ -44,6 +49,7 @@ namespace DentalClinic.WpfMD.State.Navigator
             {
                 _currentIndex += 1;
                 CurrentView = _queue[_currentIndex];
+                OnCurrentViewChanged(_currentView);
             }
             return _currentView;
         }
@@ -62,6 +68,10 @@ namespace DentalClinic.WpfMD.State.Navigator
                 }
             }
         }
+
+        private void OnCurrentViewChanged(IViewType view) =>
+            CurrentViewChanged?.Invoke(view);
+
     }
 
 }

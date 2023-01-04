@@ -12,12 +12,10 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
     <Grid>
-        <ListView ItemsSource="{Binding Visits}">
-            <c:CalendarView ItemBeginBinding="{Binding Visits, XPath=Date}">
-
-            </c:CalendarView>
+        <ListView>
+            <c:CalendarView ItemBeginBinding="{Binding Visits, XPath=Date}" />
 
         </ListView>
-        
+
     </Grid>
 </UserControl>

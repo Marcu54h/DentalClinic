@@ -1,6 +1,7 @@
 ﻿using DentalClinic.Persistence;
 using DentalClinic.WpfMD.Abstraction;
 using DentalClinic.WpfMD.Models;
+using DentalClinic.WpfMD.Services.AuthenticationService;
 using DentalClinic.WpfMD.State;
 using DentalClinic.WpfMD.State.Navigator;
 using DentalClinic.WpfMD.ViewModels;
@@ -13,7 +14,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using WebDataSource;
-using WebModel;
+
 
 namespace DentalClinic.WpfMD
 {
@@ -22,12 +23,12 @@ namespace DentalClinic.WpfMD
     /// </summary>
     public partial class App : Application
     {
-        public static IHost AppHost { get; private set; } = default!;
+        private IHost AppHost { get; } = default!;
 
         public App()
         {
-            
             IHostBuilder hostBuilder = Host.CreateDefaultBuilder();
+
 #if DEBUG
             hostBuilder.ConfigureAppConfiguration(config =>
             {
@@ -68,6 +69,7 @@ namespace DentalClinic.WpfMD
                 services.AddViewModelsFactory();
                 services.AddTransient(typeof(IClinicState<>), typeof(ClinicState<>));
                 services.AddSingleton<INavigationStore, NavigationStore>();
+                services.AddTransient<IAuthenticationService, AuthenticationService>();
             });
 
             AppHost = hostBuilder.Build();
@@ -88,6 +90,16 @@ namespace DentalClinic.WpfMD
 
             base.OnStartup(e);
 
+        }
+
+        public static T GetService<T>() where T : class
+        {
+            if ((Current as App)!.AppHost.Services.GetService(typeof(T)) is not T service)
+            {
+                throw new ArgumentException($"{typeof(T)} needs to be registered in ConfigureServices within App.xaml.cs.");
+            }
+
+            return service;
         }
 
         protected override async void OnExit(ExitEventArgs e)

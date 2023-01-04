@@ -22,13 +22,13 @@ namespace DentalClinic.WpfMD.ViewModels
         {
             _viewModelsFactory = viewModelsFactory;
             _navigationStore = navigationStore;
+            _navigationStore.CurrentViewChanged += (vt) => CurrentView = vt;
         }
 
         [RelayCommand]
         private void ChangeView(ViewType viewType)
         {
             _navigationStore.CurrentView = _viewModelsFactory.Create(viewType);
-            CurrentView = _navigationStore.CurrentView;
             IsLeftDrawerOpen = false;
         }
 
