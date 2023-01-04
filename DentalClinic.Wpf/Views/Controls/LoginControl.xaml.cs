@@ -16,7 +16,6 @@ namespace DentalClinic.Wpf
             set { DataContext = value; }
         }
 
-
         public LoginControl()
         {
             InitializeComponent();

@@ -12,6 +12,7 @@
     Title="Dental SPA"
     Width="800"
     Height="450"
+    d:DataContext="{d:DesignInstance Type=vm:MainViewModel}"
     Background="{DynamicResource MaterialDesignPaper}"
     FontFamily="{md:MaterialDesignFont}"
     TextElement.FontSize="14"
@@ -26,6 +27,9 @@
             <DataTemplate DataType="{x:Type vm:ScheduleViewModel}">
                 <views:ScheduleView />
             </DataTemplate>
+            <DataTemplate DataType="{x:Type vm:LoginViewModel}">
+                <views:LoginView />
+            </DataTemplate>
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
@@ -37,7 +41,7 @@
         <StackPanel Grid.Column="0" Margin="6,6,0,6">
             <Button
                 Padding="-2,-5"
-                Command="{Binding CommandToOpenLeftDrawer}"
+                Command="{Binding OpenLeftDrawerCommand}"
                 CommandParameter="{StaticResource TrueValue}"
                 Style="{StaticResource MaterialDesignToolButton}"
                 ToolTip="Pokaż MENU">
@@ -91,14 +95,19 @@
                         Grid.ColumnSpan="2"
                         Margin="6">
                         <Button
-                            Command="{Binding CommandToChangeView}"
-                            CommandParameter="{x:Static vt:ViewType.ScheduleViewModel}"
+                            Command="{Binding ChangeViewCommand}"
+                            CommandParameter="{x:Static vt:ViewType.ScheduleView}"
                             Content="Terminarz"
                             Style="{StaticResource MaterialDesignFlatButton}" />
                         <Button
-                            Command="{Binding CommandToChangeView}"
-                            CommandParameter="{x:Static vt:ViewType.PatientsViewModel}"
+                            Command="{Binding ChangeViewCommand}"
+                            CommandParameter="{x:Static vt:ViewType.PatientsView}"
                             Content="Pacjenci"
+                            Style="{StaticResource MaterialDesignFlatButton}" />
+                        <Button
+                            Command="{Binding ChangeViewCommand}"
+                            CommandParameter="{x:Static vt:ViewType.LoginView}"
+                            Content="Login"
                             Style="{StaticResource MaterialDesignFlatButton}" />
                     </StackPanel>
                 </Grid>

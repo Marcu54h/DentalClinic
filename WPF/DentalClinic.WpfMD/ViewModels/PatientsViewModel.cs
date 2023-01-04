@@ -1,46 +1,41 @@
-﻿using DentalClinic.Persistence;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using DentalClinic.Persistence;
 using DentalClinic.WpfMD.Abstraction;
 using DentalClinic.WpfMD.Models;
 using DentalClinic.WpfMD.State.Navigator;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using WebModel;
 
 namespace DentalClinic.WpfMD.ViewModels
 {
-    public class PatientsViewModel : ViewModelBase, IViewType
+    public partial class PatientsViewModel : ObservableRecipient, IViewType
     {
-        private IEnumerable<Patient> _patients = default!;
+        [ObservableProperty]
+        private IEnumerable<Patient> patients = default!;
         private readonly IDataService<Patient> _dataService;
+        private readonly IViewModelsFactory _viewModelFactory;
+        private readonly INavigationStore _navigationStore;
 
         public PatientsViewModel(IViewModelsFactory viewModelsFactory, INavigationStore navigationStore,
             IDataService<Patient> dataService)
-            : base(navigationStore)
         {
             _dataService = dataService;
+            _viewModelFactory = viewModelsFactory;
+            _navigationStore = navigationStore;
 
             Patients = new List<Patient>();
 
             Patients = Task.Run(() => _dataService.GetAll(p => p.Person, pers => pers.Addresses)).Result;
-
-            ShowMeTheSchedule = new AsyncCommand<ViewType>(
-                async (viewType) => await Task.Run(() =>
-                {
-                    NavigationStore.Back();
-                })
-            );
         }
 
-        public IEnumerable<Patient> Patients
+        [RelayCommand]
+        private void ShowShedule(ViewType viewType)
         {
-            get => _patients;
-            set => SetField(ref _patients, value);
+            _navigationStore.CurrentView = _viewModelFactory.Create(viewType);
         }
 
-        public ViewType ViewType => ViewType.PatientsViewModel;
-
-        public IAsyncCommand<ViewType> ShowMeTheSchedule { get; private set; }
+        public ViewType ViewType => ViewType.PatientsView;
     }
 }

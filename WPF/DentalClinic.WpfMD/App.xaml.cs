@@ -3,6 +3,7 @@ using DentalClinic.WpfMD.Abstraction;
 using DentalClinic.WpfMD.Models;
 using DentalClinic.WpfMD.State;
 using DentalClinic.WpfMD.State.Navigator;
+using DentalClinic.WpfMD.ViewModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +26,7 @@ namespace DentalClinic.WpfMD
 
         public App()
         {
+            
             IHostBuilder hostBuilder = Host.CreateDefaultBuilder();
 #if DEBUG
             hostBuilder.ConfigureAppConfiguration(config =>
@@ -63,9 +65,9 @@ namespace DentalClinic.WpfMD
 #endif
                 services.AddTransient(typeof(IDataService<>), typeof(GenericDataService<>));
                 services.AddSingleton<MainWindow>();
-                services.AddSingleton<INavigationStore, NavigationStore>();
                 services.AddViewModelsFactory();
                 services.AddTransient(typeof(IClinicState<>), typeof(ClinicState<>));
+                services.AddSingleton<INavigationStore, NavigationStore>();
             });
 
             AppHost = hostBuilder.Build();
@@ -78,9 +80,10 @@ namespace DentalClinic.WpfMD
             var navigationStore = AppHost.Services.GetRequiredService<INavigationStore>();
             var startupWindow = AppHost.Services.GetRequiredService<MainWindow>();
             var vmFactory = AppHost.Services.GetRequiredService<IViewModelsFactory>();
-            navigationStore.CurrentView = vmFactory.Create(ViewType.PatientsViewModel);
-            startupWindow.DataContext = vmFactory.Create(ViewType.MainViewModel);
-
+            navigationStore.CurrentView = vmFactory.Create(ViewType.LoginView);
+            startupWindow.DataContext = vmFactory.Create(ViewType.MainView);
+            // set LoginView as startup view
+            ((MainViewModel)startupWindow.DataContext).CurrentView = navigationStore.CurrentView;
             startupWindow.Show();
 
             base.OnStartup(e);

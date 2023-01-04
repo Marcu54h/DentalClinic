@@ -1,44 +1,42 @@
-﻿using DentalClinic.WpfMD.Abstraction;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using DentalClinic.WpfMD.Abstraction;
 using DentalClinic.WpfMD.Models;
 using DentalClinic.WpfMD.State.Navigator;
-using System.Threading.Tasks;
 
 namespace DentalClinic.WpfMD.ViewModels
 {
-    public class MainViewModel : ViewModelBase, IViewType
+    public partial class MainViewModel : ObservableRecipient, IViewType
     {
-        public ViewType ViewType => ViewType.MainViewModel;
+        [ObservableProperty]
+        private IViewType currentView = default!;
+        public ViewType ViewType => ViewType.MainView;
+        
+        private readonly IViewModelsFactory _viewModelsFactory;
+        private readonly INavigationStore _navigationStore;
+
+        [ObservableProperty]
         private bool isLeftDrawerOpen = false;
-        private readonly IViewModelsFactory _viewModelsFactory;        
 
         public MainViewModel(IViewModelsFactory viewModelsFactory, INavigationStore navigationStore)
-            : base(navigationStore)
-
         {
             _viewModelsFactory = viewModelsFactory;
-            CurrentView = NavigationStore.CurrentView;
-
-            CommandToOpenLeftDrawer = new AsyncCommand<bool>(
-                async (choice) => await Task.Run(() => IsLeftDrawerOpen = choice));
-
-            CommandToChangeView = new AsyncCommand<ViewType>(
-                async (viewType) => await Task.Run(() =>
-                {
-                    NavigationStore.CurrentView = _viewModelsFactory.Create(viewType);
-                    IsLeftDrawerOpen = false;
-                })
-            );
-            
+            _navigationStore = navigationStore;
         }
 
-        public bool IsLeftDrawerOpen
+        [RelayCommand]
+        private void ChangeView(ViewType viewType)
         {
-            get => isLeftDrawerOpen;
-            set => SetField(ref isLeftDrawerOpen, value);
+            _navigationStore.CurrentView = _viewModelsFactory.Create(viewType);
+            CurrentView = _navigationStore.CurrentView;
+            IsLeftDrawerOpen = false;
         }
 
-        public IAsyncCommand<bool> CommandToOpenLeftDrawer { get; private set; }
-        public IAsyncCommand<ViewType> CommandToChangeView { get; private set; }
+        [RelayCommand]
+        private void OpenLeftDrawer(bool open)
+        {
+            IsLeftDrawerOpen = open;
+        }
     }
 }
 

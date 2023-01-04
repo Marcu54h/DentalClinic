@@ -2,8 +2,9 @@
 {
     public enum ViewType
     {
-        MainViewModel,
-        PatientsViewModel,
-        ScheduleViewModel
+        LoginView,
+        MainView,
+        PatientsView,
+        ScheduleView
     }
 }

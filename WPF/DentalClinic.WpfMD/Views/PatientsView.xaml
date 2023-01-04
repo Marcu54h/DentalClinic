@@ -20,7 +20,7 @@
             <TextBlock Text="PATIENTS VIEW" />
             <Button
                 Command="{Binding ShowMeTheSchedule}"
-                CommandParameter="{x:Static vt:ViewType.ScheduleViewModel}"
+                CommandParameter="{x:Static vt:ViewType.ScheduleView}"
                 Content="Pokaż skedżul" />
 
         </StackPanel>

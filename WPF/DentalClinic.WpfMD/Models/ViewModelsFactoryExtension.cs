@@ -13,6 +13,7 @@ namespace DentalClinic.WpfMD.Models
             services.AddSingleton<IViewType, MainViewModel>();
             services.AddTransient<IViewType, ScheduleViewModel>();
             services.AddTransient<IViewType, PatientsViewModel>();
+            services.AddTransient<IViewType, LoginViewModel>();
 
             services.AddSingleton<Func<IEnumerable<IViewType>>>(x => () => x.GetService<IEnumerable<IViewType>>()!);
             services.AddSingleton<IViewModelsFactory, ViewModelsFactory>();
